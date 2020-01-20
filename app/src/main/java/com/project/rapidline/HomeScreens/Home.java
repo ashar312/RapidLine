@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
+import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
 import com.project.rapidline.R;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -19,6 +21,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+
+    enum Activities {
+        SenderReciever,
+        Agents,
+        Transportes,
+        Labour,
+        Patri,
+        AdminSettings,
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.sender_receiver:
+                SendDataToListActivities(String.valueOf(Activities.SenderReciever));
                 Toast.makeText(Home.this, "About us Selected", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -76,5 +88,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
         }
         return false;
+    }
+
+    private void SendDataToListActivities(String ListItem){
+        Intent intent = new Intent(Home.this, ListActivities.class);
+        intent.putExtra("ListItem",ListItem);
+        startActivity(intent);
     }
 }

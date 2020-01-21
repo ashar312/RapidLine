@@ -20,13 +20,8 @@
             android:text="Saeed Sons"
             android:textColor="@color/white"
             android:textSize="25dp"
-            android:gravity="center"
             android:layout_marginLeft="140dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
@@ -37,7 +32,7 @@
         android:id="@+id/navigationView"
         app:menu="@menu/menu_item"
         app:headerLayout="@layout/header_drawer"
-        android:background="@color/white"
+        android:background="@color/Brown"
         android:layout_gravity="start"
         app:itemTextColor="#fff"/>
 </androidx.drawerlayout.widget.DrawerLayout>

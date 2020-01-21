@@ -21,6 +21,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    Toolbar toolbar;
 
     enum Activities {
         SenderReciever,
@@ -37,9 +38,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
 
         drawerLayout = findViewById(R.id.drawer);
+        toolbar = findViewById(R.id.toolbar1);
         navigationView = findViewById(R.id.navigationView);
         View header_view = navigationView.getHeaderView(0);
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.drawerOpen,R.string.drawerClose);
+        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);

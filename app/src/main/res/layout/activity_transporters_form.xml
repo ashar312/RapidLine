@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/normalbackground"
+    android:layout_height="match_parent"
+    tools:context=".Form.TransportersForm">
+
+    <TextView
+        android:id="@+id/HeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Transporter"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/CompanyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittextshape"
+        android:ems="10"
+        android:hint="Company Name"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/Dark_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2" />
+
+    <EditText
+        android:id="@+id/CompanyNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittextshape"
+        android:ems="10"
+        android:textColorHint="@color/Dark_gray"
+        android:hint="Company No."
+        android:textColor="@color/black"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/CompanyName"
+        app:layout_constraintStart_toStartOf="@+id/CompanyName"
+        app:layout_constraintTop_toBottomOf="@+id/CompanyName" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="280dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittextshape"
+        app:layout_constraintEnd_toEndOf="@+id/CompanyNum"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/CompanyNum"
+        app:layout_constraintTop_toBottomOf="@+id/CompanyNum" />
+
+    <EditText
+        android:id="@+id/pointOfname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittextshape"
+        android:ems="10"
+        android:hint="Point of Contact Name"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/Dark_gray"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <EditText
+        android:id="@+id/pointOfContactNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittextshape"
+        android:ems="10"
+        android:textColorHint="@color/Dark_gray"
+        android:hint="Point of Contact No."
+        android:textColor="@color/black"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/pointOfname"
+        app:layout_constraintStart_toStartOf="@+id/pointOfname"
+        app:layout_constraintTop_toBottomOf="@+id/pointOfname" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/buttonshape"
+        android:text="Save"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pointOfContactNo"
+        app:layout_constraintStart_toStartOf="@+id/pointOfContactNo"
+        app:layout_constraintTop_toBottomOf="@+id/pointOfContactNo" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

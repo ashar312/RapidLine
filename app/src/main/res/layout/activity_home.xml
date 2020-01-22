@@ -8,9 +8,7 @@
     android:background="@drawable/normalbackground"
     tools:context=".HomeScreens.Home">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <TextView
             android:id="@+id/textView4"
@@ -19,12 +17,9 @@
             android:layout_marginTop="113dp"
             android:text="Saeed Sons"
             android:textColor="@color/white"
+            android:gravity="center"
             android:textSize="25dp"
-            android:layout_marginLeft="140dp"
             android:textStyle="bold"/>
-
-
-    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
@@ -32,7 +27,8 @@
         android:id="@+id/navigationView"
         app:menu="@menu/menu_item"
         app:headerLayout="@layout/header_drawer"
-        android:background="@color/Brown"
+        android:background="@color/white"
         android:layout_gravity="start"
-        app:itemTextColor="#fff"/>
+        app:itemIconTint="@color/Brown"
+        app:itemTextColor="@color/black"/>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeScreens.AddActivities.ListActivities"></activity>
+        <activity android:name=".Form.TransportersForm"></activity>
+        <activity android:name=".Form.LabourForm" />
+        <activity android:name=".Form.AgentForm" />
+        <activity android:name=".Form.SenderRecieverForm" />
+        <activity android:name=".HomeScreens.AddActivities.ListActivities" />
         <activity android:name=".HomeScreens.Home" />
         <activity android:name=".Login">
             <intent-filter>

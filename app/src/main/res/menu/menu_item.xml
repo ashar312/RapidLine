@@ -2,29 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/add_bail"
+        android:icon="@drawable/icons8_add_rule_60px"
         android:title="Add Bail"/>
     <item
         android:id="@+id/regEntries"
+        android:icon="@drawable/icons8_order_history_60px"
         android:title="Register Entries"/>
     <item
         android:id="@+id/sender_receiver"
-        android:title="Sender / Reciever"/>
+        android:icon="@drawable/icons8_group_background_selected_60px"
+        android:title="Sender / Receiver"/>
     <item
         android:id="@+id/agents"
+        android:icon="@drawable/icons8_key_exchange_filled_100px"
         android:title="Agents"/>
     <item
         android:id="@+id/transporters"
+        android:icon="@drawable/icons8_truck_60px"
         android:title="Transportes"/>
     <item
         android:id="@+id/labour"
+        android:icon="@drawable/icons8_workers_52px"
         android:title="Labours"/>
     <item
         android:id="@+id/patri"
+        android:icon="@drawable/icons8_handle_with_care_60px"
         android:title="Patri"/>
 
     <group android:id="@+id/adminsection">
     <item
         android:id="@+id/adminSettings"
+        android:icon="@drawable/icons8_settings_filled_100px"
         android:title="Admin Settings"/>
         <item android:id="@+id/LogOut"
             android:title="Log Out"/>

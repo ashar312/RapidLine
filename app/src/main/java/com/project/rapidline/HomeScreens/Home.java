@@ -24,9 +24,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     Toolbar toolbar;
 
     enum Activities {
-        SenderReciever,
+        SenderReceiver,
         Agents,
-        Transportes,
+        Transporters,
         Labour,
         Patri,
         AdminSettings,
@@ -54,34 +54,29 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.regEntries:
-                Toast.makeText(Home.this, "Contact us Selected", Toast.LENGTH_SHORT).show();
                 break;
-
             case R.id.sender_receiver:
-                SendDataToListActivities(String.valueOf(Activities.SenderReciever));
-                Toast.makeText(Home.this, "About us Selected", Toast.LENGTH_SHORT).show();
+                SendDataToListActivities(String.valueOf(Activities.SenderReceiver));
                 break;
 
             case R.id.agents:
-                Toast.makeText(Home.this, "recent_tour Selected", Toast.LENGTH_SHORT).show();
+                SendDataToListActivities(String.valueOf(Activities.Agents));
                 break;
 
             case R.id.transporters:
-             //   startActivity(new Intent(Home.this, PlacesOfInterest.class));
-                Toast.makeText(Home.this, "look_around Selected", Toast.LENGTH_SHORT).show();
+                SendDataToListActivities(String.valueOf(Activities.Transporters));
                 break;
 
             case R.id.labour:
             //    startActivity(new Intent(Home.this, AR_Navigation.class));
-                Toast.makeText(Home.this, "ar_nav Selected", Toast.LENGTH_SHORT).show();
+                SendDataToListActivities(String.valueOf(Activities.Labour));
                 break;
 
             case R.id.patri:
-                Toast.makeText(Home.this, "Notifications Selected", Toast.LENGTH_SHORT).show();
+                SendDataToListActivities(String.valueOf(Activities.Patri));
                 break;
 
             case R.id.adminSettings:
-                Toast.makeText(this, "Admin Settings", Toast.LENGTH_SHORT).show();
 
             case R.id.LoginBtn:
               //  LogOut();

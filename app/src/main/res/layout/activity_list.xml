@@ -8,55 +8,73 @@
     tools:context=".HomeScreens.AddActivities.ListActivities">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/ListItemText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:text="List Item"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
         android:id="@+id/add_common_Btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="192dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/add_btn"
         android:text="ADD"
         android:textColor="@color/white"
         android:textStyle="bold"
+        app:layout_constraintDimensionRatio="h,4:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <EditText
         android:id="@+id/search_common"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/add_search"
         android:ems="10"
         android:hint="Search.."
         android:inputType="textPersonName"
         android:textColor="@color/Dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/add_common_Btn"
-        app:layout_goneMarginRight="8dp" />
+        app:layout_constraintStart_toEndOf="@+id/add_common_Btn"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/List_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:layout_marginTop="11dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_common_Btn" />
+        app:layout_constraintTop_toBottomOf="@+id/search_common" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,8 +13,12 @@ public class LabourForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labour_patri_form);
-        String HeadText = getIntent().getExtras().getString("ListItem");
-        TextView textView = findViewById(R.id.HeaderText);
-        textView.setText(HeadText);
+        try {
+            String HeadText = getIntent().getExtras().getString("ListItem");
+            TextView textView = findViewById(R.id.HeaderText);
+            textView.setText(HeadText);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

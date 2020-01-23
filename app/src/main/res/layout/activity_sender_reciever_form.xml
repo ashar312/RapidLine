@@ -15,7 +15,7 @@
         android:text="Sender / Receiver"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="50dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -55,12 +55,11 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="280dp"
+        android:layout_width="150dp"
         android:layout_height="70dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="7dp"
         android:background="@drawable/edittextshape"
         app:layout_constraintEnd_toEndOf="@+id/CompanyNum"
-        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="@+id/CompanyNum"
         app:layout_constraintTop_toBottomOf="@+id/CompanyNum" />
 

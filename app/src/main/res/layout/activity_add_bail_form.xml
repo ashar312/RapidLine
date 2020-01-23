@@ -7,5 +7,5 @@
     android:background="@drawable/normalbackground"
     tools:context=".Form.AddBailForm">
 
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

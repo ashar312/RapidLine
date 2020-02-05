@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Form.AddBailForm"/>
+        <activity android:name=".Register_Entries"></activity>
+        <activity android:name=".Form.AddBailForm" />
         <activity android:name=".Form.TransportersForm" />
         <activity android:name=".Form.LabourForm" />
         <activity android:name=".Form.AgentForm" />

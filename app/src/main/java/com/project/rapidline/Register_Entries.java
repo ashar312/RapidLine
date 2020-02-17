@@ -9,6 +9,6 @@ public class Register_Entries extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register__entries);
+        setContentView(R.layout.activity_register_entries);
     }
 }

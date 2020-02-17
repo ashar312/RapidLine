@@ -11,6 +11,9 @@ import com.project.rapidline.HomeScreens.Home;
 
 public class Login extends AppCompatActivity {
 
+
+    //rapidlineapp@gmail.com
+    //Rline1234
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

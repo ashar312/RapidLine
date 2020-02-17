@@ -24,8 +24,9 @@
 
     <EditText
         android:id="@+id/CompanyName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
         android:ems="10"
@@ -40,8 +41,9 @@
 
     <EditText
         android:id="@+id/CompanyNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
         android:ems="10"
@@ -55,8 +57,9 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
         app:layout_constraintEnd_toEndOf="@+id/CompanyNum"
@@ -65,8 +68,9 @@
 
     <EditText
         android:id="@+id/pointOfname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
         android:ems="10"
@@ -80,8 +84,9 @@
 
     <EditText
         android:id="@+id/pointOfContactNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
         android:ems="10"

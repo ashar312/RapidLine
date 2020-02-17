@@ -42,11 +42,13 @@
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginStart="178dp"
+                android:layout_marginLeft="178dp"
                 android:background="@drawable/spinnerbck"
                 android:text="You have 5 offline bills"
                 android:textColor="@android:color/holo_red_dark"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                tools:layout_editor_absoluteX="178dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

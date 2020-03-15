@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
 import com.project.rapidline.HomeScreens.Home;
+import com.project.rapidline.PrintOut.PrintOutActivity;
 
 public class Login extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class Login extends AppCompatActivity {
         findViewById(R.id.LoginBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, Home.class));
+                startActivity(new Intent(Login.this, PrintOutActivity.class));
             }
         });
     }

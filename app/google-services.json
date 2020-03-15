@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1621985384",
+    "firebase_url": "https://rapidline-99d21.firebaseio.com",
+    "project_id": "rapidline-99d21",
+    "storage_bucket": "rapidline-99d21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1621985384:android:a3d50d6c1e291affcc93dd",
+        "android_client_info": {
+          "package_name": "com.project.rapidline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1621985384-qa61cijbkdvhucu1pcg3117i01b2fet7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.rapidline",
+            "certificate_hash": "c4ca321b43e9893298691e631e7fa4a1e6db9877"
+          }
+        },
+        {
+          "client_id": "1621985384-uer5qicmcsafvh7ccra71k029ejfnr3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMdEPMcmiHNV2hEyfOQwqt5rSbTmAV8CU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1621985384-uer5qicmcsafvh7ccra71k029ejfnr3n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

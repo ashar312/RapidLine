@@ -10,18 +10,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name="androidx.multidex.MultiDexApplication" >
         android:theme="@style/AppTheme">
-        <activity android:name=".PrintOut.PrintOutActivity"></activity>
-        <activity android:name=".Register_Entries" />
-        <activity android:name=".Form.AddBailForm" />
-        <activity android:name=".Form.TransportersForm" />
-        <activity android:name=".Form.LabourForm" />
-        <activity android:name=".Form.AgentForm" />
-        <activity android:name=".Form.SenderRecieverForm" />
-        <activity android:name=".HomeScreens.AddActivities.ListActivities" />
-        <activity android:name=".HomeScreens.Home" />
+        <activity android:name=".PrintOut.PrintOutActivity" android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".Register_Entries" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.AddBailForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.TransportersForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.LabourForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.AgentForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.SenderRecieverForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".HomeScreens.AddActivities.ListActivities" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".HomeScreens.Home" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.PatriForm" />
-        <activity android:name=".Login">
+        <activity android:name=".Login" android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

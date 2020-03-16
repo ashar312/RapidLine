@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/normalbackground"
+    android:background="@color/white"
     tools:context=".Form.SenderRecieverForm">
 
     <TextView
@@ -14,7 +14,8 @@
         android:layout_marginTop="50dp"
         android:text="Sender / Receiver"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:gravity="center"
+        android:textColor="@color/Brown"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,6 +124,7 @@
         android:text="Save"
         android:textSize="12dp"
         android:textAlignment="center"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/pointOfContactNo"
@@ -135,4 +137,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
+
+    <Button
+        android:id="@+id/viewall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="View All"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

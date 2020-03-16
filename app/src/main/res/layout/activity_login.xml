@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    android:background="@drawable/normalbackground"
     tools:context=".Login">
 
 
@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:text="Login Now"
-        android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textColor="@color/Brown"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -32,19 +32,15 @@
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please "
-            android:textColor="@color/white"/>
+
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="login to continue using our app"
-            android:textColor="@color/white"
+            android:text="Please login to continue using our app"
+            android:textColor="@color/Brown"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintStart_toStartOf="@+id/textView"
             tools:layout_editor_absoluteY="164dp" />
@@ -116,7 +112,7 @@
         android:id="@+id/LoginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/buttonshape"
         android:text="Login"
         android:textColor="@color/white"

@@ -5,69 +5,221 @@
     android:layout_width="match_parent"
     android:id="@+id/drawer"
     android:layout_height="match_parent"
-    android:background="@drawable/normalbackground"
+    android:background="@color/white"
     tools:context=".HomeScreens.Home">
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        app:headerLayout="@layout/header_drawer"
+        app:itemIconTint="@color/Brown"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/menu_item">
 
-    <ScrollView
+    </com.google.android.material.navigation.NavigationView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Saeed Sons"
+            android:textColor="@color/Brown"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="You Have 5 offline bills"
+            android:textColor="#FF0000"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".2" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Saeed Sons"
-                android:textColor="@color/white"
-                android:textSize="24sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="OnBoarding Stats"
+                android:textColor="@color/black"
+                android:textSize="18dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/textView26"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="178dp"
-                android:layout_marginLeft="178dp"
-                android:background="@drawable/spinnerbck"
-                android:text="You have 5 offline bills"
-                android:textColor="@android:color/holo_red_dark"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/senderrecieverstats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Sender / Reciever"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+            <TextView
+                android:id="@+id/sendervalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView26"
+                app:layout_constraintStart_toStartOf="@+id/textView26"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <TextView
+                android:id="@+id/Agents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Agents"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/senderrecieverstats"
+                app:layout_constraintStart_toStartOf="@+id/senderrecieverstats"
+                app:layout_constraintTop_toBottomOf="@+id/senderrecieverstats" />
+
+            <TextView
+                android:id="@+id/agentvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/sendervalue"
+                app:layout_constraintStart_toStartOf="@+id/sendervalue"
+                app:layout_constraintTop_toBottomOf="@+id/sendervalue" />
+
+            <TextView
+                android:id="@+id/Transporters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Transporters"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/Agents"
+                app:layout_constraintStart_toStartOf="@+id/Agents"
+                app:layout_constraintTop_toBottomOf="@+id/Agents" />
+
+            <TextView
+                android:id="@+id/transportervalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/agentvalue"
+                app:layout_constraintStart_toStartOf="@+id/agentvalue"
+                app:layout_constraintTop_toBottomOf="@+id/agentvalue" />
+
+            <TextView
+                android:id="@+id/Labours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Labours"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/Transporters"
+                app:layout_constraintStart_toStartOf="@+id/Transporters"
+                app:layout_constraintTop_toBottomOf="@+id/Transporters" />
+
+            <TextView
+                android:id="@+id/labourvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/transportervalue"
+                app:layout_constraintStart_toStartOf="@+id/transportervalue"
+                app:layout_constraintTop_toBottomOf="@+id/transportervalue" />
+
+            <TextView
+                android:id="@+id/Patris"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Patris"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/Labours"
+                app:layout_constraintStart_toStartOf="@+id/Labours"
+                app:layout_constraintTop_toBottomOf="@+id/Labours" />
+
+            <TextView
+                android:id="@+id/patrisvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@+id/labourvalue"
+                app:layout_constraintStart_toStartOf="@+id/labourvalue"
+                app:layout_constraintTop_toBottomOf="@+id/labourvalue" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".2" />
+        <ImageView
+            android:id="@+id/draweropenclose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_action_drawer" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/navigationView"
-        app:menu="@menu/menu_item"
-        app:headerLayout="@layout/header_drawer"
-        android:background="@color/white"
-        android:layout_gravity="start"
-        app:itemIconTint="@color/Brown"
-        app:itemTextColor="@color/black"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

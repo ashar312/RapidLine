@@ -10,9 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="androidx.multidex.MultiDexApplication" >
+        android:name="androidx.multidex.MultiDexApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrintOut.PrintOutActivity" android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".PrintOut.PrintOutActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
         <activity android:name=".Register_Entries" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.AddBailForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.TransportersForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>

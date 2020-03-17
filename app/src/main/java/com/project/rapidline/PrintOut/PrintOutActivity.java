@@ -39,8 +39,6 @@ import com.project.rapidline.R;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PrintOutActivity extends AppCompatActivity {
 

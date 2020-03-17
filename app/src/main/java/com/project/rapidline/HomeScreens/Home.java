@@ -12,12 +12,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
 
 import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
 import com.project.rapidline.R;
+import com.project.rapidline.viewmodel.DataViewModel;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -25,6 +26,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Toolbar toolbar;
+
+    //ViewModel
+    private DataViewModel dataViewModel;
 
     enum Activities {
         SenderReceiver,
@@ -55,6 +59,22 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 OpenDrawer();
             }
         });
+
+
+
+        //Intialize viewmodel
+
+        //Get cities
+//        dataViewModel= ViewModelProviders.of(this).get(DataViewModel.class);
+//        dataViewModel.getListAllCities().observe(this, new Observer<List<Cities>>() {
+//            @Override
+//            public void onChanged(List<Cities> cities) {
+//                for (Cities city : cities) {
+//                    Log.v("citynamess", city.getCity_name());
+//                }
+//            }
+//        });
+
     }
 
     @Override

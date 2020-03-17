@@ -10,12 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.ButterKnife;
 
 import com.project.rapidline.Database.DatabaseHelper;
 import com.project.rapidline.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class SenderRecieverForm extends AppCompatActivity {
 

@@ -6,19 +6,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
 import com.project.rapidline.R;
-import com.project.rapidline.viewmodel.DataViewModel;
+import com.project.rapidline.viewmodel.SaeedSonsViewModel;
+
+import java.util.List;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -28,7 +34,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     Toolbar toolbar;
 
     //ViewModel
-    private DataViewModel dataViewModel;
+    private SaeedSonsViewModel saeedSonsViewModel;
 
     enum Activities {
         SenderReceiver,
@@ -60,11 +66,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         });
 
-
-
         //Intialize viewmodel
 
         //Get cities
+        saeedSonsViewModel= ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+        saeedSonsViewModel.getListAllAdmins().observe(this, new Observer<List<Admins>>() {
+            @Override
+            public void onChanged(List<Admins> admins) {
+                Log.v("here","sd");
+                for(Admins admin:admins){
+                    Log.v("admins",admin.getUsername());
+                }
+            }
+        });
+
 //        dataViewModel= ViewModelProviders.of(this).get(DataViewModel.class);
 //        dataViewModel.getListAllCities().observe(this, new Observer<List<Cities>>() {
 //            @Override

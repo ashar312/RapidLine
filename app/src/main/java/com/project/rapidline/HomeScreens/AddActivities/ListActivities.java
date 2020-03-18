@@ -32,9 +32,12 @@ public class ListActivities extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //Set title
         final String ActivityValue = getIntent().getExtras().get("ListItem").toString();
         TextView textView = findViewById(R.id.ListItemText);
         textView.setText(ActivityValue);
+
         Button button = findViewById(R.id.add_common_Btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +45,7 @@ public class ListActivities extends AppCompatActivity {
                 OpenWhichActivity(ActivityValue);
             }
         });
+
         recyclerView = findViewById(R.id.List_recycler);
         setListModelArrayList();
         mAdapter = new com.project.rapidline.HomeScreens.Adapter.ListAdapter(getApplicationContext(),
@@ -50,6 +54,9 @@ public class ListActivities extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+
+
     }
 
     private void setListModelArrayList(){

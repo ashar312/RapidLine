@@ -18,11 +18,39 @@ public class Patri {
     public String name;
 
     @ColumnInfo(name = "nic")
-    public long nic;
+    public String nic;
 
-    @ColumnInfo(name = "madeBy")
+    @ColumnInfo(name = "madeBy",index = true)
     public int madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
+
+    public Patri(long id, String name, String nic, int madeBy, Date madeDateTime) {
+        this.id = id;
+        this.name = name;
+        this.nic = nic;
+        this.madeBy = madeBy;
+        this.madeDateTime = madeDateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public int getMadeBy() {
+        return madeBy;
+    }
+
+    public Date getMadeDateTime() {
+        return madeDateTime;
+    }
 }

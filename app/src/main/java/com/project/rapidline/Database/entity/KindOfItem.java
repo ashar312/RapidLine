@@ -15,12 +15,34 @@ public class KindOfItem {
     public long id;
 
     @ColumnInfo(name = "name")
-    public int name;
+    public String name;
 
-    @ColumnInfo(name = "madeBy")
+    @ColumnInfo(name = "madeBy",index = true)
     public int madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
+    public KindOfItem(long id, String name, int madeBy, Date madeDateTime) {
+        this.id = id;
+        this.name = name;
+        this.madeBy = madeBy;
+        this.madeDateTime = madeDateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getMadeBy() {
+        return madeBy;
+    }
+
+    public Date getMadeDateTime() {
+        return madeDateTime;
+    }
 }

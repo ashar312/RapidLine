@@ -17,17 +17,57 @@ public class Agents {
     public int agentName;
 
     @ColumnInfo(name = "number")
-    public int agentNumber;
+    public String agentNumber;
 
     @ColumnInfo(name = "dealType")
-    public int dealType;
+    public String dealType;
 
     @ColumnInfo(name = "dealAmount")
-    public long dealAmount;
+    public Double dealAmount;
 
-    @ColumnInfo(name = "madeBy")
+    @ColumnInfo(name = "madeBy",index = true)
     public int madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
+
+
+
+    public Agents(long id, int agentName, String agentNumber, String dealType, Double dealAmount, int madeBy, Date madeDateTime) {
+        this.id = id;
+        this.agentName = agentName;
+        this.agentNumber = agentNumber;
+        this.dealType = dealType;
+        this.dealAmount = dealAmount;
+        this.madeBy = madeBy;
+        this.madeDateTime = madeDateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public int getAgentName() {
+        return agentName;
+    }
+
+    public String getAgentNumber() {
+        return agentNumber;
+    }
+
+    public String getDealType() {
+        return dealType;
+    }
+
+    public Double getDealAmount() {
+        return dealAmount;
+    }
+
+    public int getMadeBy() {
+        return madeBy;
+    }
+
+    public Date getMadeDateTime() {
+        return madeDateTime;
+    }
 }

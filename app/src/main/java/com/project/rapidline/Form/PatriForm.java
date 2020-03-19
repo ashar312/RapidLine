@@ -14,7 +14,7 @@ public class PatriForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_labour_patri_form);
         String HeadText = getIntent().getExtras().getString("ListItem");
-        TextView textView = findViewById(R.id.HeaderText);
+        TextView textView = findViewById(R.id.headerText);
         textView.setText(HeadText);
     }
 }

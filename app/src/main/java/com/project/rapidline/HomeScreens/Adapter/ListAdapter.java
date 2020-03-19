@@ -11,47 +11,50 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.rapidline.Models.RecyclerViewItemsCount;
+import com.project.rapidline.Models.ListItems;
 import com.project.rapidline.R;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
-    ArrayList<RecyclerViewItemsCount> recyclerViewItemsCounts;
+    ArrayList<ListItems> listItems;
     private Context context;
-    public ListAdapter(Context context,ArrayList<RecyclerViewItemsCount> recyclerViewItemsCounts){
+
+
+    public ListAdapter(Context context,ArrayList<ListItems> listItems){
         this.context = context;
-        this.recyclerViewItemsCounts = recyclerViewItemsCounts;
+        this.listItems = listItems;
     }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View itemView =
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_view, parent, false);
-        ViewHolder holder = new ViewHolder(itemView);
-        return holder;
+    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_view,
+                parent, false);
+        return new ListViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.Count.setText(recyclerViewItemsCounts.get(position).getCount());
-        holder.StrItem.setText(recyclerViewItemsCounts.get(position).getItem());
+    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
+//        holder.Count.setText(listItems.get(position).getCount());
+//        holder.StrItem.setText(listItems.get(position).getItem());
+        holder.count.setText(position+1);
+        holder.strItem.setText(listItems.get(position).getmItemName());
     }
 
     @Override
     public int getItemCount() {
-        return recyclerViewItemsCounts.size();
+        return listItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView Count, StrItem;
+    public class ListViewHolder extends RecyclerView.ViewHolder{
+        TextView count, strItem;
         ImageView imageEdit, imageDelete;
 
-        public ViewHolder(View view) {
+        public ListViewHolder(View view) {
             super(view);
-            Count = view.findViewById(R.id.Count);
-            StrItem = view.findViewById(R.id.itemstr);
+            count = view.findViewById(R.id.Count);
+            strItem = view.findViewById(R.id.itemstr);
             imageEdit = view.findViewById(R.id.editimage);
             imageDelete = view.findViewById(R.id.deleteimage);
             imageEdit.setOnClickListener(new View.OnClickListener() {
@@ -68,4 +71,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             });
         }
     }
+
+    public void setListItems(ArrayList<ListItems> listItems) {
+        this.listItems = listItems;
+        notifyDataSetChanged();
+    }
+
 }

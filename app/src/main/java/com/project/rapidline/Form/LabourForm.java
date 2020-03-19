@@ -15,7 +15,7 @@ public class LabourForm extends AppCompatActivity {
         setContentView(R.layout.activity_labour_patri_form);
         try {
             String HeadText = getIntent().getExtras().getString("ListItem");
-            TextView textView = findViewById(R.id.HeaderText);
+            TextView textView = findViewById(R.id.headerText);
             textView.setText(HeadText);
         }catch (Exception e){
             e.printStackTrace();

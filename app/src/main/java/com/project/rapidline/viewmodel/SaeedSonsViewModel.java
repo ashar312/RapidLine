@@ -10,8 +10,8 @@ import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.repository.RapidLineRepository;
-
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -35,7 +35,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         rapidLineRepository=new RapidLineRepository(application);
         listAllAdmins=rapidLineRepository.getAllAdmins();
 //        listAllAgents=rapidLineRepository.getAllAgents();
-//        listAllCustomers=rapidLineRepository.getAllCustomers();
+        listAllCustomers=rapidLineRepository.getAllCustomers();
 //        listAllTransporters=rapidLineRepository.getAllTransporters();
 //        listAllLabours=rapidLineRepository.getAllLabours();
 //        listAllPatris=rapidLineRepository.getAllPatris();
@@ -53,13 +53,31 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return listAllAdmins;
     }
 
+
+    public Admins getAdminById(long adminId){
+
+        try {
+            return rapidLineRepository.getAdminById(adminId);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public LiveData<List<Agents>> getListAllAgents() {
         return listAllAgents;
     }
 
+
+
     public LiveData<List<Customers>> getListAllCustomers() {
         return listAllCustomers;
     }
+
+    public Customers getCustById(long cusId){return rapidLineRepository.getCustomerById(cusId);}
+
 
     public LiveData<List<Transporters>> getListAllTransporters() {
         return listAllTransporters;

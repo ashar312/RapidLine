@@ -25,6 +25,6 @@ public interface CustomerDao {
     public LiveData<List<Customers>> getAllCustomers();
 
     @Query("Select * from tbl_customers where id=:custId")
-    public LiveData<Customers> getCustomerById(long custId);
+    public Customers getCustomerById(long custId);
 
 }

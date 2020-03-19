@@ -1,11 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Brown</item>
         <item name="colorPrimaryDark">@color/Brown</item>
         <item name="colorAccent">@color/Brown</item>
     </style>
 
+    <style name="FormInputTextFields">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:background">@drawable/edittextshape</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/Dark_gray</item>
+        <item name="android:textSize">14dp</item>
+    </style>
 </resources>

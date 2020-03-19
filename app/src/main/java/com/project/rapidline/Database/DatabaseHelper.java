@@ -22,8 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PointContactNumber = "PointOfContactNumber";
 
 
-
-
     public DatabaseHelper(Context context) {
         super(context, Database_Name, null, 1);
     }

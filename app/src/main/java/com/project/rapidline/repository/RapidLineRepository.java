@@ -20,15 +20,18 @@ import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import androidx.lifecycle.LiveData;
 
 public class RapidLineRepository {
 
     private Application application;
-//    private CityDao cityDao;
+    //    private CityDao cityDao;
     private AdminDao adminDao;
     private CompanyDao companyDao;
     private AgentDao agentDao;
@@ -38,31 +41,43 @@ public class RapidLineRepository {
     private PatriDao patriDao;
     private TransporterDao transporterDao;
 
-    public RapidLineRepository(Application application){
-        this.application=application;
+    public RapidLineRepository(Application application) {
+        this.application = application;
 
-        RapidLineDatabase rapidLineDatabase= RapidLineDatabase.getInstance(application);
+        RapidLineDatabase rapidLineDatabase = RapidLineDatabase.getInstance(application);
 
-        adminDao=rapidLineDatabase.getAdminDao();
-        companyDao=rapidLineDatabase.getCompanyDao();
-        agentDao=rapidLineDatabase.getAgentDao();
-        bailDao=rapidLineDatabase.getBailDao();
-        customerDao=rapidLineDatabase.getCustomerDao();
-        labourDao=rapidLineDatabase.getLabourDao();
-        patriDao=rapidLineDatabase.getPatriDao();
-        transporterDao=rapidLineDatabase.getTransporterDao();
+        adminDao = rapidLineDatabase.getAdminDao();
+        companyDao = rapidLineDatabase.getCompanyDao();
+        agentDao = rapidLineDatabase.getAgentDao();
+        bailDao = rapidLineDatabase.getBailDao();
+        customerDao = rapidLineDatabase.getCustomerDao();
+        labourDao = rapidLineDatabase.getLabourDao();
+        patriDao = rapidLineDatabase.getPatriDao();
+        transporterDao = rapidLineDatabase.getTransporterDao();
 //        cityDao=rapidLineDatabase.getCityDao();
     }
 
-//
+    //
 //    public LiveData<List<Cities>> getAllCities(){return cityDao.getCities();}
     //Admins
-    public LiveData<List<Admins>> getAllAdmins(){return adminDao.getAllAdmins();}
+    public LiveData<List<Admins>> getAllAdmins() {
+        return adminDao.getAllAdmins();
+    }
 
-    public LiveData<Admins> getAdminById(long adminId){return adminDao.getAdminById(adminId);}
+    public Admins getAdminById(final long adminId) throws ExecutionException,InterruptedException {
+        Callable<Admins> adminsCallable=new Callable<Admins>() {
+            @Override
+            public Admins call() throws Exception {
+                return adminDao.getAdminById(adminId);
+            }
+        };
+        Future<Admins> future=Executors.newSingleThreadExecutor().submit(adminsCallable);
+        return future.get();
 
-    public void addAdmin(final Admins admin){
-        Executor executor= Executors.newSingleThreadExecutor();
+    }
+
+    public void addAdmin(final Admins admin) {
+        Executor executor = Executors.newSingleThreadExecutor();
 
         executor.execute(new Runnable() {
             @Override
@@ -72,8 +87,8 @@ public class RapidLineRepository {
         });
     }
 
-    public void updateAdmin(final Admins admin){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public void updateAdmin(final Admins admin) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -82,8 +97,8 @@ public class RapidLineRepository {
         });
     }
 
-    public void deleteAdmin(final Admins admin){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public void deleteAdmin(final Admins admin) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -93,12 +108,16 @@ public class RapidLineRepository {
     }
 
     //Agents
-    public LiveData<List<Agents>> getAllAgents(){return agentDao.getAllAgents();}
+    public LiveData<List<Agents>> getAllAgents() {
+        return agentDao.getAllAgents();
+    }
 
-    public LiveData<Agents> getAgentById(long agentId){return  agentDao.getAgentById(agentId);}
+    public LiveData<Agents> getAgentById(long agentId) {
+        return agentDao.getAgentById(agentId);
+    }
 
-    public void addAgent(final Agents agent){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public void addAgent(final Agents agent) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -106,8 +125,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void updateAgent(final Agents agent){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void updateAgent(final Agents agent) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -115,8 +135,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void deleteAgent(final Agents agent){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deleteAgent(final Agents agent) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -126,11 +147,16 @@ public class RapidLineRepository {
     }
 
     //Customers
-    public LiveData<List<Customers>> getAllCustomers(){return customerDao.getAllCustomers();}
-    public LiveData<Customers> getCustomerById(long custId){return customerDao.getCustomerById(custId);}
+    public LiveData<List<Customers>> getAllCustomers() {
+        return customerDao.getAllCustomers();
+    }
 
-    public void addCustomer(final Customers customer){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public Customers getCustomerById(long custId) {
+        return customerDao.getCustomerById(custId);
+    }
+
+    public void addCustomer(final Customers customer) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -139,8 +165,8 @@ public class RapidLineRepository {
         });
     }
 
-    public void updateCustomer(final Customers customer){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public void updateCustomer(final Customers customer) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -148,8 +174,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void deleteCustomer(final Customers customer){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deleteCustomer(final Customers customer) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -159,11 +186,16 @@ public class RapidLineRepository {
     }
 
     //Transpoter
-    public LiveData<List<Transporters>> getAllTransporters(){return transporterDao.getAllTransporters();}
-    public LiveData<Transporters> getAllTransporterById(long transpId){return transporterDao.getTransporter(transpId);}
+    public LiveData<List<Transporters>> getAllTransporters() {
+        return transporterDao.getAllTransporters();
+    }
 
-    public void addTransporter(final Transporters transporter){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public LiveData<Transporters> getAllTransporterById(long transpId) {
+        return transporterDao.getTransporter(transpId);
+    }
+
+    public void addTransporter(final Transporters transporter) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -172,8 +204,9 @@ public class RapidLineRepository {
         });
 
     }
-    public void updateTransporter(final Transporters transporter){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void updateTransporter(final Transporters transporter) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -182,8 +215,9 @@ public class RapidLineRepository {
         });
 
     }
-    public void deleteTransporter(final Transporters transporter){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deleteTransporter(final Transporters transporter) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -193,21 +227,26 @@ public class RapidLineRepository {
     }
 
     //Labour
-    public LiveData<List<Labours>> getAllLabours(){return labourDao.getAllLabours();}
-    public LiveData<Labours> getAllLaboursById(long labourId){return labourDao.getLabourById(labourId);}
+    public LiveData<List<Labours>> getAllLabours() {
+        return labourDao.getAllLabours();
+    }
 
-    public void addLabour(final Labours labour){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public LiveData<Labours> getAllLaboursById(long labourId) {
+        return labourDao.getLabourById(labourId);
+    }
+
+    public void addLabour(final Labours labour) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
-              labourDao.addLabour(labour);
+                labourDao.addLabour(labour);
             }
         });
     }
 
-    public void updateLabour(final Labours labour){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public void updateLabour(final Labours labour) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -215,8 +254,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void deleteLabour(final Labours labour){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deleteLabour(final Labours labour) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -226,11 +266,16 @@ public class RapidLineRepository {
     }
 
     //Patri
-    public LiveData<List<Patri>> getAllPatris(){return patriDao.getAllPatris();}
-    public LiveData<Patri> getPatriById(long patriId){return patriDao.getPatriById(patriId);}
+    public LiveData<List<Patri>> getAllPatris() {
+        return patriDao.getAllPatris();
+    }
 
-    public void addPatri(final Patri patri){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public LiveData<Patri> getPatriById(long patriId) {
+        return patriDao.getPatriById(patriId);
+    }
+
+    public void addPatri(final Patri patri) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -238,8 +283,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void updatePatri(final Patri patri){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void updatePatri(final Patri patri) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -247,8 +293,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void deletePatri(final Patri patri){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deletePatri(final Patri patri) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -258,11 +305,16 @@ public class RapidLineRepository {
     }
 
     //Bails
-    public LiveData<List<Bails>> getAllBails(){return bailDao.getAllBails();}
-    public LiveData<Bails> getBailsById(long bailId){ return bailDao.getBailById(bailId);}
+    public LiveData<List<Bails>> getAllBails() {
+        return bailDao.getAllBails();
+    }
 
-    public void addBail(final Bails bail){
-        Executor executor= Executors.newSingleThreadExecutor();
+    public LiveData<Bails> getBailsById(long bailId) {
+        return bailDao.getBailById(bailId);
+    }
+
+    public void addBail(final Bails bail) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -270,8 +322,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void updateBail(final Bails bail){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void updateBail(final Bails bail) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -279,8 +332,9 @@ public class RapidLineRepository {
             }
         });
     }
-    public void deleteBail(final Bails bail){
-        Executor executor= Executors.newSingleThreadExecutor();
+
+    public void deleteBail(final Bails bail) {
+        Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {

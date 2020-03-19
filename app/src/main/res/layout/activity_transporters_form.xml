@@ -8,7 +8,7 @@
     tools:context=".Form.TransportersForm">
 
     <TextView
-        android:id="@+id/HeaderText"
+        android:id="@+id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/CompanyName"
+        android:id="@+id/comanyNameTxt"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:textSize="14dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline2" />
 
     <EditText
-        android:id="@+id/CompanyNum"
+        android:id="@+id/companyNum"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:textSize="14dp"
@@ -51,20 +51,20 @@
         android:hint="Company No."
         android:textColor="@color/black"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="@+id/CompanyName"
-        app:layout_constraintStart_toStartOf="@+id/CompanyName"
-        app:layout_constraintTop_toBottomOf="@+id/CompanyName" />
+        app:layout_constraintEnd_toEndOf="@+id/comanyNameTxt"
+        app:layout_constraintStart_toStartOf="@+id/comanyNameTxt"
+        app:layout_constraintTop_toBottomOf="@+id/comanyNameTxt" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/citySpinner"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:textSize="14dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittextshape"
-        app:layout_constraintEnd_toEndOf="@+id/CompanyNum"
-        app:layout_constraintStart_toStartOf="@+id/CompanyNum"
-        app:layout_constraintTop_toBottomOf="@+id/CompanyNum" />
+        app:layout_constraintEnd_toEndOf="@+id/companyNum"
+        app:layout_constraintStart_toStartOf="@+id/companyNum"
+        app:layout_constraintTop_toBottomOf="@+id/companyNum" />
 
     <EditText
         android:id="@+id/pointOfname"
@@ -78,9 +78,9 @@
         android:inputType="textPersonName"
         android:textColor="@color/black"
         android:textColorHint="@color/Dark_gray"
-        app:layout_constraintEnd_toEndOf="@+id/spinner"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintEnd_toEndOf="@+id/citySpinner"
+        app:layout_constraintStart_toStartOf="@+id/citySpinner"
+        app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
 
     <EditText
         android:id="@+id/pointOfContactNo"
@@ -99,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pointOfname" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"

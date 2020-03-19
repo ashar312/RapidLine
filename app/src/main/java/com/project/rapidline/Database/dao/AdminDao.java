@@ -27,5 +27,5 @@ public interface AdminDao {
     public LiveData<List<Admins>> getAllAdmins();
 
     @Query("Select * from tbl_admins where id=:adminId")
-    public LiveData<Admins> getAdminById(long adminId);
+    public Admins getAdminById(long adminId);
 }

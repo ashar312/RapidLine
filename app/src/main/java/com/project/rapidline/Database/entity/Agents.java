@@ -14,7 +14,7 @@ public class Agents {
     public long id;
 
     @ColumnInfo(name = "name")
-    public int agentName;
+    public String agentName;
 
     @ColumnInfo(name = "number")
     public String agentNumber;
@@ -33,7 +33,7 @@ public class Agents {
 
 
 
-    public Agents(long id, int agentName, String agentNumber, String dealType, Double dealAmount, int madeBy, Date madeDateTime) {
+    public Agents(long id, String agentName, String agentNumber, String dealType, Double dealAmount, int madeBy, Date madeDateTime) {
         this.id = id;
         this.agentName = agentName;
         this.agentNumber = agentNumber;
@@ -47,7 +47,7 @@ public class Agents {
         return id;
     }
 
-    public int getAgentName() {
+    public String getAgentName() {
         return agentName;
     }
 

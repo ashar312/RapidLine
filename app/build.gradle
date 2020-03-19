@@ -23,6 +23,10 @@ android {
     dataBinding {
         enabled = true
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -56,4 +60,7 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     implementation 'com.google.android.material:material:1.1.0'
+
+    //Validation library
+    implementation 'com.basgeekball:awesome-validation:4.2'
 }

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@drawable/normalbackground"
         tools:context=".Form.SenderRecieverForm">
 
         <androidx.constraintlayout.widget.Guideline
@@ -28,8 +28,8 @@
             android:text="Sender / Receiver"
             android:textAlignment="center"
             android:gravity="center"
-            android:textColor="@color/Brown"
-            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

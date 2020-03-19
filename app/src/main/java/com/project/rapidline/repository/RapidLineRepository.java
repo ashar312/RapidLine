@@ -151,38 +151,32 @@ public class RapidLineRepository {
         return customerDao.getAllCustomers();
     }
 
-    public Customers getCustomerById(long custId) {
-        return customerDao.getCustomerById(custId);
+    public Customers getCustomerById(long custId) throws ExecutionException, InterruptedException {
+        Callable<Customers> callable= (Callable<Customers>) () -> customerDao.getCustomerById(custId);
+        Future<Customers> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+
     }
 
     public void addCustomer(final Customers customer) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                customerDao.addCustomer(customer);
-            }
-        });
+        BackgroundWork(() -> customerDao.addCustomer(customer));
     }
 
     public void updateCustomer(final Customers customer) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                customerDao.updateCustomer(customer);
-            }
-        });
+        BackgroundWork(() -> customerDao.updateCustomer(customer));
     }
 
     public void deleteCustomer(final Customers customer) {
+        BackgroundWork(() -> customerDao.deleteCustomer(customer));
+    }
+    public void deleteCustomerById(long cusId){
+        BackgroundWork(() -> customerDao.deleteCustomerById(cusId));
+
+    }
+
+    private void BackgroundWork(Runnable runnable){
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                customerDao.deleteCustomer(customer);
-            }
-        });
+        executor.execute(runnable);
     }
 
     //Transpoter
@@ -190,8 +184,10 @@ public class RapidLineRepository {
         return transporterDao.getAllTransporters();
     }
 
-    public LiveData<Transporters> getAllTransporterById(long transpId) {
-        return transporterDao.getTransporter(transpId);
+    public Transporters getTransporterById(long transpId) throws ExecutionException, InterruptedException {
+        Callable<Transporters> callable= (Callable<Transporters>) () -> transporterDao.getTransporter(transpId);
+        Future<Transporters> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
 
     public void addTransporter(final Transporters transporter) {
@@ -217,13 +213,10 @@ public class RapidLineRepository {
     }
 
     public void deleteTransporter(final Transporters transporter) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                transporterDao.deleteTransporter(transporter);
-            }
-        });
+        BackgroundWork(() -> transporterDao.deleteTransporter(transporter));
+    }
+    public void deleteTransporterById(long transpId) {
+        BackgroundWork(() -> {transporterDao.deleteTransporterById(transpId);});
     }
 
     //Labour

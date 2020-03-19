@@ -24,5 +24,8 @@ public interface TransporterDao {
     public LiveData<List<Transporters>> getAllTransporters();
 
     @Query("Select * from tbl_transporters where id=:transId")
-    public LiveData<Transporters> getTransporter(long transId);
+    public Transporters getTransporter(long transId);
+
+    @Query("Delete from tbl_transporters where id=:transId")
+    public void deleteTransporterById(long transId);
 }

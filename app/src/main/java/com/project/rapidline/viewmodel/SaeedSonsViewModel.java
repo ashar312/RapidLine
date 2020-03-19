@@ -12,6 +12,8 @@ import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.repository.RapidLineRepository;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -36,7 +38,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         listAllAdmins=rapidLineRepository.getAllAdmins();
 //        listAllAgents=rapidLineRepository.getAllAgents();
         listAllCustomers=rapidLineRepository.getAllCustomers();
-//        listAllTransporters=rapidLineRepository.getAllTransporters();
+        listAllTransporters=rapidLineRepository.getAllTransporters();
 //        listAllLabours=rapidLineRepository.getAllLabours();
 //        listAllPatris=rapidLineRepository.getAllPatris();
 //        listAllBails=rapidLineRepository.getAllBails();
@@ -58,9 +60,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
         try {
             return rapidLineRepository.getAdminById(adminId);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -71,17 +71,64 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
 
-
     public LiveData<List<Customers>> getListAllCustomers() {
         return listAllCustomers;
     }
 
-    public Customers getCustById(long cusId){return rapidLineRepository.getCustomerById(cusId);}
+    public Customers getCustById(long cusId){
+        try {
+            return rapidLineRepository.getCustomerById(cusId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    public void addCustomer(final Customers customer) {
+        rapidLineRepository.addCustomer(customer);
+    }
+    public void updateCustomer(final Customers customer) {
+        rapidLineRepository.updateCustomer(customer);
+    }
+
+    public void deleteCustomer(final Customers customer) {
+        rapidLineRepository.deleteCustomer(customer);
+    }
+    public void deleteCustomerById(long cusId){
+        rapidLineRepository.deleteCustomerById(cusId);
+    }
 
     public LiveData<List<Transporters>> getListAllTransporters() {
         return listAllTransporters;
     }
+
+    public Transporters getAllTransporterById(long transpId) {
+        try {
+            return rapidLineRepository.getTransporterById(transpId);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void addTransporter(final Transporters transporter) {
+        rapidLineRepository.addTransporter(transporter);
+    }
+
+    public void updateTransporter(final Transporters transporter) {
+        rapidLineRepository.updateTransporter(transporter);
+    }
+
+    public void deleteTransporter(final Transporters transporter) {
+        rapidLineRepository.deleteTransporter(transporter);
+    }
+
+    public void deleteTransporterById(long transpId) {
+     rapidLineRepository.deleteTransporterById(transpId);
+    }
+
 
     public LiveData<List<Labours>> getListAllLabours() {
         return listAllLabours;

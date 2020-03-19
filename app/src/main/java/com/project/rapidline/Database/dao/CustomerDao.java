@@ -27,4 +27,6 @@ public interface CustomerDao {
     @Query("Select * from tbl_customers where id=:custId")
     public Customers getCustomerById(long custId);
 
+    @Query("Delete from tbl_customers where id=:custId")
+    public void deleteCustomerById(long custId);
 }

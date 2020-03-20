@@ -19,9 +19,9 @@
         <activity android:name=".Register_Entries" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.AddBailForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.TransportersForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Form.LabourForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.LabourPatriForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.AgentForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Form.SenderRecieverForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Form.SenderRecieverTransporterForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".HomeScreens.AddActivities.ListActivities"  android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".HomeScreens.Home" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.PatriForm" />

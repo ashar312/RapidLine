@@ -27,5 +27,8 @@ public interface LabourDao {
     public LiveData<List<Labours>> getAllLabours();
 
     @Query("Select * from tbl_labours where id=:labourId")
-    public LiveData<Labours> getLabourById(long labourId);
+    public Labours getLabourById(long labourId);
+
+    @Query("Delete from tbl_labours where id=:labourId")
+    public void deleteLabourById(long labourId);
 }

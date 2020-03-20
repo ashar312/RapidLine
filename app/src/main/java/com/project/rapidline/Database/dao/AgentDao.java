@@ -27,5 +27,9 @@ public interface AgentDao {
     public LiveData<List<Agents>> getAllAgents();
 
     @Query("Select * from tbl_agents where id=:agentId")
-    public LiveData<Agents> getAgentById(long agentId);
+    public Agents getAgentById(long agentId);
+
+    @Query("Delete from tbl_agents where id=:agentId")
+    public void deleteAgentById(long agentId);
+
 }

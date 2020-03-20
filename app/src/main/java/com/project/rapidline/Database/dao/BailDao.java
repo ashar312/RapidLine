@@ -27,5 +27,8 @@ public interface BailDao {
     public LiveData<List<Bails>> getAllBails();
 
     @Query("Select * from tbl_bails where id=:bailId")
-    public LiveData<Bails> getBailById(long bailId);
+    public Bails getBailById(long bailId);
+
+    @Query("Delete from tbl_bails where id=:bailId")
+    public void deleteBailById(long bailId);
 }

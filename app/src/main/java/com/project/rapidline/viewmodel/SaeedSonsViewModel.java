@@ -36,12 +36,12 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
         rapidLineRepository=new RapidLineRepository(application);
         listAllAdmins=rapidLineRepository.getAllAdmins();
-//        listAllAgents=rapidLineRepository.getAllAgents();
+        listAllAgents=rapidLineRepository.getAllAgents();
         listAllCustomers=rapidLineRepository.getAllCustomers();
         listAllTransporters=rapidLineRepository.getAllTransporters();
-//        listAllLabours=rapidLineRepository.getAllLabours();
-//        listAllPatris=rapidLineRepository.getAllPatris();
-//        listAllBails=rapidLineRepository.getAllBails();
+        listAllLabours=rapidLineRepository.getAllLabours();
+        listAllPatris=rapidLineRepository.getAllPatris();
+        listAllBails=rapidLineRepository.getAllBails();
 
 //        listAllCities=rapidLineRepository.getAllCities();
     }
@@ -66,10 +66,31 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return null;
     }
 
+    //Agents
     public LiveData<List<Agents>> getListAllAgents() {
         return listAllAgents;
     }
 
+    public Agents getAgentById(long agentId) {
+        try {
+            return rapidLineRepository.getAgentById(agentId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void addAgent(final Agents agent) {
+        rapidLineRepository.addAgent(agent);
+    }
+
+    public void updateAgent(final Agents agent) {
+        rapidLineRepository.updateAgent(agent);
+    }
+
+    public void deleteAgent(final Agents agent) {
+        rapidLineRepository.deleteAgent(agent);
+    }
 
     public LiveData<List<Customers>> getListAllCustomers() {
         return listAllCustomers;
@@ -98,6 +119,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         rapidLineRepository.deleteCustomerById(cusId);
     }
 
+    //Transporters
     public LiveData<List<Transporters>> getListAllTransporters() {
         return listAllTransporters;
     }
@@ -105,9 +127,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     public Transporters getAllTransporterById(long transpId) {
         try {
             return rapidLineRepository.getTransporterById(transpId);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -129,16 +149,88 @@ public class SaeedSonsViewModel extends AndroidViewModel {
      rapidLineRepository.deleteTransporterById(transpId);
     }
 
-
+    //Labours
     public LiveData<List<Labours>> getListAllLabours() {
         return listAllLabours;
     }
 
+    public Labours getAllLaboursById(long labourId) {
+        try {
+            return rapidLineRepository.getAllLaboursById(labourId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void addLabour(final Labours labour) {
+        rapidLineRepository.addLabour(labour);
+    }
+
+    public void updateLabour(final Labours labour) {
+        rapidLineRepository.updateLabour(labour);
+    }
+
+    public void deleteLabour(final Labours labour) {
+        rapidLineRepository.deleteLabour(labour);
+    }
+    public void deleteLabourById(long labourId) {
+        rapidLineRepository.deleteLabourById(labourId);
+    }
+
+    //Patri
     public LiveData<List<Patri>> getListAllPatris() {
         return listAllPatris;
     }
 
+    public Patri getPatriById(long patriId) {
+        try {
+            return rapidLineRepository.getPatriById(patriId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void addPatri(final Patri patri) {
+        rapidLineRepository.addPatri(patri);
+    }
+
+    public void updatePatri(final Patri patri) {
+        rapidLineRepository.updatePatri(patri);
+    }
+
+    public void deletePatri(final Patri patri) {
+        rapidLineRepository.deletePatri(patri);
+    }
+    public void deletePatriById(long patriId) {
+        rapidLineRepository.deletePatriById(patriId);
+    }
+
+
+    //Bails
     public LiveData<List<Bails>> getListAllBails() {
         return listAllBails;
+    }
+
+    public Bails getBailById(long bailId) {
+        try {
+            return rapidLineRepository.getBailsById(bailId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void addBail(final Bails bail) {
+     rapidLineRepository.addBail(bail);
+    }
+
+    public void updateBail(final Bails bail) {
+        rapidLineRepository.updateBail(bail);
+    }
+
+    public void deleteBail(final Bails bail) {
+        rapidLineRepository.deleteBail(bail);
     }
 }

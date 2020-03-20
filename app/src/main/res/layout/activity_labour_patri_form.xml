@@ -1,95 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/normalbackground">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/headerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Labour"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <EditText
-        android:id="@+id/LabourName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edittextshape"
-        android:ems="10"
-        android:hint="Agent Name"
-        android:textAlignment="center"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="@color/Dark_gray"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline4" />
+    </data>
 
-    <EditText
-        android:id="@+id/labourNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edittextshape"
-        android:ems="10"
-        android:hint="Agent Name"
-        android:textAlignment="center"
-        android:inputType="number"
-        android:textColor="@color/black"
-        android:textColorHint="@color/Dark_gray"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/LabourName"
-        app:layout_constraintStart_toStartOf="@+id/LabourName"
-        app:layout_constraintTop_toBottomOf="@+id/LabourName" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/normalbackground">
 
-    <EditText
-        android:id="@+id/LabourCNIC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edittextshape"
-        android:ems="10"
-        android:hint="Agent Name"
-        android:textAlignment="center"
-        android:inputType="numberSigned"
-        android:textColor="@color/black"
-        android:textColorHint="@color/Dark_gray"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/labourNo"
-        app:layout_constraintStart_toStartOf="@+id/labourNo"
-        app:layout_constraintTop_toBottomOf="@+id/labourNo" />
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Labour"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/buttonshape"
-        android:text="Save"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/LabourCNIC"
-        app:layout_constraintStart_toStartOf="@+id/LabourCNIC"
-        app:layout_constraintTop_toBottomOf="@+id/LabourCNIC" />
+        <EditText
+            android:id="@+id/form_name"
+            style="@style/FormInputTextFields"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Agent Name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline4" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        <EditText
+            android:id="@+id/form_no"
+            style="@style/FormInputTextFields"
+            android:hint="Agent Name"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/form_name"
+            app:layout_constraintStart_toStartOf="@+id/form_name"
+            app:layout_constraintTop_toBottomOf="@+id/form_name" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/form_cnic"
+            style="@style/FormInputTextFields"
+            android:hint="Agent Name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/form_no"
+            app:layout_constraintStart_toStartOf="@+id/form_no"
+            app:layout_constraintTop_toBottomOf="@+id/form_no" />
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/buttonshape"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/form_cnic"
+            app:layout_constraintStart_toStartOf="@+id/form_cnic"
+            app:layout_constraintTop_toBottomOf="@+id/form_cnic" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

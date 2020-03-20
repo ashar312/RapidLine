@@ -1,22 +1,15 @@
 package com.project.rapidline.Form;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.project.rapidline.Database.DatabaseHelper;
 import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.R;
@@ -25,10 +18,8 @@ import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.Calendar;
 
-import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 
-
-public class SenderRecieverForm extends AppCompatActivity {
+public class SenderRecieverTransporterForm extends AppCompatActivity {
 
     private ActivitySenderRecieverFormBinding senderRecieverFormBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
@@ -81,7 +72,7 @@ public class SenderRecieverForm extends AppCompatActivity {
 
             if (activityValue.equals("SenderReceiver")) {
                 if(isCustomerDataFieldsEmpty()){
-                    Toast.makeText(SenderRecieverForm.this,"Please fill all field to continue",
+                    Toast.makeText(SenderRecieverTransporterForm.this,"Please fill all field to continue",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -92,7 +83,7 @@ public class SenderRecieverForm extends AppCompatActivity {
                     customerEditUpdate.setAddress(senderRecieverFormBinding.addressTxt.getText().toString());
                     customerEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     customerEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
-                    //Save admin and date time
+                    //TODO Save admin and date time
 
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
@@ -106,7 +97,7 @@ public class SenderRecieverForm extends AppCompatActivity {
                     customerEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     customerEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
 
-                    //Save admin and date time
+                    //TODO Save admin and date time
                     customerEditUpdate.setMadeBy(1);
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
@@ -117,7 +108,7 @@ public class SenderRecieverForm extends AppCompatActivity {
             }
             else {
                 if(isTranporterDataFieldsEmpty()){
-                    Toast.makeText(SenderRecieverForm.this,"Please fill all field to continue",
+                    Toast.makeText(SenderRecieverTransporterForm.this,"Please fill all field to continue",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }

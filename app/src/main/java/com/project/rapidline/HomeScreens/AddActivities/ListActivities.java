@@ -2,16 +2,12 @@ package com.project.rapidline.HomeScreens.AddActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Customers;
@@ -19,10 +15,9 @@ import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.Form.AgentForm;
-import com.project.rapidline.Form.LabourForm;
+import com.project.rapidline.Form.LabourPatriForm;
 import com.project.rapidline.Form.PatriForm;
-import com.project.rapidline.Form.SenderRecieverForm;
-import com.project.rapidline.Form.TransportersForm;
+import com.project.rapidline.Form.SenderRecieverTransporterForm;
 import com.project.rapidline.HomeScreens.Adapter.ListAdapter;
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
 import com.project.rapidline.Models.ListItems;
@@ -31,7 +26,6 @@ import com.project.rapidline.databinding.ActivityListBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListActivities extends AppCompatActivity implements OnItemClickListener {
 
@@ -174,7 +168,7 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                     saeedSonsViewModel.deleteCustomerById(itemId);
                 } else {
                     //launch intent to edit
-                    intent = new Intent(ListActivities.this, SenderRecieverForm.class);
+                    intent = new Intent(ListActivities.this, SenderRecieverTransporterForm.class);
                     intent.putExtra("ListItem", ActivityValue);
                     intent.putExtra("action", action);
                     intent.putExtra("itemId", itemId);
@@ -187,7 +181,33 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                     saeedSonsViewModel.deleteTransporterById(itemId);
                 } else {
                     //edit
-                    intent = new Intent(ListActivities.this, SenderRecieverForm.class);
+                    intent = new Intent(ListActivities.this, SenderRecieverTransporterForm.class);
+                    intent.putExtra("ListItem", ActivityValue);
+                    intent.putExtra("action", action);
+                    intent.putExtra("itemId", itemId);
+                    startActivity(intent);
+                }
+                break;
+            case "Labour":
+                if (action.equals("delete")) {
+                    //delete
+                    saeedSonsViewModel.deleteLabourById(itemId);
+                } else {
+                    //edit
+                    intent = new Intent(ListActivities.this, LabourPatriForm.class);
+                    intent.putExtra("ListItem", ActivityValue);
+                    intent.putExtra("action", action);
+                    intent.putExtra("itemId", itemId);
+                    startActivity(intent);
+                }
+                break;
+            case "Patri":
+                if (action.equals("delete")) {
+                    //delete
+                    saeedSonsViewModel.deletePatriById(itemId);
+                } else {
+                    //edit
+                    intent = new Intent(ListActivities.this, LabourPatriForm.class);
                     intent.putExtra("ListItem", ActivityValue);
                     intent.putExtra("action", action);
                     intent.putExtra("itemId", itemId);
@@ -206,7 +226,7 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
         switch (listitem) {
             case "SenderReceiver":
             case "Transporters":
-                intent = new Intent(ListActivities.this, SenderRecieverForm.class);
+                intent = new Intent(ListActivities.this, SenderRecieverTransporterForm.class);
                 intent.putExtra("ListItem", listitem);
                 intent.putExtra("action", "add");
                 startActivity(intent);
@@ -218,16 +238,12 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 startActivity(intent);
                 break;
             case "Labour":
-                intent = new Intent(ListActivities.this, LabourForm.class);
+            case "Patri":
+                intent = new Intent(ListActivities.this, LabourPatriForm.class);
                 intent.putExtra("ListItem", listitem);
                 intent.putExtra("action", "add");
                 startActivity(intent);
                 break;
-            case "Patri":
-                intent = new Intent(ListActivities.this, PatriForm.class);
-                intent.putExtra("ListItem", listitem);
-                intent.putExtra("action", "add");
-                startActivity(intent);
             default:
                 break;
 

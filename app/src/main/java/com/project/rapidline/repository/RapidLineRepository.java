@@ -112,8 +112,10 @@ public class RapidLineRepository {
         return agentDao.getAllAgents();
     }
 
-    public LiveData<Agents> getAgentById(long agentId) {
-        return agentDao.getAgentById(agentId);
+    public Agents getAgentById(long agentId) throws ExecutionException, InterruptedException{
+        Callable<Agents> callable= () -> agentDao.getAgentById(agentId);;
+        Future<Agents> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
 
     public void addAgent(final Agents agent) {
@@ -171,7 +173,6 @@ public class RapidLineRepository {
     }
     public void deleteCustomerById(long cusId){
         BackgroundWork(() -> customerDao.deleteCustomerById(cusId));
-
     }
 
     private void BackgroundWork(Runnable runnable){
@@ -224,116 +225,76 @@ public class RapidLineRepository {
         return labourDao.getAllLabours();
     }
 
-    public LiveData<Labours> getAllLaboursById(long labourId) {
-        return labourDao.getLabourById(labourId);
+    public Labours getAllLaboursById(long labourId) throws ExecutionException, InterruptedException {
+        Callable<Labours> callable= () -> labourDao.getLabourById(labourId);
+        Future<Labours> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
 
     public void addLabour(final Labours labour) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                labourDao.addLabour(labour);
-            }
-        });
+        BackgroundWork(() -> labourDao.addLabour(labour));
     }
 
     public void updateLabour(final Labours labour) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                labourDao.updateLabour(labour);
-            }
-        });
+        BackgroundWork(() -> labourDao.updateLabour(labour));
     }
 
     public void deleteLabour(final Labours labour) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                labourDao.deleteLabour(labour);
-            }
-        });
+        BackgroundWork(() -> labourDao.deleteLabour(labour));
     }
+    public void deleteLabourById(long labourId){
+        BackgroundWork(() -> labourDao.deleteLabourById(labourId));
+    }
+
 
     //Patri
     public LiveData<List<Patri>> getAllPatris() {
         return patriDao.getAllPatris();
     }
 
-    public LiveData<Patri> getPatriById(long patriId) {
-        return patriDao.getPatriById(patriId);
+    public Patri getPatriById(long patriId) throws ExecutionException, InterruptedException {
+        Callable<Patri> callable= () -> patriDao.getPatriById(patriId);
+        Future<Patri> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
 
     public void addPatri(final Patri patri) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                patriDao.addPatri(patri);
-            }
-        });
+        BackgroundWork(() -> patriDao.addPatri(patri));
     }
 
     public void updatePatri(final Patri patri) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                patriDao.updatePatri(patri);
-            }
-        });
+        BackgroundWork(() -> patriDao.updatePatri(patri));
     }
 
     public void deletePatri(final Patri patri) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                patriDao.deletePatri(patri);
-            }
-        });
+        BackgroundWork(() -> patriDao.deletePatri(patri));
     }
+    public void deletePatriById(long patriId){
+        BackgroundWork(() -> patriDao.deletePatriById(patriId));
+    }
+
 
     //Bails
     public LiveData<List<Bails>> getAllBails() {
         return bailDao.getAllBails();
     }
 
-    public LiveData<Bails> getBailsById(long bailId) {
-        return bailDao.getBailById(bailId);
+    public Bails getBailsById(long bailId) throws ExecutionException, InterruptedException {
+        Callable<Bails> callable= () -> bailDao.getBailById(bailId);
+        Future<Bails> future=Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
     }
 
     public void addBail(final Bails bail) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                bailDao.addBail(bail);
-            }
-        });
+        BackgroundWork(() -> bailDao.addBail(bail));
     }
 
     public void updateBail(final Bails bail) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                bailDao.updateBail(bail);
-            }
-        });
+        BackgroundWork(() -> bailDao.updateBail(bail));
     }
 
     public void deleteBail(final Bails bail) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                bailDao.deleteBail(bail);
-            }
-        });
+        BackgroundWork(() -> bailDao.deleteBail(bail));
     }
 
 }

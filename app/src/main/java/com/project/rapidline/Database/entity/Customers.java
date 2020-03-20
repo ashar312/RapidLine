@@ -4,6 +4,7 @@ import java.util.Date;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tbl_customers",
@@ -36,6 +37,11 @@ public class Customers {
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
+
+    @Ignore
+    public Customers(){
+
+    }
 
     public Customers(long id, String companyName, String companyNo, int city, String address, String pocName, String pocNo, int madeBy, Date madeDateTime) {
         this.id = id;
@@ -83,5 +89,37 @@ public class Customers {
 
     public Date getMadeDateTime() {
         return madeDateTime;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyNo(String companyNo) {
+        this.companyNo = companyNo;
+    }
+
+    public void setCity(int city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPocName(String pocName) {
+        this.pocName = pocName;
+    }
+
+    public void setPocNo(String pocNo) {
+        this.pocNo = pocNo;
+    }
+
+    public void setMadeBy(int madeBy) {
+        this.madeBy = madeBy;
+    }
+
+    public void setMadeDateTime(Date madeDateTime) {
+        this.madeDateTime = madeDateTime;
     }
 }

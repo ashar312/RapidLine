@@ -41,7 +41,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
 //        holder.Count.setText(listItems.get(position).getCount());
 //        holder.StrItem.setText(listItems.get(position).getItem());
-        holder.count.setText(position+1);
+        int count=position+1;
+        holder.count.setText(""+count);
         holder.strItem.setText(listItems.get(position).getmItemName());
 
         //To set the click listener to edit and delete

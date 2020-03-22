@@ -82,7 +82,6 @@ public class LabourPatriForm extends AppCompatActivity {
                     //TODO Save admin
 
                     labourEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
-
                     saeedSonsViewModel.updateLabour(labourEditUpdate);
                 }
                 else {

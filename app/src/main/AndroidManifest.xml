@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".Register_Entries" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.AddBailForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Form.TransportersForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.LabourPatriForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.AgentForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Form.SenderRecieverTransporterForm" android:theme="@style/Theme.AppCompat.NoActionBar"/>

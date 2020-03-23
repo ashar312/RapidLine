@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.R;
-import com.project.rapidline.databinding.ActivitySenderRecieverFormBinding;
+import com.project.rapidline.databinding.ActivitySenderTransporterformBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.Calendar;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 public class SenderRecieverTransporterForm extends AppCompatActivity {
 
-    private ActivitySenderRecieverFormBinding senderRecieverFormBinding;
+    private ActivitySenderTransporterformBinding senderRecieverFormBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
     private String action;
     private Customers customerEditUpdate;
@@ -30,7 +30,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        senderRecieverFormBinding = DataBindingUtil.setContentView(this, R.layout.activity_sender_reciever_form);
+        senderRecieverFormBinding = DataBindingUtil.setContentView(this, R.layout.activity_sender_transporterform);
 
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
 

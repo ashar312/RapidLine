@@ -98,4 +98,5 @@ public class Agents {
     public void setMadeDateTime(Date madeDateTime) {
         this.madeDateTime = madeDateTime;
     }
+
 }

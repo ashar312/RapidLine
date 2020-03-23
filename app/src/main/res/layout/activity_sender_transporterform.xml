@@ -22,15 +22,8 @@
 
         <TextView
             android:id="@+id/headerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Sender / Receiver"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold"
+            style="@style/HeaderText"
+            android:text="Sender/Receiver"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

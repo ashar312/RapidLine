@@ -8,6 +8,7 @@ import com.project.rapidline.Database.dao.AgentDao;
 import com.project.rapidline.Database.dao.BailDao;
 import com.project.rapidline.Database.dao.CompanyDao;
 import com.project.rapidline.Database.dao.CustomerDao;
+import com.project.rapidline.Database.dao.ItemDao;
 import com.project.rapidline.Database.dao.LabourDao;
 import com.project.rapidline.Database.dao.PatriDao;
 import com.project.rapidline.Database.dao.TransporterDao;
@@ -46,7 +47,7 @@ public abstract class RapidLineDatabase extends RoomDatabase {
     public abstract LabourDao getLabourDao();
     public abstract PatriDao getPatriDao();
     public abstract TransporterDao getTransporterDao();
-
+    public abstract ItemDao getItemDao();
 
     public static synchronized RapidLineDatabase getInstance(Context context){
         if(instance==null){

@@ -5,6 +5,7 @@ import java.util.Date;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tbl_bails")
@@ -16,12 +17,12 @@ public class Bails {
     @ColumnInfo(name = "biltyNo")
     public String biltyNo;
 
+
     @ColumnInfo(name = "fromCity")
     public int fromCity;
 
     @ColumnInfo(name = "toCity")
     public int toCity;
-
 
     @ForeignKey(entity = KindOfItem.class,parentColumns = "id",childColumns = "kindId")
     @ColumnInfo(name = "kindId",index = true)
@@ -59,6 +60,10 @@ public class Bails {
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
+    @Ignore
+    public Bails(){
+
+    }
 
     public Bails(long id, String biltyNo, int fromCity, int toCity, int kindId, int quantity, int senderId, int receiverId, int transporterId, int agentId, Double volume, Double weight, int madeBy, Date madeDateTime) {
         this.id = id;
@@ -133,4 +138,55 @@ public class Bails {
         return madeDateTime;
     }
 
+    public void setBiltyNo(String biltyNo) {
+        this.biltyNo = biltyNo;
+    }
+
+    public void setFromCity(int fromCity) {
+        this.fromCity = fromCity;
+    }
+
+    public void setToCity(int toCity) {
+        this.toCity = toCity;
+    }
+
+    public void setKindId(int kindId) {
+        this.kindId = kindId;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
+    }
+
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public void setTransporterId(int transporterId) {
+        this.transporterId = transporterId;
+    }
+
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
+    }
+
+    public void setVolume(Double volume) {
+        this.volume = volume;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public void setMadeBy(int madeBy) {
+        this.madeBy = madeBy;
+    }
+
+    public void setMadeDateTime(Date madeDateTime) {
+        this.madeDateTime = madeDateTime;
+    }
 }

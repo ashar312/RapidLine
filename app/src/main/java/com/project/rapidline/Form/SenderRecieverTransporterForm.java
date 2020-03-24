@@ -3,7 +3,7 @@ package com.project.rapidline.Form;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivitySenderTransporterformBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -26,6 +27,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
     private String action;
     private Customers customerEditUpdate;
     private Transporters transporterEditUpdate;
+    private final String CITY_PLACEHOLDER="Select a city";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,17 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         senderRecieverFormBinding = DataBindingUtil.setContentView(this, R.layout.activity_sender_transporterform);
 
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+
+        ArrayList<String> cities= (ArrayList<String>) saeedSonsViewModel.getListAllCities().clone();
+        cities.add(0,CITY_PLACEHOLDER);
+        //Adding spinner
+        ArrayAdapter<String> cityAdapter=new ArrayAdapter<>(this,
+                R.layout.spinner_item,
+                cities);
+        cityAdapter.setDropDownViewResource(R.layout.spinner_item);
+        senderRecieverFormBinding.citySpinner.setAdapter(cityAdapter);
+
+
 
         //Used for both sender and trasporter
 
@@ -66,7 +79,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
             }
         }
 
-        Button button = findViewById(R.id.saveBtn);
+
+
 
         senderRecieverFormBinding.saveBtn.setOnClickListener(view -> {
 
@@ -76,6 +90,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 //Check for adding or updating
                 if (action.equals("edit")){
                     customerEditUpdate.setCompanyName(senderRecieverFormBinding.comanyNameTxt.getText().toString());
@@ -83,8 +98,13 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     customerEditUpdate.setAddress(senderRecieverFormBinding.addressTxt.getText().toString());
                     customerEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     customerEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
-                    //TODO Save admin and date time
 
+                    //add city
+                    customerEditUpdate.setCity(saeedSonsViewModel.getListAllCities()
+                            .indexOf(senderRecieverFormBinding.citySpinner.
+                                    getSelectedItem().toString()));
+
+                    //TODO Save admin and date time
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
                     saeedSonsViewModel.updateCustomer(customerEditUpdate);
@@ -96,6 +116,11 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     customerEditUpdate.setAddress(senderRecieverFormBinding.addressTxt.getText().toString());
                     customerEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     customerEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
+
+                    //add city
+                    customerEditUpdate.setCity(saeedSonsViewModel.getListAllCities()
+                            .indexOf(senderRecieverFormBinding.citySpinner.
+                                    getSelectedItem().toString()));
 
                     //TODO Save admin and date time
                     customerEditUpdate.setMadeBy(1);
@@ -167,6 +192,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         senderRecieverFormBinding.companyNum.setText(transporter.getCompanyNo());
         senderRecieverFormBinding.pointOfname.setText(transporter.getPocName());
         senderRecieverFormBinding.pointOfContactNo.setText(transporter.getPocNo());
+        senderRecieverFormBinding.citySpinner.setSelection(transporter.getCity()+1);
     }
 
     private void loadCustomerData(Customers customer) {
@@ -175,6 +201,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         senderRecieverFormBinding.addressTxt.setText(customer.getAddress());
         senderRecieverFormBinding.pointOfname.setText(customer.getPocName());
         senderRecieverFormBinding.pointOfContactNo.setText(customer.getPocNo());
+        senderRecieverFormBinding.citySpinner.setSelection(customer.getCity()+1);
     }
 
     private Boolean isCustomerDataFieldsEmpty(){
@@ -182,7 +209,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         || TextUtils.isEmpty(senderRecieverFormBinding.companyNum.getText())
         || TextUtils.isEmpty(senderRecieverFormBinding.addressTxt.getText())
         || TextUtils.isEmpty(senderRecieverFormBinding.pointOfname.getText())
-        || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())){
+        || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())
+                || senderRecieverFormBinding.citySpinner.getSelectedItem().toString().equals(CITY_PLACEHOLDER)){
             return true;
         }
         return false;
@@ -192,7 +220,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         if(TextUtils.isEmpty(senderRecieverFormBinding.comanyNameTxt.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.companyNum.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.pointOfname.getText())
-                || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())){
+                || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())
+                || senderRecieverFormBinding.citySpinner.getSelectedItem().toString().equals(CITY_PLACEHOLDER)){
             return true;
         }
         return false;

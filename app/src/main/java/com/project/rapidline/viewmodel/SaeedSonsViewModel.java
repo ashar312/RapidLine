@@ -6,14 +6,16 @@ import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
 import com.project.rapidline.Database.entity.Customers;
+import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
+import com.project.rapidline.Models.StaticClasses;
 import com.project.rapidline.repository.RapidLineRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,7 +24,13 @@ import androidx.lifecycle.LiveData;
 public class SaeedSonsViewModel extends AndroidViewModel {
 
     private RapidLineRepository rapidLineRepository;
-//    private LiveData<List<Cities>> listAllCities;
+
+    public ArrayList<String> getListAllCities() {
+        return listAllCities;
+    }
+
+    private ArrayList<String> listAllCities;
+
     private LiveData<List<Admins>> listAllAdmins;
     private LiveData<List<Agents>> listAllAgents;
     private LiveData<List<Customers>> listAllCustomers;
@@ -30,6 +38,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     private LiveData<List<Labours>> listAllLabours;
     private LiveData<List<Patri>> listAllPatris;
     private LiveData<List<Bails>> listAllBails;
+    private LiveData<List<KindOfItem>> listAllItems;
 
     public SaeedSonsViewModel(@NonNull Application application) {
         super(application);
@@ -43,7 +52,10 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         listAllPatris=rapidLineRepository.getAllPatris();
         listAllBails=rapidLineRepository.getAllBails();
 
-//        listAllCities=rapidLineRepository.getAllCities();
+        listAllCities= StaticClasses.cities;
+
+        listAllItems=rapidLineRepository.getAllItems();
+
     }
 
 //    public LiveData<List<Cities>> getListAllCities() {
@@ -233,4 +245,16 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     public void deleteBail(final Bails bail) {
         rapidLineRepository.deleteBail(bail);
     }
+
+    //Items
+
+    public LiveData<List<KindOfItem>> getListAllItems() {
+        return listAllItems;
+    }
+
+    public void addItem(KindOfItem item){rapidLineRepository.addItem(item);}
+
+    public void updateItem(KindOfItem item){rapidLineRepository.updateItem(item);}
+
+    public void deleteItem(KindOfItem item){rapidLineRepository.deleteItem(item);}
 }

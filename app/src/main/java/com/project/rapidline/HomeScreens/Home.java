@@ -43,6 +43,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Labour,
         Patri,
         AdminSettings,
+        AddBail
     }
 
     @Override
@@ -108,38 +109,40 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.add_bail:
-                startActivity(new Intent(Home.this, AddBailForm.class));
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                Intent intent = new Intent(Home.this, AddBailForm.class);
+                intent.putExtra("action","add");
+                startActivity(intent);
+                break;
 
             case R.id.regEntries:
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
+
             case R.id.sender_receiver:
                 SendDataToListActivities(String.valueOf(Activities.SenderReceiver));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.agents:
                 SendDataToListActivities(String.valueOf(Activities.Agents));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.transporters:
                 SendDataToListActivities(String.valueOf(Activities.Transporters));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.labour:
             //    startActivity(new Intent(Home.this, AR_Navigation.class));
                 SendDataToListActivities(String.valueOf(Activities.Labour));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.patri:
                 SendDataToListActivities(String.valueOf(Activities.Patri));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.adminSettings:
 //                drawerLayout.closeDrawer(GravityCompat.START);

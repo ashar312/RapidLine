@@ -2,9 +2,11 @@ package com.project.rapidline.Database.entity;
 
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tbl_kindOfItem"
@@ -23,12 +25,24 @@ public class KindOfItem {
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
+    @Ignore
+    public KindOfItem(){
+
+    }
+
     public KindOfItem(long id, String name, int madeBy, Date madeDateTime) {
         this.id = id;
         this.name = name;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
     }
+    @Ignore
+    public KindOfItem(long id, String name, int madeBy) {
+        this.id = id;
+        this.name = name;
+        this.madeBy = madeBy;
+    }
+
 
     public long getId() {
         return id;
@@ -45,4 +59,11 @@ public class KindOfItem {
     public Date getMadeDateTime() {
         return madeDateTime;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
 }

@@ -8,6 +8,7 @@ import com.project.rapidline.Database.dao.AgentDao;
 import com.project.rapidline.Database.dao.BailDao;
 import com.project.rapidline.Database.dao.CompanyDao;
 import com.project.rapidline.Database.dao.CustomerDao;
+import com.project.rapidline.Database.dao.ItemDao;
 import com.project.rapidline.Database.dao.LabourDao;
 import com.project.rapidline.Database.dao.PatriDao;
 import com.project.rapidline.Database.dao.TransporterDao;
@@ -15,6 +16,7 @@ import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
 import com.project.rapidline.Database.entity.Customers;
+import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
@@ -40,6 +42,7 @@ public class RapidLineRepository {
     private LabourDao labourDao;
     private PatriDao patriDao;
     private TransporterDao transporterDao;
+    private ItemDao itemDao;
 
     public RapidLineRepository(Application application) {
         this.application = application;
@@ -54,7 +57,7 @@ public class RapidLineRepository {
         labourDao = rapidLineDatabase.getLabourDao();
         patriDao = rapidLineDatabase.getPatriDao();
         transporterDao = rapidLineDatabase.getTransporterDao();
-//        cityDao=rapidLineDatabase.getCityDao();
+        itemDao=rapidLineDatabase.getItemDao();
     }
 
     //
@@ -296,5 +299,14 @@ public class RapidLineRepository {
     public void deleteBail(final Bails bail) {
         BackgroundWork(() -> bailDao.deleteBail(bail));
     }
+
+    //Items
+    public LiveData<List<KindOfItem>> getAllItems(){return itemDao.getAllItem();}
+
+    public void addItem(KindOfItem item){BackgroundWork(()->itemDao.addItem(item));}
+
+    public void updateItem(KindOfItem item){BackgroundWork(()->itemDao.updateItem(item));}
+
+    public void deleteItem(KindOfItem item){BackgroundWork(()->itemDao.deleteItem(item));}
 
 }

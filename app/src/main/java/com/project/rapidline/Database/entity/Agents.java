@@ -2,6 +2,7 @@ package com.project.rapidline.Database.entity;
 
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -45,6 +46,13 @@ public class Agents {
         this.dealAmount = dealAmount;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
+    }
+
+    @Ignore
+    public Agents(long id, String agentName,int madeBy) {
+        this.id = id;
+        this.agentName = agentName;
+        this.madeBy = madeBy;
     }
 
     public long getId() {
@@ -99,4 +107,9 @@ public class Agents {
         this.madeDateTime = madeDateTime;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return this.agentName;
+    }
 }

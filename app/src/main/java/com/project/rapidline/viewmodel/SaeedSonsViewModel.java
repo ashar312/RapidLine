@@ -10,12 +10,15 @@ import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
+import com.project.rapidline.Models.BailMinimal;
 import com.project.rapidline.Models.StaticClasses;
 import com.project.rapidline.repository.RapidLineRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -63,6 +66,15 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 //    }
 
 
+    public List<BailMinimal> data(){
+        try {
+            return rapidLineRepository.getBailsrv();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public LiveData<List<Admins>> getListAllAdmins() {
         return listAllAdmins;
     }
@@ -77,6 +89,19 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         }
         return null;
     }
+
+    public void addAdmin(final Admins admin) {
+        rapidLineRepository.addAdmin(admin);
+    }
+
+    public void updateAdmin(final Admins admin) {
+        rapidLineRepository.updateAdmin(admin);
+    }
+
+    public void deleteAdmin(final Admins admin) {
+        rapidLineRepository.deleteAdmin(admin);
+    }
+
 
     //Agents
     public LiveData<List<Agents>> getListAllAgents() {

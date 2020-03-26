@@ -80,10 +80,12 @@ public abstract class RapidLineDatabase extends RoomDatabase {
 
         private AdminDao adminDao;
         private CompanyDao companyDao;
+        private ItemDao itemDao;
 
         public InitializeDataAsyncTask(RapidLineDatabase rapidLineDatabase){
             adminDao=rapidLineDatabase.getAdminDao();
             companyDao=rapidLineDatabase.getCompanyDao();
+            itemDao=rapidLineDatabase.getItemDao();
         }
 
         @Override
@@ -104,9 +106,10 @@ public abstract class RapidLineDatabase extends RoomDatabase {
             Admins admin1=new Admins();
             admin1.setUsername("admin");
             admin1.setPass("admin");
-            admin1.setCompanyId(1);
 
             adminDao.addAdmin(admin1);
+
+            itemDao.addItem(new KindOfItem("Bella Ciao",1));
 
             return null;
         }

@@ -20,6 +20,7 @@ import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
+import com.project.rapidline.Models.BailMinimal;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -286,6 +287,12 @@ public class RapidLineRepository {
         Callable<Bails> callable= () -> bailDao.getBailById(bailId);
         Future<Bails> future=Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
+    }
+
+    public List<BailMinimal> getBailsrv() throws ExecutionException, InterruptedException {
+        Callable<List<BailMinimal>> minimalCallable=()->bailDao.getBailsRv();
+        Future<List<BailMinimal>> listFuture=Executors.newSingleThreadExecutor().submit(minimalCallable);
+        return listFuture.get();
     }
 
     public void addBail(final Bails bail) {

@@ -15,15 +15,20 @@ public class Admins {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
-    @ForeignKey(entity = CompanyDetails.class,parentColumns = "id",childColumns = "companyId")
-    @ColumnInfo(name = "companyId")
-    public int companyId;
+    @ColumnInfo(name = "adminName")
+    public String adminName;
 
     @ColumnInfo(name = "username")
     public String username;
 
     @ColumnInfo(name = "password")
     public String pass;
+
+    @ColumnInfo(name = "number")
+    public String contactNo;
+
+    @ColumnInfo(name = "nic")
+    public String nic;
 
     @ColumnInfo(name = "madeBy")
     public String madeBy;
@@ -33,14 +38,15 @@ public class Admins {
 
     @Ignore
     public Admins(){
-
     }
 
-    public Admins(long id, int companyId, String username, String pass, String madeBy, Date madeDateTime) {
+    public Admins(long id, String adminName, String username, String pass, String contactNo, String nic, String madeBy, Date madeDateTime) {
         this.id = id;
-        this.companyId = companyId;
+        this.adminName = adminName;
         this.username = username;
         this.pass = pass;
+        this.contactNo = contactNo;
+        this.nic = nic;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
     }
@@ -49,44 +55,60 @@ public class Admins {
         return id;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getPass() {
-        return pass;
-    }
-
-    public String getMadeBy() {
-        return madeBy;
-    }
-
-    public Date getMadeDateTime() {
-        return madeDateTime;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPass() {
+        return pass;
     }
 
     public void setPass(String pass) {
         this.pass = pass;
     }
 
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getMadeBy() {
+        return madeBy;
+    }
+
     public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
+    }
+
+    public Date getMadeDateTime() {
+        return madeDateTime;
     }
 
     public void setMadeDateTime(Date madeDateTime) {

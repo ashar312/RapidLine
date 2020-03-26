@@ -13,5 +13,9 @@ public class StaticClasses {
         add("Multan");
     }};
 
+    public static ArrayList<String> sortOrder=new ArrayList<String>(){{
+       add("Sort By");
+        add("Date");
+    }};
 
 }

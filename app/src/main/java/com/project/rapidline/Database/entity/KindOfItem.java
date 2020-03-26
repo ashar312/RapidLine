@@ -36,9 +36,9 @@ public class KindOfItem {
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
     }
+
     @Ignore
-    public KindOfItem(long id, String name, int madeBy) {
-        this.id = id;
+    public KindOfItem(String name, int madeBy) {
         this.name = name;
         this.madeBy = madeBy;
     }

@@ -63,4 +63,8 @@ dependencies {
 
     //Validation library
     implementation 'com.basgeekball:awesome-validation:4.2'
+
+    //Labeled switch
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
 }

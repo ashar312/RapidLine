@@ -18,10 +18,13 @@ import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import com.project.rapidline.AdminRights;
 import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Form.AddBailForm;
+import com.project.rapidline.Form.AdminForm;
 import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
 import com.project.rapidline.R;
+import com.project.rapidline.Register_Entries;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.List;
@@ -115,7 +118,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.regEntries:
-                drawerLayout.closeDrawer(GravityCompat.START);
+                startActivity(new Intent(this, Register_Entries.class));
+
                 break;
 
             case R.id.sender_receiver:
@@ -145,6 +149,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.adminSettings:
+                startActivity(new Intent(this, AdminForm.class));
+                break;
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             case R.id.LoginBtn:

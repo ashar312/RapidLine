@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/normalbackground"
+        android:layout_height="match_parent"
+        tools:context=".Form.AdminForm">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <EditText
+            android:id="@+id/admin_name_txt"
+            style="@style/FormInputTextFields"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Admin Name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+        <EditText
+            android:id="@+id/username_txt"
+            style="@style/FormInputTextFields"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/admin_name_txt"
+            app:layout_constraintStart_toStartOf="@+id/admin_name_txt"
+            app:layout_constraintTop_toBottomOf="@+id/admin_name_txt" />
+
+        <EditText
+            android:id="@+id/pass_txt"
+            style="@style/FormInputTextFields"
+            android:hint="Password"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/username_txt"
+            app:layout_constraintStart_toStartOf="@+id/username_txt"
+            app:layout_constraintTop_toBottomOf="@+id/username_txt" />
+
+        <EditText
+            android:id="@+id/contact_no_txt"
+            style="@style/FormInputTextFields"
+            android:hint="Password"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/pass_txt"
+            app:layout_constraintStart_toStartOf="@+id/pass_txt"
+            app:layout_constraintTop_toBottomOf="@+id/pass_txt" />
+
+        <EditText
+            android:id="@+id/nic_txt"
+            style="@style/FormInputTextFields"
+            android:hint="NIC(Optional)"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/contact_no_txt"
+            app:layout_constraintStart_toStartOf="@+id/contact_no_txt"
+            app:layout_constraintTop_toBottomOf="@+id/contact_no_txt" />
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/buttonshape"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintDimensionRatio="w,7:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nic_txt" />
+
+        <TextView
+            android:id="@+id/textView13"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Admins"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

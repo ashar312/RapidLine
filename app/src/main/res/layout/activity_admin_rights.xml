@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/normalbackground"
+        tools:context=".AdminRights">
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/HeaderText"
+            android:text="Admin Rights"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="BAILS"
+            android:textColor="@color/Dark_gray"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Allow Add Bails"
+            android:textColor="@color/Dark_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/add_bails_switch"
+            android:layout_width="wrap_content"
+            app:sb_uncheckcircle_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView14"
+            app:sb_background="@color/Dark_gray"
+            app:sb_checked_color="@color/Brown"
+            app:sb_show_indicator="false" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Allow Edit Bails"
+            android:textColor="@color/Dark_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView14"
+            app:layout_constraintTop_toBottomOf="@+id/add_bails_switch" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/edit_bails_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/add_bails_switch"
+            app:layout_constraintTop_toTopOf="@+id/textView17"
+            app:sb_background="@color/Dark_gray"
+            app:sb_checked_color="@color/Brown"
+            app:sb_show_indicator="false"
+            app:sb_uncheckcircle_width="2dp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Allow Delete Bails"
+            android:textColor="@color/Dark_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/edit_bails_switch" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/delete_bails_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/edit_bails_switch"
+            app:layout_constraintTop_toTopOf="@+id/textView18"
+            app:sb_background="@color/Dark_gray"
+            app:sb_checked_color="@color/Brown"
+            app:sb_show_indicator="false"
+            app:sb_uncheckcircle_width="2dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

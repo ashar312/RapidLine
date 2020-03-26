@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@drawable/spinnerbck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -16,59 +17,60 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/sender_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:text="Sender Name"
+            android:textColor="@color/Dark_gray"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/name_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ahsun Iqbal"
+            android:textColor="@color/Brown"
             android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView14"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintEnd_toEndOf="@+id/date_txt"
+            app:layout_constraintTop_toBottomOf="@+id/date_txt" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/receiver_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:text="Receiver Name"
+            android:textColor="@color/Dark_gray"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/builty_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="333/4"
+            android:textColor="@color/Dark_gray"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/date_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
             android:text="2nd Jan 2019"
+            android:textColor="@color/Dark_gray"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:layout_constraintStart_toStartOf="@+id/builty_no"
+            app:layout_constraintTop_toBottomOf="@+id/builty_no"
             app:srcCompat="@drawable/empty_dot" />
 
         <TextView
@@ -107,7 +109,7 @@
             app:srcCompat="@drawable/filled_dot" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/print_btn"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginEnd="10dp"

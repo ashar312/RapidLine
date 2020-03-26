@@ -20,6 +20,7 @@ import com.project.rapidline.databinding.ActivityAddBailFormBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AddBailForm extends AppCompatActivity {
@@ -68,6 +69,8 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
                 bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
 
+                bailEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
+                //TODO add admin field
                 saeedSonsViewModel.updateBail(bailEditUpdate);
             }
             else {
@@ -78,14 +81,18 @@ public class AddBailForm extends AppCompatActivity {
 
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItemPosition()-1);
                 bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItemPosition()-1);
-                bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItemPosition()-1);
-                bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItemPosition()-1);
-                bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItemPosition()-1);
-                bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItemPosition()-1);
-                bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItemPosition()-1);
+                bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItemPosition());
+                bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItemPosition());
+                bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItemPosition());
+                bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItemPosition());
+                bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItemPosition());
 
                 bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
                 bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
+
+
+                bailEditUpdate.setMadeBy(1);
+                bailEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
                 saeedSonsViewModel.addBail(bailEditUpdate);
 
@@ -173,10 +180,11 @@ public class AddBailForm extends AppCompatActivity {
 
         //Load kind of data
         saeedSonsViewModel.getListAllItems().observe(this, kindOfItems -> {
-            kindOfItems.add(new KindOfItem(0, "Kind", 1));
+            List<KindOfItem> itemList=new ArrayList<>(kindOfItems);
+            itemList.add(0,new KindOfItem("Kind", 1));
 
             ArrayAdapter<KindOfItem> itemArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
-                    R.layout.spinner_item, kindOfItems);
+                    R.layout.spinner_item, itemList);
             itemArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             activityAddBailFormBinding.kindSpinner.setAdapter(itemArrayAdapter);
 
@@ -236,5 +244,6 @@ public class AddBailForm extends AppCompatActivity {
     private String generateBuiltyNo(){
         return "bala";
     }
+
 
 }

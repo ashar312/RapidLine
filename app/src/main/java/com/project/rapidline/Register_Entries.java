@@ -6,26 +6,34 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
+
 import android.widget.ArrayAdapter;
 
-import com.project.rapidline.Database.entity.Customers;
+
 import com.project.rapidline.HomeScreens.Adapter.EnteriesAdapter;
-import com.project.rapidline.HomeScreens.Adapter.ListAdapter;
+
+import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
 import com.project.rapidline.Models.BailMinimal;
 import com.project.rapidline.Models.StaticClasses;
+import com.project.rapidline.PrintOut.PrintOutActivity;
 import com.project.rapidline.databinding.ActivityRegisterEntriesBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class Register_Entries extends AppCompatActivity {
+public class Register_Entries extends AppCompatActivity implements OnItemClickListener {
 
     private ActivityRegisterEntriesBinding entriesBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
     private EnteriesAdapter enteriesAdapter;
+    private List<BailMinimal> minimalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +42,50 @@ public class Register_Entries extends AppCompatActivity {
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
 
         //Initialize sort spinner
-        ArrayList<String> sortOrder= StaticClasses.sortOrder;
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(this,
+        ArrayList<String> sortOrder = StaticClasses.sortOrder;
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item,
                 sortOrder);
         entriesBinding.sortSpinner.setAdapter(arrayAdapter);
-
         setupRecyclerView();
+
+
+        entriesBinding.searchTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                enteriesAdapter.getFilter().filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+//        entriesBinding.sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                String spinnerItem=entriesBinding.sortSpinner.getSelectedItem().toString();
+//
+//                //Sort Order
+//                if(spinnerItem.equals(StaticClasses.sortOrder.get(0))){
+//                    enteriesAdapter.setBailsArrayList((ArrayList<BailMinimal>) minimalList);
+//                }
+//                else {
+//                    sortBails(spinnerItem);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
 //        saeedSonsViewModel.getListAllCustomers().observe(this, customers -> {
 //            for (Customers cust : customers
@@ -67,12 +112,56 @@ public class Register_Entries extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        enteriesAdapter=new EnteriesAdapter(this,new ArrayList<>());
+        enteriesAdapter = new EnteriesAdapter(this, new ArrayList<>(), this);
         entriesBinding.enteriesRv.setLayoutManager(new LinearLayoutManager(this));
         entriesBinding.enteriesRv.setAdapter(enteriesAdapter);
         entriesBinding.enteriesRv.setItemAnimator(new DefaultItemAnimator());
 
-        enteriesAdapter.setBailsArrayList((ArrayList<BailMinimal>) saeedSonsViewModel.data());
+
+        minimalList = saeedSonsViewModel.data();
+        enteriesAdapter.setBailsArrayList((ArrayList<BailMinimal>) minimalList);
     }
 
+    private void sortBails(String field) {
+        ArrayList<BailMinimal> sortedList = new ArrayList<>(minimalList);
+        switch (field) {
+            case "Date":
+                Collections.sort(sortedList, new Comparator<BailMinimal>() {
+                    @Override
+                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
+                        return bailMinimal.getTime().compareTo(t1.getTime());
+                    }
+                });
+
+
+            case "Online":
+                Collections.sort(sortedList, new Comparator<BailMinimal>() {
+                    @Override
+                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
+                        return bailMinimal.getTime().compareTo(t1.getTime());
+                    }
+                });
+
+            case "Offline":
+                Collections.sort(sortedList, new Comparator<BailMinimal>() {
+                    @Override
+                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
+                        return bailMinimal.getTime().compareTo(t1.getTime());
+                    }
+                });
+
+        }
+        enteriesAdapter.setBailsArrayList(sortedList);
+    }
+
+    //Click listener for print
+    @Override
+    public void onItemClick(long itemId, String action) {
+
+        Intent intent=new Intent(Register_Entries.this, PrintOutActivity.class);
+        intent.putExtra("action",action);
+        intent.putExtra("itemId",itemId);
+        startActivity(intent);
+
+    }
 }

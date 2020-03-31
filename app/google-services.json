@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1621985384:android:a3d50d6c1e291affcc93dd",
+        "mobilesdk_app_id": "1:1621985384:android:d2aac53e48e2571acc93dd",
         "android_client_info": {
           "package_name": "com.project.rapidline"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1621985384-qa61cijbkdvhucu1pcg3117i01b2fet7.apps.googleusercontent.com",
+          "client_id": "1621985384-cgqhmoj20hsdft5d24728jbigbkadvvf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.project.rapidline",
-            "certificate_hash": "c4ca321b43e9893298691e631e7fa4a1e6db9877"
+            "certificate_hash": "61cd7062cabfb2b6b2236830bdee2c993775b42f"
           }
         },
         {

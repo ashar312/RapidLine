@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/normalbackground"
     android:layout_height="match_parent"
     tools:context=".PrintOut.PrintOutActivity">
 
     <Button
         android:id="@+id/print_btn"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_width="240dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="68dp"
         android:text="PrintOut"
         android:textSize="20dp"
+        android:background="@drawable/buttonshape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

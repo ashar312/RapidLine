@@ -104,7 +104,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return myFilter;
     }
 
-
     private Filter myFilter=new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -134,8 +133,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
             listItems.clear();
             listItems.addAll((Collection<? extends ListItems>) filterResults.values);
             notifyDataSetChanged();
-        }
 
+        }
     };
 
 

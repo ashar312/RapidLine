@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -33,8 +34,12 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.project.rapidline.Database.entity.Bails;
+import com.project.rapidline.Models.BailMinimal;
 import com.project.rapidline.Models.Common;
+import com.project.rapidline.Models.StaticClasses;
 import com.project.rapidline.R;
+import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,11 +47,25 @@ import java.io.FileOutputStream;
 
 public class PrintOutActivity extends AppCompatActivity {
 
+    private SaeedSonsViewModel saeedSonsViewModel;
+    private BailMinimal bailData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_out);
+        saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+
+
+        //Get Bail to print
+        Bundle bundle = getIntent().getExtras();
+        long bailId=bundle.getLong("itemId");
+        bailData=saeedSonsViewModel.getBailPrintData(bailId);
+        Toast.makeText(this,"Item id"+bailId,Toast.LENGTH_SHORT).show();
+
+        //Setup Print button and permissions
         final Button printBtn = findViewById(R.id.print_btn);
+
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new PermissionListener() {
@@ -57,6 +76,7 @@ public class PrintOutActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 CreatePDFfile(Common.getAppPath(PrintOutActivity.this) + "test_pdf.pdf");
+
                             }
                         });
                     }
@@ -72,6 +92,7 @@ public class PrintOutActivity extends AppCompatActivity {
                     }
                 })
                 .check();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -99,38 +120,90 @@ public class PrintOutActivity extends AppCompatActivity {
 
                 BaseFont baseFont = BaseFont.createFont("assets/fonts/brandon_medium.otf","UTF-8",BaseFont.EMBEDDED);
                 //Create Title of document
-                Font titlefont = new Font(baseFont,36.0f,Font.NORMAL,BaseColor.BLACK);
-                addNewItem(document,"Order details", Element.ALIGN_CENTER,titlefont);
 
-                Font ordernumberfont = new Font(baseFont,36.0f,Font.NORMAL,BaseColor.BLACK);
-                addNewItem(document,"Order details", Element.ALIGN_CENTER,ordernumberfont);
+                //Fonts
+                Font titlefont = new Font(baseFont,45.0f,Font.BOLD,BaseColor.BLACK);
+                Font subtitleFont=new Font(baseFont,36.0f,Font.BOLD,BaseColor.BLACK);
+                Font textFont=new Font(baseFont,30.0f,Font.NORMAL,BaseColor.BLACK);
 
-                Font ordernumbervaluefont = new Font(baseFont,36.0f,Font.NORMAL,BaseColor.BLACK);
-                addNewItem(document,"Order details", Element.ALIGN_CENTER,ordernumbervaluefont);
+                addNewItem(document,"Bail Slip",Element.ALIGN_CENTER,titlefont);
 
+                //Builty No
                 addLineSeperator(document);
-
-                addNewItem(document,"Account Name", Element.ALIGN_CENTER,ordernumberfont);
-                addNewItem(document,"Ashar", Element.ALIGN_CENTER,ordernumbervaluefont);
-
-                addLineSeperator(document);
-
+                addNewItem(document,"Bilty No",Element.ALIGN_LEFT,subtitleFont);
                 addLineSpace(document);
-                addNewItem(document,"Product Detail", Element.ALIGN_CENTER,titlefont);
+                addNewItem(document,bailData.getBiltyNo(),Element.ALIGN_LEFT,textFont);
                 addLineSeperator(document);
 
-                AddNewItemWithLeftAndRight(document,"Pizza 25","(0.0%)",titlefont,ordernumbervaluefont);
-                AddNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titlefont,ordernumbervaluefont);
 
+                //kind qty
+                AddNewItemWithLeftAndRight(document,"Kind","Quantity",subtitleFont,subtitleFont);
+                AddNewItemWithLeftAndRight(document, bailData.getItemName(),
+                        String.valueOf(bailData.getQuantity()), textFont,textFont);
                 addLineSeperator(document);
 
-                AddNewItemWithLeftAndRight(document,"Pizza 25","(0.0%)",titlefont,ordernumbervaluefont);
-                AddNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titlefont,ordernumbervaluefont);
 
-                addLineSpace(document);
-                addLineSpace(document);
+                //From and to Details
+                AddNewItemWithLeftAndRight(document,"From","To",subtitleFont,subtitleFont);
+                AddNewItemWithLeftAndRight(document, StaticClasses.cities.get(Integer.valueOf(bailData.getFromCity())) ,
+                        StaticClasses.cities.get(Integer.valueOf(bailData.getToCity())), textFont,textFont);
+                addLineSeperator(document);
 
-                AddNewItemWithLeftAndRight(document,"Total","24000.0",titlefont,ordernumbervaluefont);
+                //Sender Receiver
+                AddNewItemWithLeftAndRight(document,"Sender","Receiver",subtitleFont,subtitleFont);
+                AddNewItemWithLeftAndRight(document, bailData.getSendName() ,
+                        bailData.getReceiverName(), textFont,textFont);
+                addLineSeperator(document);
+
+
+                //Transporter
+                addNewItem(document,"Transporter",Element.ALIGN_LEFT,subtitleFont);
+                addLineSpace(document);
+                addNewItem(document,bailData.getTransporterName(),Element.ALIGN_LEFT,textFont);
+                addLineSeperator(document);
+
+                //agent
+                addNewItem(document,"Agent",Element.ALIGN_LEFT,subtitleFont);
+                addLineSpace(document);
+                addNewItem(document,bailData.getName(),Element.ALIGN_LEFT,textFont);
+                addLineSeperator(document);
+
+
+                //Volume weigth
+                AddNewItemWithLeftAndRight(document,"Volume","Weight",subtitleFont,subtitleFont);
+                AddNewItemWithLeftAndRight(document, bailData.getVolume().toString() ,
+                        bailData.getWeight().toString(), textFont,textFont);
+                addLineSeperator(document);
+
+//
+//                Font ordernumberfont = new Font(baseFont,36.0f,Font.NORMAL,BaseColor.BLACK);
+//
+//                Font ordernumbervaluefont = new Font(baseFont,36.0f,Font.NORMAL,BaseColor.BLACK);
+//                addNewItem(document,"Order details", Element.ALIGN_CENTER,ordernumbervaluefont);
+//
+//                addLineSeperator(document);
+//
+//                addNewItem(document,"Account Name", Element.ALIGN_CENTER,ordernumberfont);
+//                addNewItem(document,"Ashar", Element.ALIGN_CENTER,ordernumbervaluefont);
+//
+//                addLineSeperator(document);
+//
+//                addLineSpace(document);
+//                addNewItem(document,"Product Detail", Element.ALIGN_CENTER,titlefont);
+//                addLineSeperator(document);
+//
+//                AddNewItemWithLeftAndRight(document,"Pizza 25","(0.0%)",titlefont,ordernumbervaluefont);
+//                AddNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titlefont,ordernumbervaluefont);
+//
+//                addLineSeperator(document);
+//
+//                AddNewItemWithLeftAndRight(document,"Pizza 25","(0.0%)",titlefont,ordernumbervaluefont);
+//                AddNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titlefont,ordernumbervaluefont);
+//
+//                addLineSpace(document);
+//                addLineSpace(document);
+//
+//                AddNewItemWithLeftAndRight(document,"Total","24000.0",titlefont,ordernumbervaluefont);
 
                 document.close();
 
@@ -178,6 +251,7 @@ public class PrintOutActivity extends AppCompatActivity {
         addLineSpace(document);
 
     }
+
     private void addLineSpace(Document document)throws DocumentException{
         document.add(new Paragraph(""));
     }
@@ -190,4 +264,5 @@ public class PrintOutActivity extends AppCompatActivity {
         document.add(paragraph);
 
     }
+
 }

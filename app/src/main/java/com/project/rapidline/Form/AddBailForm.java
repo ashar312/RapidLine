@@ -242,7 +242,7 @@ public class AddBailForm extends AppCompatActivity {
     }
 
     private String generateBuiltyNo(){
-        return "bala";
+        return "1";
     }
 
 

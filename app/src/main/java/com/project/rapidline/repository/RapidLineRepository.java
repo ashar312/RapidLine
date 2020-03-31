@@ -295,6 +295,12 @@ public class RapidLineRepository {
         return listFuture.get();
     }
 
+    public BailMinimal getBailPrintData(long bailId) throws ExecutionException, InterruptedException{
+        Callable<BailMinimal> minimalCallable=()->bailDao.getBailPrint(bailId);
+        Future<BailMinimal> listFuture=Executors.newSingleThreadExecutor().submit(minimalCallable);
+        return listFuture.get();
+    }
+
     public void addBail(final Bails bail) {
         BackgroundWork(() -> bailDao.addBail(bail));
     }

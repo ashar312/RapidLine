@@ -66,15 +66,6 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 //    }
 
 
-    public List<BailMinimal> data(){
-        try {
-            return rapidLineRepository.getBailsrv();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public LiveData<List<Admins>> getListAllAdmins() {
         return listAllAdmins;
     }
@@ -253,6 +244,23 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     public Bails getBailById(long bailId) {
         try {
             return rapidLineRepository.getBailsById(bailId);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<BailMinimal> data(){
+        try {
+            return rapidLineRepository.getBailsrv();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public BailMinimal getBailPrintData(long bailId){
+        try {
+            return rapidLineRepository.getBailPrintData(bailId);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

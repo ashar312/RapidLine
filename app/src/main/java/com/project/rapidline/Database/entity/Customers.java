@@ -1,6 +1,9 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -9,12 +12,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_customers",
-foreignKeys = @ForeignKey(entity = Admins.class,parentColumns = "id",childColumns = "madeBy"))
 public class Customers {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
     @ColumnInfo(name = "companyName")
     public String companyName;
@@ -23,7 +21,7 @@ public class Customers {
     public String companyNo;
 
     @ColumnInfo(name = "city")
-    public int city;
+    public String city;
 
     @ColumnInfo(name = "address")
     public String address;
@@ -34,8 +32,8 @@ public class Customers {
     @ColumnInfo(name = "pocNo")
     public String pocNo;
 
-    @ColumnInfo(name = "madeBy",index = true)
-    public int madeBy;
+
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
@@ -45,8 +43,8 @@ public class Customers {
 
     }
 
-    public Customers(long id, String companyName, String companyNo, int city, String address, String pocName, String pocNo, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public Customers( String companyName, String companyNo, String  city, String address, String pocName, String pocNo, String madeBy, Date madeDateTime) {
+
         this.companyName = companyName;
         this.companyNo = companyNo;
         this.city = city;
@@ -57,16 +55,24 @@ public class Customers {
         this.madeDateTime = madeDateTime;
     }
 
+
     @Ignore
-    public Customers(long id, String companyName, int madeBy){
-        this.id = id;
+    public Customers( String companyName){
         this.companyName = companyName;
-        this.madeBy = madeBy;
     }
 
-    public long getId() {
-        return id;
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("companyNo",this.getCompanyNo());
+        map.put("city",this.getCity());
+        map.put("address",this.getAddress());
+        map.put("pocName",this.getPocName());
+        map.put("pocNo",this.getPocNo());
+        map.put("madeBy",this.getMadeBy());
+        map.put("madeDateTime",this.getMadeDateTime());
+        return map;
     }
+
 
     public String getCompanyName() {
         return companyName;
@@ -76,7 +82,7 @@ public class Customers {
         return companyNo;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
@@ -92,7 +98,7 @@ public class Customers {
         return pocNo;
     }
 
-    public int getMadeBy() {
+    public String getMadeBy() {
         return madeBy;
     }
 
@@ -108,7 +114,7 @@ public class Customers {
         this.companyNo = companyNo;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
@@ -124,7 +130,7 @@ public class Customers {
         this.pocNo = pocNo;
     }
 
-    public void setMadeBy(int madeBy) {
+    public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
     }
 

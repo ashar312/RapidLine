@@ -26,17 +26,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.EnterieViewHolder> implements Filterable {
 
-    private ArrayList<BailMinimal> bailsArrayList;
+    private ArrayList<Bails> bailsArrayList;
     private Context mCtx;
-    private List<BailMinimal> bailCopyList;
+    private List<Bails> bailCopyList;
     private OnItemClickListener onItemClickListener;
+    private OnNoteListener mOnNoteListener;
 
 
-    public EnteriesAdapter(Context mCtx,ArrayList<BailMinimal> bailsArrayList, OnItemClickListener clickListener) {
+    public EnteriesAdapter(Context mCtx,ArrayList<Bails> bailsArrayList, OnItemClickListener clickListener,OnNoteListener onNoteListener) {
         this.bailsArrayList = bailsArrayList;
         this.mCtx = mCtx;
         this.onItemClickListener = clickListener;
         bailCopyList=new ArrayList<>(this.bailsArrayList);
+        this.mOnNoteListener=onNoteListener;
     }
 
     @NonNull
@@ -44,20 +46,20 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
     public EnterieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cell_register,
                 parent,false);
-        return new EnterieViewHolder(view);
+        return new EnterieViewHolder(view,mOnNoteListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EnterieViewHolder holder, int position) {
         holder.builty_no.setText(bailsArrayList.get(position).getBiltyNo());
-        holder.sender_txt.setText(bailsArrayList.get(position).getSendName());
-        holder.receiver_txt.setText(bailsArrayList.get(position).getReceiverName());
-        holder.name_txt.setText(bailsArrayList.get(position).getName());
-        holder.date_txt.setText(formattedDate(bailsArrayList.get(position).getTime()));
+        holder.sender_txt.setText(bailsArrayList.get(position).getSenderId());
+        holder.receiver_txt.setText(bailsArrayList.get(position).getReceiverId());
+        holder.name_txt.setText(bailsArrayList.get(position).getMadeBy());
+        holder.date_txt.setText(formattedDate(bailsArrayList.get(position).getMadeDateTime()));
 
         //Set click listeners for print
         if(onItemClickListener!=null){
-            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getId(),"print"));
+            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getBiltyNo(),"print"));
         }
 
     }
@@ -72,10 +74,43 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         return bailsArrayList.size();
     }
 
-    public void setBailsArrayList(ArrayList<BailMinimal> bailsArrayList) {
+
+    public class EnterieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView sender_txt,receiver_txt,date_txt,builty_no,name_txt;
+        Button print_btn;
+        OnNoteListener onNoteListener;
+
+        public EnterieViewHolder(@NonNull View itemView,OnNoteListener onNoteListener) {
+            super(itemView);
+            this.onNoteListener=onNoteListener;
+            sender_txt=itemView.findViewById(R.id.sender_name);
+            receiver_txt=itemView.findViewById(R.id.receiver_name);
+            builty_no=itemView.findViewById(R.id.builty_no);
+            date_txt=itemView.findViewById(R.id.date_txt);
+            name_txt=itemView.findViewById(R.id.name_txt);
+            print_btn=itemView.findViewById(R.id.print_btn);
+
+            itemView.setOnClickListener(this::onClick);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.onNoteClick(bailsArrayList.get(getAdapterPosition()).getBiltyNo());
+        }
+    }
+
+    public interface OnNoteListener{
+        void onNoteClick(String itemId);
+    }
+
+    public void setBailsArrayList(ArrayList<Bails> bailsArrayList) {
         this.bailsArrayList = bailsArrayList;
         bailCopyList=new ArrayList<>(this.bailsArrayList);
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Bails> getBailsArrayList() {
+        return bailsArrayList;
     }
 
     @Override
@@ -83,26 +118,11 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         return myFilter;
     }
 
-    public class EnterieViewHolder extends RecyclerView.ViewHolder{
-        TextView sender_txt,receiver_txt,date_txt,builty_no,name_txt;
-        Button print_btn;
-
-        public EnterieViewHolder(@NonNull View itemView) {
-            super(itemView);
-            sender_txt=itemView.findViewById(R.id.sender_name);
-            receiver_txt=itemView.findViewById(R.id.receiver_name);
-            builty_no=itemView.findViewById(R.id.builty_no);
-            date_txt=itemView.findViewById(R.id.date_txt);
-            name_txt=itemView.findViewById(R.id.name_txt);
-            print_btn=itemView.findViewById(R.id.print_btn);
-        }
-    }
-
     private Filter myFilter=new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
-            List<BailMinimal> filtredList=new ArrayList<>();
+            List<Bails> filtredList=new ArrayList<>();
 
             if(charSequence==null || charSequence.length()==0){
                 filtredList.addAll(bailCopyList);
@@ -110,7 +130,7 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
             else {
                 String filterPattern=charSequence.toString().toLowerCase().trim();
 
-                for(BailMinimal bailList:bailCopyList){
+                for(Bails bailList:bailCopyList){
                     if(bailList.getBiltyNo().toLowerCase().contains(filterPattern)){
                         filtredList.add(bailList);
                     }
@@ -127,7 +147,7 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             bailsArrayList.clear();
-            bailsArrayList.addAll((Collection<? extends BailMinimal>) filterResults.values);
+            bailsArrayList.addAll((Collection<? extends Bails>) filterResults.values);
             notifyDataSetChanged();
         }
     };

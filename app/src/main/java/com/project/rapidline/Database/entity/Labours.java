@@ -1,6 +1,7 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -8,12 +9,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_labours",
-        foreignKeys = @ForeignKey(entity = Admins.class,parentColumns = "id",childColumns = "madeBy"))
 public class Labours {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
     @ColumnInfo(name = "name")
     public String name;
@@ -24,8 +20,8 @@ public class Labours {
     @ColumnInfo(name = "phoneNumber")
     public String phoneNo;
 
-    @ColumnInfo(name = "madeBy",index = true)
-    public int madeBy;
+    @ColumnInfo(name = "madeBy")
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
@@ -35,8 +31,8 @@ public class Labours {
 
     }
 
-    public Labours(long id, String name, String nic, String phoneNo, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public Labours(String name, String nic, String phoneNo, String madeBy, Date madeDateTime) {
+
         this.name = name;
         this.nic = nic;
         this.phoneNo = phoneNo;
@@ -44,6 +40,14 @@ public class Labours {
         this.madeDateTime = madeDateTime;
     }
 
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("nic",this.getNic());
+        map.put("phoneNumber",this.getPhoneNo());
+        map.put("madeBy",this.getMadeBy());
+        map.put("madeDateTime",this.getMadeDateTime());
+        return map;
+    }
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -60,7 +64,7 @@ public class Labours {
         this.phoneNo = phoneNo;
     }
 
-    public void setMadeBy(int madeBy) {
+    public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
     }
 
@@ -68,9 +72,6 @@ public class Labours {
         this.madeDateTime = madeDateTime;
     }
 
-    public long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -80,7 +81,7 @@ public class Labours {
         return nic;
     }
 
-    public int getMadeBy() {
+    public String getMadeBy() {
         return madeBy;
     }
 

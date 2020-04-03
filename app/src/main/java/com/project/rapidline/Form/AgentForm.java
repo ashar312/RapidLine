@@ -37,9 +37,12 @@ public class AgentForm extends AppCompatActivity {
         //initialize UI
         if (action.equals("edit")) {
             //Load the data
-            long id = bundle.getLong("itemId");
-            agentEditUpdate = saeedSonsViewModel.getAgentById(id);
-            loadData();
+            String id = bundle.getString("itemId");
+//            agentEditUpdate = saeedSonsViewModel.getAgentById(id);
+            saeedSonsViewModel.getAgentById(id).observe(this,agents -> {
+                agentEditUpdate=agents;
+                loadData();
+            });
         }
 
         agentFormBinding.saveBtn.setOnClickListener(view -> {
@@ -81,27 +84,34 @@ public class AgentForm extends AppCompatActivity {
                 }
 
                 //TODO save admin
+                agentEditUpdate.setMadeBy(getAdminName());
                 agentEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
                 saeedSonsViewModel.updateAgent(agentEditUpdate);
+                Toast.makeText(this,"Agent updated sucessfully",Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 agentEditUpdate = new Agents();
                 agentEditUpdate.setAgentName(agentFormBinding.agentName.getText().toString());
                 agentEditUpdate.setAgentNumber(agentFormBinding.agentNo.getText().toString());
 
+
                 if (radioButton.getText().toString().equals("Weight")) {
                     agentEditUpdate.setDealType(radioButton.getText().toString());
                     agentEditUpdate.setDealAmount(Double.valueOf(agentFormBinding.weightTxt.getText().toString()));
+
                 } else {
                     agentEditUpdate.setDealType(radioButton.getText().toString());
                     agentEditUpdate.setDealAmount(Double.valueOf(agentFormBinding.quanTxt.getText().toString()));
+
                 }
 
                 agentEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
-                agentEditUpdate.setMadeBy(1);
+                agentEditUpdate.setMadeBy(getAdminName());
 
                 saeedSonsViewModel.addAgent(agentEditUpdate);
-
+                Toast.makeText(this,"Agent updated sucessfully",Toast.LENGTH_SHORT).show();
+                finish();
             }
 
         });
@@ -121,5 +131,9 @@ public class AgentForm extends AppCompatActivity {
             agentFormBinding.quanTxt.setText(agentEditUpdate.getDealAmount().toString());
         }
 
+    }
+
+    private String getAdminName(){
+        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
     }
 }

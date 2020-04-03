@@ -1,6 +1,7 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -8,27 +9,20 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_admins")
 public class Admins {
 
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
-    @ColumnInfo(name = "adminName")
     public String adminName;
 
-    @ColumnInfo(name = "username")
     public String username;
 
-    @ColumnInfo(name = "password")
     public String pass;
 
-    @ColumnInfo(name = "number")
     public String contactNo;
 
-    @ColumnInfo(name = "nic")
     public String nic;
+
+    public String companyName;
 
     @ColumnInfo(name = "madeBy")
     public String madeBy;
@@ -36,27 +30,19 @@ public class Admins {
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
-    @Ignore
     public Admins(){
+
     }
 
-    public Admins(long id, String adminName, String username, String pass, String contactNo, String nic, String madeBy, Date madeDateTime) {
-        this.id = id;
+    public Admins(String adminName, String username, String pass, String contactNo, String nic, String companyName, String madeBy, Date madeDateTime) {
         this.adminName = adminName;
         this.username = username;
         this.pass = pass;
         this.contactNo = contactNo;
         this.nic = nic;
+        this.companyName = companyName;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getAdminName() {
@@ -65,6 +51,19 @@ public class Admins {
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
+    }
+
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("username",this.getUsername());
+        map.put("adminName",this.getAdminName());
+        map.put("pass",this.getPass());
+        map.put("contactNo",this.getContactNo());
+        map.put("nic",this.getNic());
+        map.put("companyName",this.getCompanyName());
+        map.put("madeBy", this.getMadeBy());
+        map.put("madeDateTime", this.getMadeDateTime());
+        return map;
     }
 
     public String getUsername() {
@@ -97,6 +96,14 @@ public class Admins {
 
     public void setNic(String nic) {
         this.nic = nic;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getMadeBy() {

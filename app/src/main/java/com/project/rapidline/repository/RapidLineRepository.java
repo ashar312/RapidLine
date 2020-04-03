@@ -2,16 +2,12 @@ package com.project.rapidline.repository;
 
 import android.app.Application;
 
-import com.project.rapidline.Database.RapidLineDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.rapidline.Database.dao.AdminDao;
-import com.project.rapidline.Database.dao.AgentDao;
 import com.project.rapidline.Database.dao.BailDao;
-import com.project.rapidline.Database.dao.CompanyDao;
-import com.project.rapidline.Database.dao.CustomerDao;
-import com.project.rapidline.Database.dao.ItemDao;
-import com.project.rapidline.Database.dao.LabourDao;
-import com.project.rapidline.Database.dao.PatriDao;
-import com.project.rapidline.Database.dao.TransporterDao;
 import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
@@ -30,296 +26,292 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class RapidLineRepository {
 
     private Application application;
     //    private CityDao cityDao;
     private AdminDao adminDao;
-    private CompanyDao companyDao;
-    private AgentDao agentDao;
+
     private BailDao bailDao;
-    private CustomerDao customerDao;
-    private LabourDao labourDao;
-    private PatriDao patriDao;
-    private TransporterDao transporterDao;
-    private ItemDao itemDao;
+
+    protected FirebaseFirestore firestore;
+    private DocumentReference saeedSonReference;
+
+    private final String Database = "Database";
+    private final String SaeedSonDbName = "SaeedSonsDB";
+    private final String AdminTableName = "Admins";
+    private final String AgentTableName = "Agents";
+    private final String CustomerTableName = "Customers";
+    private final String TransporterTableName = "Transporters";
+    private final String PatriTableName = "Patris";
+    private final String LabourTableName = "Labours";
+    private final String BailTableName = "Bails";
+    private final String KindTableName = "KindOfItem";
 
     public RapidLineRepository(Application application) {
         this.application = application;
 
-        RapidLineDatabase rapidLineDatabase = RapidLineDatabase.getInstance(application);
+        firestore = FirebaseFirestore.getInstance();
+        saeedSonReference = firestore.collection(Database).document(SaeedSonDbName);
 
-        adminDao = rapidLineDatabase.getAdminDao();
-        companyDao = rapidLineDatabase.getCompanyDao();
-        agentDao = rapidLineDatabase.getAgentDao();
-        bailDao = rapidLineDatabase.getBailDao();
-        customerDao = rapidLineDatabase.getCustomerDao();
-        labourDao = rapidLineDatabase.getLabourDao();
-        patriDao = rapidLineDatabase.getPatriDao();
-        transporterDao = rapidLineDatabase.getTransporterDao();
-        itemDao=rapidLineDatabase.getItemDao();
+
     }
 
     //
 //    public LiveData<List<Cities>> getAllCities(){return cityDao.getCities();}
     //Admins
     public LiveData<List<Admins>> getAllAdmins() {
+//        List<Admins> adminsList=new ArrayList<>();
+//        firestore.collection(Database).document(SaeedSonDbName).collection(AdminTableName)
+//                .addSnapshotListener((documentSnapshot, e) -> {
+//                    if (e != null) {
+////                        Log.w(TAG, "Listen failed.", e);
+//                        return;
+//                    }
+//
+//                    if(!documentSnapshot.isEmpty()){
+//                        for (QueryDocumentSnapshot doc : documentSnapshot) {
+//                            adminsList.add(new Admins())
+//                        }
+//                });
+//
+//        MutableLiveData<List<Admins>> mutableLiveData=new MutableLiveData<>();
+//        mutableLiveData.postValue(adminDao.getAllAdmins().getValue());
         return adminDao.getAllAdmins();
     }
 
-    public Admins getAdminById(final long adminId) throws ExecutionException,InterruptedException {
-        Callable<Admins> adminsCallable=new Callable<Admins>() {
-            @Override
-            public Admins call() throws Exception {
-                return adminDao.getAdminById(adminId);
-            }
-        };
-        Future<Admins> future=Executors.newSingleThreadExecutor().submit(adminsCallable);
-        return future.get();
-
+    public CollectionReference getAdmins(){
+        return saeedSonReference.collection(AdminTableName);
     }
 
-    public void addAdmin(final Admins admin) {
-        Executor executor = Executors.newSingleThreadExecutor();
+    public MutableLiveData<String> addAdmin(final Admins admin) {
+        MutableLiveData<String> response=new MutableLiveData<>();
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                adminDao.addAdmin(admin);
-            }
-        });
-    }
+        saeedSonReference.collection(AdminTableName).whereEqualTo("username",admin.getUsername())
+                .get()
+                .addOnCompleteListener(task -> {
+                   if(task.isSuccessful()){
+                       if(task.getResult().isEmpty()){
+                           saeedSonReference.collection(AdminTableName)
+                                   .document(admin.getUsername())
+                                   .set(admin.toHashMap());
+                           response.postValue("Admin Sucessfully Added");
+                           return;
+                       }
 
-    public void updateAdmin(final Admins admin) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                adminDao.updateAdmin(admin);
-            }
-        });
-    }
+                       for(QueryDocumentSnapshot users:task.getResult()){
+                           if(admin.getUsername().equals(users.getString("username"))){
+                               response.postValue("Username already exists");
+                           }
+                       }
+                   }
+                });
 
-    public void deleteAdmin(final Admins admin) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                adminDao.deleteAdmin(admin);
-            }
-        });
+        return response;
     }
 
     //Agents
-    public LiveData<List<Agents>> getAllAgents() {
-        return agentDao.getAllAgents();
+    public CollectionReference getAllAgents() {
+        return saeedSonReference.collection(AgentTableName);
     }
 
-    public Agents getAgentById(long agentId) throws ExecutionException, InterruptedException{
-        Callable<Agents> callable= () -> agentDao.getAgentById(agentId);;
-        Future<Agents> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getAgentById(String agentId) {
+        return saeedSonReference.collection(AgentTableName).document(agentId);
     }
 
     public void addAgent(final Agents agent) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                agentDao.addAgent(agent);
-            }
-        });
+
+        saeedSonReference.collection(AgentTableName)
+                .document(agent.getAgentName()).set(agent.toHashMap());
+
     }
 
     public void updateAgent(final Agents agent) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                agentDao.updateAgent(agent);
-            }
-        });
+        saeedSonReference.collection(AgentTableName)
+                .document(agent.getAgentName()).update(agent.toHashMap());
     }
 
-    public void deleteAgent(final Agents agent) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                agentDao.deleteAgent(agent);
-            }
-        });
+    public void deleteAgentById(String agentId) {
+        saeedSonReference.collection(AgentTableName)
+                .document(agentId).delete();
     }
 
     //Customers
-    public LiveData<List<Customers>> getAllCustomers() {
-        return customerDao.getAllCustomers();
+    public CollectionReference getAllCustomers() {
+
+        return saeedSonReference.collection(CustomerTableName);
+
     }
 
-    public Customers getCustomerById(long custId) throws ExecutionException, InterruptedException {
-        Callable<Customers> callable= (Callable<Customers>) () -> customerDao.getCustomerById(custId);
-        Future<Customers> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getCustomerById(String custId) {
+        return saeedSonReference.collection(CustomerTableName).document(custId);
 
     }
 
     public void addCustomer(final Customers customer) {
-        BackgroundWork(() -> customerDao.addCustomer(customer));
+        saeedSonReference.collection(CustomerTableName).
+                document(customer.getCompanyName()).set(customer.toHashMap());
     }
 
     public void updateCustomer(final Customers customer) {
-        BackgroundWork(() -> customerDao.updateCustomer(customer));
+        saeedSonReference.collection(CustomerTableName).
+                document(customer.getCompanyName()).update(customer.toHashMap());
     }
 
-    public void deleteCustomer(final Customers customer) {
-        BackgroundWork(() -> customerDao.deleteCustomer(customer));
-    }
-    public void deleteCustomerById(long cusId){
-        BackgroundWork(() -> customerDao.deleteCustomerById(cusId));
+    public void deleteCustomerById(String cusId) {
+        saeedSonReference.collection(CustomerTableName).
+                document(cusId).delete();
     }
 
-    private void BackgroundWork(Runnable runnable){
+    private void BackgroundWork(Runnable runnable) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(runnable);
     }
 
     //Transpoter
-    public LiveData<List<Transporters>> getAllTransporters() {
-        return transporterDao.getAllTransporters();
+    public CollectionReference getAllTransporters() {
+        return saeedSonReference.collection(TransporterTableName);
+
     }
 
-    public Transporters getTransporterById(long transpId) throws ExecutionException, InterruptedException {
-        Callable<Transporters> callable= (Callable<Transporters>) () -> transporterDao.getTransporter(transpId);
-        Future<Transporters> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getTransporterById(String transpId) {
+        return saeedSonReference.collection(TransporterTableName).document(transpId);
     }
 
     public void addTransporter(final Transporters transporter) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                transporterDao.addTransporter(transporter);
-            }
-        });
+        saeedSonReference.collection(TransporterTableName)
+                .document(transporter.getCompanyName()).set(transporter.toHashMap());
 
     }
 
     public void updateTransporter(final Transporters transporter) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                transporterDao.updateTransporter(transporter);
-            }
-        });
-
+        saeedSonReference.collection(TransporterTableName)
+                .document(transporter.getCompanyName()).update(transporter.toHashMap());
     }
 
-    public void deleteTransporter(final Transporters transporter) {
-        BackgroundWork(() -> transporterDao.deleteTransporter(transporter));
-    }
-    public void deleteTransporterById(long transpId) {
-        BackgroundWork(() -> {transporterDao.deleteTransporterById(transpId);});
+    public void deleteTransporterById(String transpId) {
+        saeedSonReference.collection(TransporterTableName)
+                .document(transpId).delete();
     }
 
     //Labour
-    public LiveData<List<Labours>> getAllLabours() {
-        return labourDao.getAllLabours();
+    public CollectionReference getAllLabours() {
+
+        return saeedSonReference.collection(LabourTableName);
+
+//        return labourDao.getAllLabours();
     }
 
-    public Labours getAllLaboursById(long labourId) throws ExecutionException, InterruptedException {
-        Callable<Labours> callable= () -> labourDao.getLabourById(labourId);
-        Future<Labours> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getAllLaboursById(String labourId) {
+
+        return saeedSonReference.collection(LabourTableName).document(labourId);
     }
 
     public void addLabour(final Labours labour) {
-        BackgroundWork(() -> labourDao.addLabour(labour));
+        saeedSonReference.collection(LabourTableName).
+                document(labour.getName()).set(labour.toHashMap());
     }
 
     public void updateLabour(final Labours labour) {
-        BackgroundWork(() -> labourDao.updateLabour(labour));
+        saeedSonReference.collection(LabourTableName).
+                document(labour.getName()).update(labour.toHashMap());
     }
 
-    public void deleteLabour(final Labours labour) {
-        BackgroundWork(() -> labourDao.deleteLabour(labour));
-    }
-    public void deleteLabourById(long labourId){
-        BackgroundWork(() -> labourDao.deleteLabourById(labourId));
+    public void deleteLabourById(String labourId) {
+        saeedSonReference.collection(LabourTableName).
+                document(labourId).delete();
     }
 
 
     //Patri
-    public LiveData<List<Patri>> getAllPatris() {
-        return patriDao.getAllPatris();
+    public CollectionReference getAllPatris() {
+        return saeedSonReference.collection(PatriTableName);
     }
 
-    public Patri getPatriById(long patriId) throws ExecutionException, InterruptedException {
-        Callable<Patri> callable= () -> patriDao.getPatriById(patriId);
-        Future<Patri> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getPatriById(String patriId) {
+        return saeedSonReference.collection(PatriTableName).document(patriId);
     }
 
     public void addPatri(final Patri patri) {
-        BackgroundWork(() -> patriDao.addPatri(patri));
+        saeedSonReference.collection(PatriTableName)
+                .document(patri.getName()).set(patri.toHashMap());
+
     }
 
     public void updatePatri(final Patri patri) {
-        BackgroundWork(() -> patriDao.updatePatri(patri));
+
+        saeedSonReference.collection(PatriTableName)
+                .document(patri.getName()).update(patri.toHashMap());
     }
 
-    public void deletePatri(final Patri patri) {
-        BackgroundWork(() -> patriDao.deletePatri(patri));
-    }
-    public void deletePatriById(long patriId){
-        BackgroundWork(() -> patriDao.deletePatriById(patriId));
+    public void deletePatriById(String patriId) {
+        saeedSonReference.collection(PatriTableName)
+                .document(patriId).delete();
     }
 
 
     //Bails
-    public LiveData<List<Bails>> getAllBails() {
-        return bailDao.getAllBails();
+    public CollectionReference getAllBails() {
+
+        return saeedSonReference.collection(BailTableName);
     }
 
-    public Bails getBailsById(long bailId) throws ExecutionException, InterruptedException {
-        Callable<Bails> callable= () -> bailDao.getBailById(bailId);
-        Future<Bails> future=Executors.newSingleThreadExecutor().submit(callable);
-        return future.get();
+    public DocumentReference getBailsById(String bailId) {
+        return saeedSonReference.collection(BailTableName).document(bailId);
     }
 
     public List<BailMinimal> getBailsrv() throws ExecutionException, InterruptedException {
-        Callable<List<BailMinimal>> minimalCallable=()->bailDao.getBailsRv();
-        Future<List<BailMinimal>> listFuture=Executors.newSingleThreadExecutor().submit(minimalCallable);
+        Callable<List<BailMinimal>> minimalCallable = () -> bailDao.getBailsRv();
+        Future<List<BailMinimal>> listFuture = Executors.newSingleThreadExecutor().submit(minimalCallable);
         return listFuture.get();
     }
 
-    public BailMinimal getBailPrintData(long bailId) throws ExecutionException, InterruptedException{
-        Callable<BailMinimal> minimalCallable=()->bailDao.getBailPrint(bailId);
-        Future<BailMinimal> listFuture=Executors.newSingleThreadExecutor().submit(minimalCallable);
+    public BailMinimal getBailPrintData(long bailId) throws
+            ExecutionException, InterruptedException {
+        Callable<BailMinimal> minimalCallable = () -> bailDao.getBailPrint(bailId);
+        Future<BailMinimal> listFuture = Executors.newSingleThreadExecutor().submit(minimalCallable);
         return listFuture.get();
     }
 
     public void addBail(final Bails bail) {
-        BackgroundWork(() -> bailDao.addBail(bail));
+        saeedSonReference.collection(BailTableName)
+                .document(bail.getBiltyNo()).set(bail.toHashMap());
     }
 
     public void updateBail(final Bails bail) {
-        BackgroundWork(() -> bailDao.updateBail(bail));
+        saeedSonReference.collection(BailTableName)
+                .document(bail.getBiltyNo()).update(bail.toHashMap());
     }
 
     public void deleteBail(final Bails bail) {
-        BackgroundWork(() -> bailDao.deleteBail(bail));
+        saeedSonReference.collection(BailTableName)
+                .document(bail.getBiltyNo()).delete();
     }
 
     //Items
-    public LiveData<List<KindOfItem>> getAllItems(){return itemDao.getAllItem();}
+    public CollectionReference getAllItems() {
 
-    public void addItem(KindOfItem item){BackgroundWork(()->itemDao.addItem(item));}
+        return saeedSonReference.collection(KindTableName);
+//        return itemDao.getAllItem();
+    }
 
-    public void updateItem(KindOfItem item){BackgroundWork(()->itemDao.updateItem(item));}
+    public void addItem(KindOfItem item) {
+        saeedSonReference.collection(KindTableName)
+                .document(item.getName()).set(item.toHashMap());
+    }
 
-    public void deleteItem(KindOfItem item){BackgroundWork(()->itemDao.deleteItem(item));}
+    public void updateItem(KindOfItem item) {
+
+        saeedSonReference.collection(KindTableName)
+                .document(item.getName()).update(item.toHashMap());
+    }
+
+    public void deleteItemById(String itemId) {
+
+        saeedSonReference.collection(KindTableName)
+                .document(itemId).delete();
+    }
 
 }

@@ -18,7 +18,7 @@ public class AdminRights extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         adminRightsBinding= DataBindingUtil.setContentView(this,R.layout.activity_admin_rights);
 
-        boolean add_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("add_bail_perm",false);
+        boolean add_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("add_bail_perm",true);
         adminRightsBinding.addBailsSwitch.setChecked(add_bail_state);
         adminRightsBinding.addBailsSwitch.setOnCheckedChangeListener((view, isChecked) -> {
             addCurrentStateToPref(isChecked,"add_bail_perm");

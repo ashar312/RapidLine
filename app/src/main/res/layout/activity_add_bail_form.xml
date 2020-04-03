@@ -161,7 +161,7 @@
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:hint="Volume"
-                    android:inputType="textPersonName"
+                    android:inputType="numberDecimal"
                     app:layout_constraintEnd_toStartOf="@+id/weight_txt"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -175,7 +175,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="0dp"
                     android:hint="Weight"
-                    android:inputType="textPersonName"
+                    android:inputType="numberDecimal"
                     app:layout_constraintBottom_toBottomOf="@+id/volume_txt"
                     app:layout_constraintEnd_toEndOf="@+id/agent_spinner"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -192,9 +192,10 @@
 
                 <EditText
                     android:id="@+id/transport_txt"
+                    android:enabled="false"
                     style="@style/CheckboxFields"
-                    android:inputType="textPersonName"
-                    android:text="Name"
+                    android:inputType="number"
+                    android:text=""
                     app:layout_constraintBaseline_toBaselineOf="@+id/transport_chk"
                     app:layout_constraintEnd_toStartOf="@+id/textView6" />
 
@@ -219,8 +220,8 @@
                 <EditText
                     android:id="@+id/labout_txt"
                     style="@style/CheckboxFields"
-                    android:inputType="textPersonName"
-                    android:text="Name"
+                    android:inputType="number"
+                    android:text=""
                     app:layout_constraintBaseline_toBaselineOf="@+id/labour_chk"
                     app:layout_constraintEnd_toStartOf="@+id/textView11" />
 
@@ -242,21 +243,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/labour_chk" />
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/electricity_txt"
                     style="@style/CheckboxFields"
-                    android:inputType="textPersonName"
-                    android:text="Name"
+                    android:inputType="number"
+                    android:text=""
                     app:layout_constraintBaseline_toBaselineOf="@+id/electricity_chk"
-                    app:layout_constraintEnd_toStartOf="@+id/electricity_txt" />
+                    app:layout_constraintEnd_toStartOf="@+id/textview_85" />
 
 
                 <TextView
-                    android:id="@+id/electricity_txt"
+                    android:id="@+id/textview_85"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/PKR"
                     android:textColor="@color/Dark_gray"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/editText5"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/electricity_txt"
                     app:layout_constraintEnd_toEndOf="@+id/textView11" />
 
                 <CheckBox
@@ -270,8 +271,8 @@
                 <EditText
                     android:id="@+id/packing_txt"
                     style="@style/CheckboxFields"
-                    android:inputType="textPersonName"
-                    android:text="Name"
+                    android:inputType="number"
+                    android:text=""
                     app:layout_constraintBaseline_toBaselineOf="@+id/packing_chk"
                     app:layout_constraintEnd_toStartOf="@+id/textView23" />
 
@@ -282,14 +283,13 @@
                     android:text="/PKR"
                     android:textColor="@color/Dark_gray"
                     app:layout_constraintBaseline_toBaselineOf="@+id/packing_txt"
-                    app:layout_constraintEnd_toEndOf="@+id/electricity_txt" />
+                    app:layout_constraintEnd_toEndOf="@+id/textview_85" />
 
                 <EditText
                     android:id="@+id/comments_txt"
                     style="@style/FormInputTextFields"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
-                    android:ems="10"
                     android:hint="Comments ..."
                     android:inputType="textMultiLine"
                     app:layout_constraintEnd_toEndOf="@+id/weight_txt"
@@ -298,10 +298,14 @@
 
                 <Button
                     android:id="@+id/save_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/buttonshape"
                     android:text="Save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="w,5:1"
                     app:layout_constraintEnd_toEndOf="@+id/comments_txt"
                     app:layout_constraintStart_toStartOf="@+id/comments_txt"
                     app:layout_constraintTop_toBottomOf="@+id/comments_txt" />

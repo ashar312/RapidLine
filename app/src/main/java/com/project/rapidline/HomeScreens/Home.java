@@ -6,28 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import com.project.rapidline.AdminRights;
-import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.Form.AdminForm;
 import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
+import com.project.rapidline.Login;
 import com.project.rapidline.R;
 import com.project.rapidline.Register_Entries;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
-
-import java.util.List;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -73,16 +69,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //Intialize viewmodel
 
         //Get cities
-        saeedSonsViewModel= ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
-        saeedSonsViewModel.getListAllAdmins().observe(this, new Observer<List<Admins>>() {
-            @Override
-            public void onChanged(List<Admins> admins) {
-                Log.v("here","sd");
-                for(Admins admin:admins){
-                    Log.v("admins",admin.getUsername());
-                }
-            }
-        });
+//        saeedSonsViewModel= ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+//        saeedSonsViewModel.getListAllAdmins().observe(this, new Observer<List<Admins>>() {
+//            @Override
+//            public void onChanged(List<Admins> admins) {
+//                Log.v("here","sd");
+//                for(Admins admin:admins){
+//                    Log.v("admins",admin.getUsername());
+//                }
+//            }
+//        });
 
 //        dataViewModel= ViewModelProviders.of(this).get(DataViewModel.class);
 //        dataViewModel.getListAllCities().observe(this, new Observer<List<Cities>>() {
@@ -112,9 +108,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.add_bail:
-                Intent intent = new Intent(Home.this, AddBailForm.class);
-                intent.putExtra("action","add");
-                startActivity(intent);
+                boolean add_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("add_bail_perm",true);
+                if(add_bail_state){
+                    Intent intent = new Intent(Home.this, AddBailForm.class);
+                    intent.putExtra("action","add");
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(this,"You do not have permissions to add a bail",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.regEntries:
@@ -153,14 +156,27 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
-            case R.id.LoginBtn:
-              //  LogOut();
+            case R.id.logOut:
+                LogOut();
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             default:
                 break;
         }
         return false;
+    }
+
+    private void LogOut() {
+            addCurrentStateToPref(false);
+            startActivity(new Intent(Home.this, Login.class));
+            finish();
+    }
+
+    private void addCurrentStateToPref(boolean loginState) {
+        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("LoginPref", 0).edit();
+        editor.putString("username","");
+        editor.putBoolean("loggedIn", loginState);
+        editor.apply(); //apply writes the data in background process
     }
 
     private void SendDataToListActivities(String ListItem){

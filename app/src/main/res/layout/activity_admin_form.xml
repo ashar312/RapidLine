@@ -45,7 +45,7 @@
             android:id="@+id/pass_txt"
             style="@style/FormInputTextFields"
             android:hint="Password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/username_txt"
             app:layout_constraintStart_toStartOf="@+id/username_txt"
             app:layout_constraintTop_toBottomOf="@+id/username_txt" />
@@ -53,8 +53,8 @@
         <EditText
             android:id="@+id/contact_no_txt"
             style="@style/FormInputTextFields"
-            android:hint="Password"
-            android:inputType="textPersonName"
+            android:hint="Contact No"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/pass_txt"
             app:layout_constraintStart_toStartOf="@+id/pass_txt"
             app:layout_constraintTop_toBottomOf="@+id/pass_txt" />

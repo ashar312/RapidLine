@@ -2,15 +2,15 @@ package com.project.rapidline.Models;
 
 public class ListItems {
 
-    private long mItemId;
+    private String mItemId;
     private String mItemName;
 
-    public ListItems(long mItemId, String mItemName) {
+    public ListItems(String mItemId, String mItemName) {
         this.mItemId = mItemId;
         this.mItemName = mItemName;
     }
 
-    public long getmItemId() {
+    public String getmItemId() {
         return mItemId;
     }
 

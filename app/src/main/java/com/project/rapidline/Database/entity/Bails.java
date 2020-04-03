@@ -1,6 +1,7 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -8,44 +9,63 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_bails")
 public class Bails {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
-    @ColumnInfo(name = "biltyNo")
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("fromCity", this.getFromCity());
+        map.put("toCity", this.getToCity());
+        map.put("kindId", this.getKindId());
+        map.put("qty", this.getQuantity());
+        map.put("senderId", this.getSenderId());
+        map.put("receiverId", this.getReceiverId());
+
+        map.put("transporterId", this.getTransporterId());
+        map.put("agentId", this.getReceiverId());
+        map.put("volume", this.getVolume());
+        map.put("weight", this.getWeight());
+        map.put("madeBy", this.getMadeBy());
+        map.put("madeDateTime", this.getMadeDateTime());
+        map.put("transportCharge",this.getTransport_charge());
+        map.put("labourCharge",this.getLabour_charge());
+        map.put("electric_charge",this.getElectricity_charge());
+        map.put("packingCharge",this.getPacking_charge());
+        map.put("comments",this.getComments());
+        return map;
+    }
+
+    @ColumnInfo(name = "bailNo")
     public String biltyNo;
 
 
     @ColumnInfo(name = "fromCity")
-    public int fromCity;
+    public String fromCity;
 
     @ColumnInfo(name = "toCity")
-    public int toCity;
+    public String toCity;
 
-    @ForeignKey(entity = KindOfItem.class,parentColumns = "id",childColumns = "kindId")
-    @ColumnInfo(name = "kindId",index = true)
-    public int kindId;
+    @ForeignKey(entity = KindOfItem.class, parentColumns = "id", childColumns = "kindId")
+    @ColumnInfo(name = "kindId", index = true)
+    public String kindId;
 
     @ColumnInfo(name = "qty")
     public int quantity;
 
-    @ForeignKey(entity = Customers.class,parentColumns = "id",childColumns = "senderId")
-    @ColumnInfo(name = "senderId",index = true)
-    public int senderId;
+    @ForeignKey(entity = Customers.class, parentColumns = "id", childColumns = "senderId")
+    @ColumnInfo(name = "senderId", index = true)
+    public String senderId;
 
-    @ForeignKey(entity = Customers.class,parentColumns = "id",childColumns = "receiverId")
-    @ColumnInfo(name = "receiverId",index = true)
-    public int receiverId;
+    @ForeignKey(entity = Customers.class, parentColumns = "id", childColumns = "receiverId")
+    @ColumnInfo(name = "receiverId", index = true)
+    public String receiverId;
 
-    @ForeignKey(entity = Transporters.class,parentColumns = "id",childColumns = "transporterId")
-    @ColumnInfo(name = "transporterId",index = true)
-    public int transporterId;
+    @ForeignKey(entity = Transporters.class, parentColumns = "id", childColumns = "transporterId")
+    @ColumnInfo(name = "transporterId", index = true)
+    public String transporterId;
 
-    @ForeignKey(entity = Agents.class,parentColumns = "id",childColumns = "agentId")
-    @ColumnInfo(name = "agentId",index = true)
-    public int agentId;
+    @ForeignKey(entity = Agents.class, parentColumns = "id", childColumns = "agentId")
+    @ColumnInfo(name = "agentId", index = true)
+    public String agentId;
 
     @ColumnInfo(name = "volume")
     public Double volume;
@@ -53,25 +73,28 @@ public class Bails {
     @ColumnInfo(name = "weight")
     public Double weight;
 
-    @ForeignKey(entity = Admins.class,parentColumns = "id",childColumns = "madeBy")
-    @ColumnInfo(name = "madeBy",index = true)
-    public int madeBy;
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
+    public String transport_charge;
+    public String labour_charge;
+    public String electricity_charge;
+    public String packing_charge;
+    public String comments;
+
     @Ignore
-    public Bails(){
+    public Bails() {
 
     }
 
-    public Bails(long id, String biltyNo, int fromCity, int toCity, int kindId, int quantity, int senderId, int receiverId, int transporterId, int agentId, Double volume, Double weight, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public Bails(String biltyNo, String fromCity, String toCity, String kindId, Double quantity, String senderId, String receiverId, String transporterId, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
         this.biltyNo = biltyNo;
         this.fromCity = fromCity;
         this.toCity = toCity;
         this.kindId = kindId;
-        this.quantity = quantity;
+        this.quantity = quantity.intValue();
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.transporterId = transporterId;
@@ -80,25 +103,34 @@ public class Bails {
         this.weight = weight;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
+        this.transport_charge = transport_charge;
+        this.labour_charge = labour_charge;
+        this.electricity_charge = electricity_charge;
+        this.packing_charge = packing_charge;
+        this.comments = comments;
     }
 
-    public long getId() {
-        return id;
+    public Bails(String biltyNo, String senderId, String receiverId, String madeBy, Date madeDateTime) {
+        this.biltyNo = biltyNo;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.madeBy = madeBy;
+        this.madeDateTime = madeDateTime;
     }
 
     public String getBiltyNo() {
         return biltyNo;
     }
 
-    public int getFromCity() {
+    public String getFromCity() {
         return fromCity;
     }
 
-    public int getToCity() {
+    public String getToCity() {
         return toCity;
     }
 
-    public int getKindId() {
+    public String getKindId() {
         return kindId;
     }
 
@@ -106,19 +138,19 @@ public class Bails {
         return quantity;
     }
 
-    public int getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public int getReceiverId() {
+    public String getReceiverId() {
         return receiverId;
     }
 
-    public int getTransporterId() {
+    public String getTransporterId() {
         return transporterId;
     }
 
-    public int getAgentId() {
+    public String getAgentId() {
         return agentId;
     }
 
@@ -130,7 +162,7 @@ public class Bails {
         return weight;
     }
 
-    public int getMadeBy() {
+    public String getMadeBy() {
         return madeBy;
     }
 
@@ -142,15 +174,15 @@ public class Bails {
         this.biltyNo = biltyNo;
     }
 
-    public void setFromCity(int fromCity) {
+    public void setFromCity(String fromCity) {
         this.fromCity = fromCity;
     }
 
-    public void setToCity(int toCity) {
+    public void setToCity(String toCity) {
         this.toCity = toCity;
     }
 
-    public void setKindId(int kindId) {
+    public void setKindId(String kindId) {
         this.kindId = kindId;
     }
 
@@ -158,19 +190,19 @@ public class Bails {
         this.quantity = quantity;
     }
 
-    public void setSenderId(int senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
-    public void setReceiverId(int receiverId) {
+    public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
     }
 
-    public void setTransporterId(int transporterId) {
+    public void setTransporterId(String transporterId) {
         this.transporterId = transporterId;
     }
 
-    public void setAgentId(int agentId) {
+    public void setAgentId(String agentId) {
         this.agentId = agentId;
     }
 
@@ -182,11 +214,51 @@ public class Bails {
         this.weight = weight;
     }
 
-    public void setMadeBy(int madeBy) {
+    public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
     }
 
     public void setMadeDateTime(Date madeDateTime) {
         this.madeDateTime = madeDateTime;
+    }
+
+    public String getTransport_charge() {
+        return transport_charge;
+    }
+
+    public void setTransport_charge(String transport_charge) {
+        this.transport_charge = transport_charge;
+    }
+
+    public String getLabour_charge() {
+        return labour_charge;
+    }
+
+    public void setLabour_charge(String labour_charge) {
+        this.labour_charge = labour_charge;
+    }
+
+    public String getElectricity_charge() {
+        return electricity_charge;
+    }
+
+    public void setElectricity_charge(String electricity_charge) {
+        this.electricity_charge = electricity_charge;
+    }
+
+    public String getPacking_charge() {
+        return packing_charge;
+    }
+
+    public void setPacking_charge(String packing_charge) {
+        this.packing_charge = packing_charge;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

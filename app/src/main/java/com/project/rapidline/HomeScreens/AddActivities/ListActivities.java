@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Customers;
@@ -18,11 +19,9 @@ import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.Form.AgentForm;
 import com.project.rapidline.Form.LabourPatriForm;
-import com.project.rapidline.Form.PatriForm;
 import com.project.rapidline.Form.SenderRecieverTransporterForm;
 import com.project.rapidline.HomeScreens.Adapter.ListAdapter;
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
-import com.project.rapidline.Models.ListItems;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityListBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -50,15 +49,15 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
         activityListBinding.addCommonBtn.setOnClickListener(v -> OpenWhichActivity(ActivityValue));
 
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+
         //Activate observer based on activity value
         switch (ActivityValue) {
             case "SenderReceiver":
                 saeedSonsViewModel.getListAllCustomers().observe(this, customers -> {
-                    ArrayList<ListItems> listItems = new ArrayList<>();
+                    ArrayList<String> listItems = new ArrayList<>();
                     //Copy list
                     for (Customers cust : customers) {
-                        ListItems items = new ListItems(cust.getId(), cust.getCompanyName());
-                        listItems.add(items);
+                        listItems.add(cust.getCompanyName());
                     }
                     //Set list
                     listAdapter.setListItems(listItems);
@@ -67,11 +66,11 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 break;
             case "Agents":
                 saeedSonsViewModel.getListAllAgents().observe(this, agents -> {
-                    ArrayList<ListItems> listItems = new ArrayList<>();
+                    ArrayList<String> listItems = new ArrayList<>();
                     //Copy list
                     for (Agents agent : agents) {
-                        ListItems items = new ListItems(agent.getId(), agent.getAgentName());
-                        listItems.add(items);
+
+                        listItems.add(agent.getAgentName());
                     }
                     //Set list
                     listAdapter.setListItems(listItems);
@@ -80,11 +79,10 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 break;
             case "Transporters":
                 saeedSonsViewModel.getListAllTransporters().observe(this, transporters -> {
-                    ArrayList<ListItems> listItems = new ArrayList<>();
+                    ArrayList<String> listItems = new ArrayList<>();
                     //Copy list
                     for (Transporters trans : transporters) {
-                        ListItems items = new ListItems(trans.getId(), trans.getCompanyName());
-                        listItems.add(items);
+                        listItems.add(trans.getCompanyName());
                     }
                     //Set list
                     listAdapter.setListItems(listItems);
@@ -93,11 +91,10 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 break;
             case "Labour":
                 saeedSonsViewModel.getListAllLabours().observe(this, labours -> {
-                    ArrayList<ListItems> listItems = new ArrayList<>();
+                    ArrayList<String> listItems = new ArrayList<>();
                     //Copy list
                     for (Labours labour : labours) {
-                        ListItems items = new ListItems(labour.getId(), labour.getName());
-                        listItems.add(items);
+                        listItems.add(labour.getName());
                     }
                     //Set list
                     listAdapter.setListItems(listItems);
@@ -106,11 +103,10 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 break;
             case "Patri":
                 saeedSonsViewModel.getListAllPatris().observe(this, patris -> {
-                    ArrayList<ListItems> listItems = new ArrayList<>();
+                    ArrayList<String> listItems = new ArrayList<>();
                     //Copy list
                     for (Patri patri : patris) {
-                        ListItems items = new ListItems(patri.getId(), patri.getName());
-                        listItems.add(items);
+                        listItems.add(patri.getName());
                     }
                     //Set list
                     listAdapter.setListItems(listItems);
@@ -173,20 +169,20 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
         activityListBinding.listRecycler.setLayoutManager(new LinearLayoutManager(this));
         activityListBinding.listRecycler.setAdapter(listAdapter);
         activityListBinding.listRecycler.setItemAnimator(new DefaultItemAnimator());
-
-
     }
 
     //When a item from recycler view is clicked
     @Override
-    public void onItemClick(long itemId, String action) {
+    public void onItemClick(String itemId, String action) {
 
         Intent intent;
         switch (ActivityValue) {
             case "SenderReceiver":
                 if (action.equals("delete")) {
                     //get cust then delete
+//                    saeedSonsViewModel.deleteCustomerById(itemId);
                     saeedSonsViewModel.deleteCustomerById(itemId);
+                    Log.v("fs","ds");
                 } else {
                     //launch intent to edit
                     intent = new Intent(ListActivities.this, SenderRecieverTransporterForm.class);
@@ -200,6 +196,7 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 if (action.equals("delete")) {
                     //delete
                     saeedSonsViewModel.deleteTransporterById(itemId);
+                    Log.v("fs","ddff");
                 } else {
                     //edit
                     intent = new Intent(ListActivities.this, SenderRecieverTransporterForm.class);
@@ -212,7 +209,9 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
             case "Labour":
                 if (action.equals("delete")) {
                     //delete
+//                    saeedSonsViewModel.deleteLabourById(itemId);
                     saeedSonsViewModel.deleteLabourById(itemId);
+                    Log.v("fs","ddffsdf");
                 } else {
                     //edit
                     intent = new Intent(ListActivities.this, LabourPatriForm.class);
@@ -226,9 +225,22 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 if (action.equals("delete")) {
                     //delete
                     saeedSonsViewModel.deletePatriById(itemId);
+                    Log.v("fs","ddffsdf");
                 } else {
                     //edit
                     intent = new Intent(ListActivities.this, LabourPatriForm.class);
+                    intent.putExtra("ListItem", ActivityValue);
+                    intent.putExtra("action", action);
+                    intent.putExtra("itemId", itemId);
+                    startActivity(intent);
+                }
+                break;
+            case "Agents":
+                if(action.equals("delete")){
+                    saeedSonsViewModel.deleteAgentById(itemId);
+                }
+                else {
+                    intent = new Intent(ListActivities.this, AgentForm.class);
                     intent.putExtra("ListItem", ActivityValue);
                     intent.putExtra("action", action);
                     intent.putExtra("itemId", itemId);

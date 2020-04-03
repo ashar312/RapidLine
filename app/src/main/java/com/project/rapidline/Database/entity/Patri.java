@@ -1,6 +1,7 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -11,10 +12,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "tbl_patri",
         foreignKeys = @ForeignKey(entity = Admins.class,parentColumns = "id",childColumns = "madeBy"))
 public class Patri {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
-
     @ColumnInfo(name = "name")
     public String name;
 
@@ -25,7 +22,7 @@ public class Patri {
     public String phoneNo;
 
     @ColumnInfo(name = "madeBy",index = true)
-    public int madeBy;
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
@@ -34,8 +31,7 @@ public class Patri {
     public Patri() {
     }
 
-    public Patri(long id, String name, String nic, String phoneNo, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public Patri(String name, String nic, String phoneNo, String madeBy, Date madeDateTime) {
         this.name = name;
         this.nic = nic;
         this.phoneNo = phoneNo;
@@ -43,6 +39,14 @@ public class Patri {
         this.madeDateTime = madeDateTime;
     }
 
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("nic",this.getNic());
+        map.put("phoneNumber",this.getPhoneNo());
+        map.put("madeBy",this.getMadeBy());
+        map.put("madeDateTime",this.getMadeDateTime());
+        return map;
+    }
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -59,16 +63,12 @@ public class Patri {
         this.phoneNo = phoneNo;
     }
 
-    public void setMadeBy(int madeBy) {
+    public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
     }
 
     public void setMadeDateTime(Date madeDateTime) {
         this.madeDateTime = madeDateTime;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getName() {
@@ -79,7 +79,7 @@ public class Patri {
         return nic;
     }
 
-    public int getMadeBy() {
+    public String getMadeBy() {
         return madeBy;
     }
 

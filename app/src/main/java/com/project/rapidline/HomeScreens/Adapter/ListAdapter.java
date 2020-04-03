@@ -23,13 +23,13 @@ import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> implements Filterable {
 
-    private ArrayList<ListItems> listItems;
+    private ArrayList<String> listItems;
     private Context context;
     private OnItemClickListener onItemClickListener;
-    private List<ListItems> filterList;
+    private List<String> filterList;
 
 
-    public ListAdapter( Context context,ArrayList<ListItems> listItems, OnItemClickListener clickListener) {
+    public ListAdapter( Context context,ArrayList<String> listItems, OnItemClickListener clickListener) {
         this.listItems = listItems;
         this.context = context;
         this.onItemClickListener = clickListener;
@@ -50,12 +50,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 //        holder.StrItem.setText(listItems.get(position).getItem());
         int count=position+1;
         holder.count.setText(""+count);
-        holder.strItem.setText(listItems.get(position).getmItemName());
+        holder.strItem.setText(listItems.get(position));
 
         //To set the click listener to edit and delete
         if(onItemClickListener!=null){
-            holder.imageEdit.setOnClickListener(view -> onItemClickListener.onItemClick(listItems.get(position).getmItemId(),"edit"));
-            holder.imageDelete.setOnClickListener(view -> onItemClickListener.onItemClick(listItems.get(position).getmItemId(),"delete"));
+            holder.imageEdit.setOnClickListener(view -> onItemClickListener.onItemClick(listItems.get(position),"edit"));
+            holder.imageDelete.setOnClickListener(view -> onItemClickListener.onItemClick(listItems.get(position),"delete"));
         }
 
     }
@@ -93,7 +93,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         }
     }
 
-    public void setListItems(ArrayList<ListItems> listItems) {
+    public void setListItems(ArrayList<String> listItems) {
         this.listItems = listItems;
         filterList=new ArrayList<>(this.listItems);
         notifyDataSetChanged();
@@ -108,15 +108,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<ListItems> filteredList=new ArrayList<>();
+            List<String> filteredList=new ArrayList<>();
             if(constraint==null || constraint.length()==0){
                 filteredList.addAll(filterList);
             }
             else {
                 String filterPattern=constraint.toString().toLowerCase().trim();
 
-                for(ListItems item:filterList){
-                    if(item.getmItemName().toLowerCase().contains(filterPattern)){
+                for(String item:filterList){
+                    if(item.toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }
@@ -131,7 +131,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             listItems.clear();
-            listItems.addAll((Collection<? extends ListItems>) filterResults.values);
+            listItems.addAll((Collection<? extends String>) filterResults.values);
             notifyDataSetChanged();
 
         }

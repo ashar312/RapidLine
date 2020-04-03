@@ -63,6 +63,7 @@ public class PrintOutActivity extends AppCompatActivity {
         bailData=saeedSonsViewModel.getBailPrintData(bailId);
         Toast.makeText(this,"Item id"+bailId,Toast.LENGTH_SHORT).show();
 
+
         //Setup Print button and permissions
         final Button printBtn = findViewById(R.id.print_btn);
 

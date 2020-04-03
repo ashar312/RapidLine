@@ -35,7 +35,7 @@
         <EditText
             android:id="@+id/form_no"
             style="@style/FormInputTextFields"
-            android:hint="Agent Name"
+            android:hint="Agent Number"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/form_name"
             app:layout_constraintStart_toStartOf="@+id/form_name"
@@ -44,8 +44,9 @@
         <EditText
             android:id="@+id/form_cnic"
             style="@style/FormInputTextFields"
-            android:hint="Agent Name"
-            android:inputType="textPersonName"
+            android:hint="Agent NIC"
+            android:inputType="number"
+            android:maxLength="13"
             app:layout_constraintEnd_toEndOf="@+id/form_no"
             app:layout_constraintStart_toStartOf="@+id/form_no"
             app:layout_constraintTop_toBottomOf="@+id/form_no" />

@@ -1,6 +1,8 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -9,11 +11,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_agents", foreignKeys = @ForeignKey(entity = Admins.class, parentColumns = "id", childColumns = "madeBy"))
 public class Agents {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
     @ColumnInfo(name = "name")
     public String agentName;
@@ -28,18 +26,17 @@ public class Agents {
     public Double dealAmount;
 
     @ColumnInfo(name = "madeBy", index = true)
-    public int madeBy;
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
-    @Ignore
     public Agents() {
 
     }
 
-    public Agents(long id, String agentName, String agentNumber, String dealType, Double dealAmount, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public Agents(String agentName, String agentNumber, String dealType, Double dealAmount, String madeBy, Date madeDateTime) {
+
         this.agentName = agentName;
         this.agentNumber = agentNumber;
         this.dealType = dealType;
@@ -48,15 +45,23 @@ public class Agents {
         this.madeDateTime = madeDateTime;
     }
 
+
+
     @Ignore
-    public Agents(long id, String agentName,int madeBy) {
-        this.id = id;
+    public Agents(String agentName) {
+
         this.agentName = agentName;
         this.madeBy = madeBy;
     }
 
-    public long getId() {
-        return id;
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String, Object> agentMap = new HashMap<>();
+        agentMap.put("agentNumber", this.getAgentNumber());
+        agentMap.put("dealType", this.getDealType());
+        agentMap.put("dealAmount", this.getDealAmount());
+        agentMap.put("madeBy", this.madeBy);
+        agentMap.put("madeDateTime", this.getMadeDateTime());
+       return agentMap;
     }
 
     public String getAgentName() {
@@ -75,7 +80,7 @@ public class Agents {
         return dealAmount;
     }
 
-    public int getMadeBy() {
+    public String  getMadeBy() {
         return madeBy;
     }
 
@@ -99,7 +104,7 @@ public class Agents {
         this.dealAmount = dealAmount;
     }
 
-    public void setMadeBy(int madeBy) {
+    public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
     }
 

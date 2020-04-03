@@ -46,9 +46,11 @@ public class LabourPatriForm extends AppCompatActivity {
             labourPatriFormBinding.formCnic.setHint("CNIC (Optional)");
             if (action.equals("edit")) {
                 //Load the data
-                long id = bundle.getLong("itemId");
-                labourEditUpdate = saeedSonsViewModel.getAllLaboursById(id);
-                loadLabourData();
+                String id = bundle.getString("itemId");
+                saeedSonsViewModel.getAllLaboursById(id).observe(this,labours -> {
+                    labourEditUpdate=labours;
+                    loadLabourData();
+                });
             }
 
         } else {
@@ -60,9 +62,11 @@ public class LabourPatriForm extends AppCompatActivity {
 
             if (action.equals("edit")) {
                 //Load the data
-                long id = bundle.getLong("itemId");
-                patriEditUpdate = saeedSonsViewModel.getPatriById(id);
-                loadPatriData();
+                String id = bundle.getString("itemId");
+                saeedSonsViewModel.getPatriById(id).observe(this,patri -> {
+                    patriEditUpdate=patri;
+                    loadPatriData();
+                });
             }
         }
 
@@ -79,10 +83,14 @@ public class LabourPatriForm extends AppCompatActivity {
                     labourEditUpdate.setPhoneNo(labourPatriFormBinding.formNo.getText().toString());
                     labourEditUpdate.setNic(labourPatriFormBinding.formCnic.getText().toString());
 
-                    //TODO Save admin
+
 
                     labourEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
+                    labourEditUpdate.setMadeBy(getAdminName());
+
                     saeedSonsViewModel.updateLabour(labourEditUpdate);
+                    Toast.makeText(this,"Labour updated sucessfully",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else {
                     labourEditUpdate=new Labours();
@@ -91,10 +99,11 @@ public class LabourPatriForm extends AppCompatActivity {
                     labourEditUpdate.setNic(labourPatriFormBinding.formCnic.getText().toString());
 
 
-                    //TODO Save admin
                     labourEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
-                    labourEditUpdate.setMadeBy(1);
+                    labourEditUpdate.setMadeBy(getAdminName());
                     saeedSonsViewModel.addLabour(labourEditUpdate);
+                    Toast.makeText(this,"Labour added sucessfully",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
             } else {
@@ -106,7 +115,11 @@ public class LabourPatriForm extends AppCompatActivity {
                     //TODO Save admin
 
                     patriEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
+                    patriEditUpdate.setMadeBy(getAdminName());
+
                     saeedSonsViewModel.updatePatri(patriEditUpdate);
+                    Toast.makeText(this,"Patri updated sucessfully",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else {
                     patriEditUpdate=new Patri();
@@ -116,8 +129,11 @@ public class LabourPatriForm extends AppCompatActivity {
 
                     //TODO Save admin
                     patriEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
-                    patriEditUpdate.setMadeBy(1);
+                    patriEditUpdate.setMadeBy(getAdminName());
+                    //patriEditUpdate.setMadeBy(1);
                     saeedSonsViewModel.addPatri(patriEditUpdate);
+                    Toast.makeText(this,"Patri added sucessfully",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
             }
@@ -140,11 +156,14 @@ public class LabourPatriForm extends AppCompatActivity {
 
     private Boolean isDataFieldsEmpty() {
         if (TextUtils.isEmpty(labourPatriFormBinding.formName.getText())
-                || TextUtils.isEmpty(labourPatriFormBinding.formNo.getText())
-                || TextUtils.isEmpty(labourPatriFormBinding.formCnic.getText())) {
+                || TextUtils.isEmpty(labourPatriFormBinding.formNo.getText())) {
             return true;
         }
         return false;
+    }
+
+    private String getAdminName(){
+        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
     }
 
 }

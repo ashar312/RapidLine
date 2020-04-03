@@ -1,58 +1,51 @@
 package com.project.rapidline.Database.entity;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_kindOfItem"
-        ,foreignKeys = @ForeignKey(entity = Admins.class,parentColumns = "id",childColumns = "madeBy"))
 public class KindOfItem {
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    public long id;
 
     @ColumnInfo(name = "name")
     public String name;
 
-    @ColumnInfo(name = "madeBy",index = true)
-    public int madeBy;
+    @ColumnInfo(name = "madeBy")
+    public String madeBy;
 
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
-    @Ignore
     public KindOfItem(){
 
     }
 
-    public KindOfItem(long id, String name, int madeBy, Date madeDateTime) {
-        this.id = id;
+    public KindOfItem( String name, String madeBy, Date madeDateTime) {
         this.name = name;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
     }
 
     @Ignore
-    public KindOfItem(String name, int madeBy) {
+    public KindOfItem(String name) {
         this.name = name;
-        this.madeBy = madeBy;
     }
 
 
-    public long getId() {
-        return id;
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("madeBy",this.getMadeBy());
+        map.put("madeDateTime",this.getMadeDateTime());
+        return map;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getMadeBy() {
+    public String getMadeBy() {
         return madeBy;
     }
 

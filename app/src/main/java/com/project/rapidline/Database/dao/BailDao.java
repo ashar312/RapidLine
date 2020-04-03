@@ -47,7 +47,7 @@ public interface BailDao {
             "(Select companyName from tbl_customers where tbl_bails.senderId=tbl_customers.id) AS sender," +
             "(Select companyName from tbl_customers where tbl_bails.receiverId=tbl_customers.id) AS receiver," +
             "(Select companyName from tbl_transporters where tbl_bails.transporterId=tbl_transporters.id) as transporter," +
-            "(Select name from tbl_agents where tbl_bails.agentId=tbl_agents.id) as agentName," +
+            "  0 as agentName," +
             "(Select name from tbl_kindOfItem where tbl_bails.kindId=tbl_kindOfItem.id) as itemName" +
             " from tbl_bails where id=:bailId")
     public BailMinimal getBailPrint(long bailId);

@@ -11,9 +11,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 
+import com.project.rapidline.Database.entity.Bails;
+import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.HomeScreens.Adapter.EnteriesAdapter;
 
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
@@ -28,12 +33,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Register_Entries extends AppCompatActivity implements OnItemClickListener {
+public class Register_Entries extends AppCompatActivity implements OnItemClickListener, EnteriesAdapter.OnNoteListener {
 
     private ActivityRegisterEntriesBinding entriesBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
     private EnteriesAdapter enteriesAdapter;
-    private List<BailMinimal> minimalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,30 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
 
             }
         });
+
+
+        entriesBinding.sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String spinnerItem = entriesBinding.sortSpinner.getSelectedItem().toString();
+                if(spinnerItem.equals(StaticClasses.sortOrder.get(1))){
+
+                    //Remove Old Observers
+                    saeedSonsViewModel.getBailDataRv().removeObservers(Register_Entries.this);
+
+                    //sort by date
+                    saeedSonsViewModel.getBailDataRvByDate().observe(Register_Entries.this,bails -> {
+                        enteriesAdapter.setBailsArrayList((ArrayList<Bails>) bails);
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
 //        entriesBinding.sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -112,56 +140,60 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
     }
 
     private void setupRecyclerView() {
-        enteriesAdapter = new EnteriesAdapter(this, new ArrayList<>(), this);
+        enteriesAdapter = new EnteriesAdapter(this, new ArrayList<>(), this::onItemClick,this::onNoteClick);
         entriesBinding.enteriesRv.setLayoutManager(new LinearLayoutManager(this));
         entriesBinding.enteriesRv.setAdapter(enteriesAdapter);
         entriesBinding.enteriesRv.setItemAnimator(new DefaultItemAnimator());
 
+        saeedSonsViewModel.getBailDataRv().observe(this,bails -> {
+            enteriesAdapter.setBailsArrayList((ArrayList<Bails>) bails);
+        });
 
-        minimalList = saeedSonsViewModel.data();
-        enteriesAdapter.setBailsArrayList((ArrayList<BailMinimal>) minimalList);
     }
 
-    private void sortBails(String field) {
-        ArrayList<BailMinimal> sortedList = new ArrayList<>(minimalList);
-        switch (field) {
-            case "Date":
-                Collections.sort(sortedList, new Comparator<BailMinimal>() {
-                    @Override
-                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
-                        return bailMinimal.getTime().compareTo(t1.getTime());
-                    }
-                });
-
-
-            case "Online":
-                Collections.sort(sortedList, new Comparator<BailMinimal>() {
-                    @Override
-                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
-                        return bailMinimal.getTime().compareTo(t1.getTime());
-                    }
-                });
-
-            case "Offline":
-                Collections.sort(sortedList, new Comparator<BailMinimal>() {
-                    @Override
-                    public int compare(BailMinimal bailMinimal, BailMinimal t1) {
-                        return bailMinimal.getTime().compareTo(t1.getTime());
-                    }
-                });
-
-        }
-        enteriesAdapter.setBailsArrayList(sortedList);
-    }
+//    private void sortBails(String field) {
+//        ArrayList<Bails> sortedList = new ArrayList<>(enteriesAdapter.getBailsArrayList());
+//        switch (field) {
+//            case "Date":
+//                Collections.sort(sortedList, (Comparator<Bails>) (bailMinimal, t1) -> bailMinimal.getMadeDateTime().compareTo(t1.getMadeDateTime()));
+//
+//
+//            case "Online":
+//                Collections.sort(sortedList, (Comparator<Bails>) (bailMinimal, t1) -> bailMinimal.getMadeDateTime().compareTo(t1.getMadeDateTime()));
+//
+//            case "Offline":
+//                Collections.sort(sortedList, (Comparator<Bails>) (bailMinimal, t1) -> bailMinimal.getMadeDateTime().compareTo(t1.getMadeDateTime()));
+//
+//        }
+//        enteriesAdapter.setBailsArrayList(sortedList);
+//    }
 
     //Click listener for print
     @Override
-    public void onItemClick(long itemId, String action) {
+    public void onItemClick(String itemId, String action) {
 
         Intent intent=new Intent(Register_Entries.this, PrintOutActivity.class);
         intent.putExtra("action",action);
         intent.putExtra("itemId",itemId);
         startActivity(intent);
+
+    }
+
+    //Recycler View entry
+    @Override
+    public void onNoteClick(String itemId) {
+
+        boolean edit_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("edit_bail_perm",false);
+
+        if(edit_bail_state){
+            Intent intent=new Intent(Register_Entries.this, AddBailForm.class);
+            intent.putExtra("action","edit");
+            intent.putExtra("itemId",itemId);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this,"You don not have permissions to update bail",Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

@@ -61,7 +61,6 @@ public class Login extends AppCompatActivity {
 
     }
 
-
     private void addCurrentStateToPref(boolean loginState,String username,String adminName) {
         SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("LoginPref", 0).edit();
         editor.putString("username",username);

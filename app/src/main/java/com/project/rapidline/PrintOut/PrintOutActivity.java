@@ -3,6 +3,7 @@ package com.project.rapidline.PrintOut;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.print.PrintAttributes;
@@ -45,6 +46,8 @@ import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class PrintOutActivity extends AppCompatActivity {
@@ -192,14 +195,28 @@ public class PrintOutActivity extends AppCompatActivity {
                 addLineSeperator(document);
                 addNewItem(document,"Bilty No",Element.ALIGN_LEFT,subtitleFont);
                 addLineSpace(document);
-                addNewItem(document,bailData.getBiltyNo(),Element.ALIGN_LEFT,textFont);
+                addNewItem(document,generateBuiltyNo(),Element.ALIGN_LEFT,textFont);
                 addLineSeperator(document);
 
+//                //kind qty
+//                AddNewItemWithLeftAndRight(document,"Kind","Quantity",subtitleFont,subtitleFont);
+////                AddNewItemWithLeftAndRight(document, bailData.getItemName(),
+////                        String.valueOf(bailData.getQuantity()), textFont,textFont);
+//                addLineSeperator(document);
 
-                //kind qty
-                AddNewItemWithLeftAndRight(document,"Kind","Quantity",subtitleFont,subtitleFont);
-//                AddNewItemWithLeftAndRight(document, bailData.getItemName(),
-//                        String.valueOf(bailData.getQuantity()), textFont,textFont);
+
+
+
+
+
+
+
+
+
+                //Invoice Time and date
+                AddNewItemWithLeftAndRight(document,"Invoice Time","Bilty Date",subtitleFont,subtitleFont);
+                AddNewItemWithLeftAndRight(document, Calendar.getInstance().getTime().toString(),
+                        bailData.getMadeDateTime().toString(), textFont,textFont);
                 addLineSeperator(document);
 
 
@@ -208,6 +225,9 @@ public class PrintOutActivity extends AppCompatActivity {
                 AddNewItemWithLeftAndRight(document, bailData.getFromCity() ,
                         bailData.getToCity(), textFont,textFont);
                 addLineSeperator(document);
+
+
+
 
                 //Sender Receiver
                 AddNewItemWithLeftAndRight(document,"Sender","Receiver",subtitleFont,subtitleFont);
@@ -326,4 +346,18 @@ public class PrintOutActivity extends AppCompatActivity {
 
     }
 
+    private String generateBuiltyNo(){
+        String builty_no=getApplicationContext().getSharedPreferences("MyPref",0).getString("builtyNo","0");
+        int curr_num=Integer.parseInt(builty_no)+1;
+
+        String builtyNum=String.format(Locale.ENGLISH,"%06d",curr_num);
+        addToPref(builtyNum);
+        return builtyNum;
+
+    }
+    private void addToPref(String num){
+        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("MyPref", 0).edit();
+        editor.putString("builtyNo", num);
+        editor.apply(); //apply writes the data in background process
+    }
 }

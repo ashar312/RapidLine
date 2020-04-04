@@ -153,11 +153,11 @@ public class RapidLineRepository {
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().exists()) {
-                    response.setValue(Responses.AGENT_EXISTS);
+                    response.postValue(Responses.AGENT_EXISTS);
                 } else {
                     saeedSonReference.collection(AgentTableName)
                             .document(agent.getAgentName()).set(agent.toHashMap());
-                    response.setValue(Responses.AGENT_ADDED);
+                    response.postValue(Responses.AGENT_ADDED);
                 }
             }
         });
@@ -194,13 +194,13 @@ public class RapidLineRepository {
                 .get().
                 addOnSuccessListener(documentSnapshot -> {
                     Log.d(TAG, "sucess: ");
-                    response.setValue(Responses.CUSTOMER_EXISTS);
+                    response.postValue(Responses.CUSTOMER_EXISTS);
                 })
                 .addOnFailureListener(e -> {
                     Log.d(TAG, "failed: ");
                     saeedSonReference.collection(CustomerTableName).
                             document(customer.getCompanyName()).set(customer.toHashMap());
-                    response.setValue(Responses.CUSTOMER_ADDED);
+                    response.postValue(Responses.CUSTOMER_ADDED);
                 });
 
         return response;
@@ -237,12 +237,12 @@ public class RapidLineRepository {
         saeedSonReference.collection(TransporterTableName).document(transporter.getCompanyName())
                 .get().
                 addOnSuccessListener(documentSnapshot -> {
-                    response.setValue(Responses.TRANSPORTER_EXISTS);
+                    response.postValue(Responses.TRANSPORTER_EXISTS);
                 })
                 .addOnFailureListener(e -> {
                     saeedSonReference.collection(TransporterTableName)
                             .document(transporter.getCompanyName()).set(transporter.toHashMap());
-                    response.setValue(Responses.TRANSPORTER_ADDED);
+                    response.postValue(Responses.TRANSPORTER_ADDED);
                 });
 
         return response;
@@ -278,12 +278,12 @@ public class RapidLineRepository {
         saeedSonReference.collection(LabourTableName).document(labour.getName())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    response.setValue(Responses.LABOUR_EXISTS);
+                    response.postValue(Responses.LABOUR_EXISTS);
                 })
                 .addOnFailureListener(e -> {
                     saeedSonReference.collection(LabourTableName).
                             document(labour.getName()).set(labour.toHashMap());
-                    response.setValue(Responses.LABOUR_ADDED);
+                    response.postValue(Responses.LABOUR_ADDED);
                 });
 
         return response;
@@ -315,12 +315,12 @@ public class RapidLineRepository {
         saeedSonReference.collection(PatriTableName).document(patri.getName())
                 .get()
                 .addOnSuccessListener(runnable -> {
-                    response.setValue(Responses.PATRI_EXISTS);
+                    response.postValue(Responses.PATRI_EXISTS);
                 })
                 .addOnFailureListener(e -> {
                     saeedSonReference.collection(PatriTableName)
                             .document(patri.getName()).set(patri.toHashMap());
-                    response.setValue(Responses.PATRI_ADDED);
+                    response.postValue(Responses.PATRI_ADDED);
                 });
 
         return response;
@@ -393,4 +393,7 @@ public class RapidLineRepository {
         saeedSonReference.collection(KindTableName)
                 .document(itemId).delete();
     }
+
+
+
 }

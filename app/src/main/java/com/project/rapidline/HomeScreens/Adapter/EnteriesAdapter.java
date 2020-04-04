@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.project.rapidline.Database.entity.Bails;
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
-import com.project.rapidline.Models.BailMinimal;
-import com.project.rapidline.Models.ListItems;
 import com.project.rapidline.R;
 
 import java.text.DateFormat;
@@ -95,12 +93,12 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
 
         @Override
         public void onClick(View view) {
-            onNoteListener.onNoteClick(bailsArrayList.get(getAdapterPosition()).getBiltyNo());
+            onNoteListener.onBailClick(bailsArrayList.get(getAdapterPosition()).getBiltyNo());
         }
     }
 
     public interface OnNoteListener{
-        void onNoteClick(String itemId);
+        void onBailClick(String itemId);
     }
 
     public void setBailsArrayList(ArrayList<Bails> bailsArrayList) {

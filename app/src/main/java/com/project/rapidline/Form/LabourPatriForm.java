@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
+import com.project.rapidline.Models.Responses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityLabourPatriFormBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -101,9 +102,11 @@ public class LabourPatriForm extends AppCompatActivity {
 
                     labourEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                     labourEditUpdate.setMadeBy(getAdminName());
-                    saeedSonsViewModel.addLabour(labourEditUpdate);
-                    Toast.makeText(this,"Labour added sucessfully",Toast.LENGTH_SHORT).show();
-                    finish();
+                    saeedSonsViewModel.addLabour(labourEditUpdate).observe(this,response -> {
+                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
+                        if(response.equals(Responses.LABOUR_ADDED))
+                            finish();
+                    });
                 }
 
             } else {
@@ -111,8 +114,6 @@ public class LabourPatriForm extends AppCompatActivity {
                     patriEditUpdate.setName(labourPatriFormBinding.formName.getText().toString());
                     patriEditUpdate.setPhoneNo(labourPatriFormBinding.formNo.getText().toString());
                     patriEditUpdate.setNic(labourPatriFormBinding.formCnic.getText().toString());
-
-                    //TODO Save admin
 
                     patriEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                     patriEditUpdate.setMadeBy(getAdminName());
@@ -131,9 +132,11 @@ public class LabourPatriForm extends AppCompatActivity {
                     patriEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                     patriEditUpdate.setMadeBy(getAdminName());
                     //patriEditUpdate.setMadeBy(1);
-                    saeedSonsViewModel.addPatri(patriEditUpdate);
-                    Toast.makeText(this,"Patri added sucessfully",Toast.LENGTH_SHORT).show();
-                    finish();
+                    saeedSonsViewModel.addPatri(patriEditUpdate).observe(this,response -> {
+                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
+                        if(response.equals(Responses.PATRI_ADDED))
+                            finish();
+                    });
                 }
 
             }

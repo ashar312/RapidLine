@@ -22,16 +22,12 @@ import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.HomeScreens.Adapter.EnteriesAdapter;
 
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
-import com.project.rapidline.Models.BailMinimal;
 import com.project.rapidline.Models.StaticClasses;
 import com.project.rapidline.PrintOut.PrintOutActivity;
 import com.project.rapidline.databinding.ActivityRegisterEntriesBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class Register_Entries extends AppCompatActivity implements OnItemClickListener, EnteriesAdapter.OnNoteListener {
 
@@ -140,7 +136,7 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
     }
 
     private void setupRecyclerView() {
-        enteriesAdapter = new EnteriesAdapter(this, new ArrayList<>(), this::onItemClick,this::onNoteClick);
+        enteriesAdapter = new EnteriesAdapter(this, new ArrayList<>(), this::onItemClick,this::onBailClick);
         entriesBinding.enteriesRv.setLayoutManager(new LinearLayoutManager(this));
         entriesBinding.enteriesRv.setAdapter(enteriesAdapter);
         entriesBinding.enteriesRv.setItemAnimator(new DefaultItemAnimator());
@@ -181,7 +177,7 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
 
     //Recycler View entry
     @Override
-    public void onNoteClick(String itemId) {
+    public void onBailClick(String itemId) {
 
         boolean edit_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("edit_bail_perm",false);
 

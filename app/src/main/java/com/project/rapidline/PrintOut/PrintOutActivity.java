@@ -1,6 +1,7 @@
 package com.project.rapidline.PrintOut;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.project.rapidline.Database.entity.Bails;
+import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Models.BailMinimal;
 import com.project.rapidline.Models.Common;
 import com.project.rapidline.Models.StaticClasses;
@@ -48,7 +50,9 @@ import java.io.FileOutputStream;
 public class PrintOutActivity extends AppCompatActivity {
 
     private SaeedSonsViewModel saeedSonsViewModel;
-    private BailMinimal bailData;
+    private Bails bailData;
+    private Customers senderData,receiverData;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,25 @@ public class PrintOutActivity extends AppCompatActivity {
 
         //Get Bail to print
         Bundle bundle = getIntent().getExtras();
-        long bailId=bundle.getLong("itemId");
-        bailData=saeedSonsViewModel.getBailPrintData(bailId);
+        String bailId=bundle.getString("itemId");
+
+//        saeedSonsViewModel.getBailById(bailId).observe(this,bails -> {
+//            if(bails!=null){
+//                bailData=bails;
+//                saeedSonsViewModel.getCustById(bailData.getSenderId()).observe(this,sender -> {
+//                    senderData=sender;
+//                    saeedSonsViewModel.getCustById(bailData.getReceiverId()).observe(this,receiver -> {
+//                        receiverData=receiver;
+//
+//                    });
+//                });
+//            }
+//        });
+
         Toast.makeText(this,"Item id"+bailId,Toast.LENGTH_SHORT).show();
+
+
+
 
 
         //Setup Print button and permissions
@@ -76,6 +96,8 @@ public class PrintOutActivity extends AppCompatActivity {
                             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onClick(View v) {
+                                showDialog();
+                                loadData(bailId);
                                 CreatePDFfile(Common.getAppPath(PrintOutActivity.this) + "test_pdf.pdf");
 
                             }
@@ -96,12 +118,49 @@ public class PrintOutActivity extends AppCompatActivity {
 
     }
 
+    private void showDialog(){
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Loading data");
+        progressDialog.show();
+    }
+
+    private void dismissDialog(){
+        progressDialog.dismiss();
+    }
+
+    private void removeObservers(){
+
+    }
+    private void loadData(String bailId){
+        saeedSonsViewModel.getBailById(bailId).observe(this,bails -> {
+            if(bails!=null){
+                bailData=bails;
+                saeedSonsViewModel.getCustById(bailData.getSenderId()).observe(this,sender -> {
+                    senderData=sender;
+                    saeedSonsViewModel.getCustById(bailData.getReceiverId()).observe(this,receiver -> {
+                        receiverData=receiver;
+                        progressDialog.setMessage("Generating PDF");
+                        CreatePDFfile(Common.getAppPath(PrintOutActivity.this) + "test_pdf.pdf");
+                    });
+                });
+            }
+        });
+    }
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void CreatePDFfile(String path) {
         if(new File(path).exists()) {
             new File(path).delete();
         }
             try{
+
+                removeObservers();
+
+
+
                 Document document = new Document();
                 //Save
                 PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -139,34 +198,34 @@ public class PrintOutActivity extends AppCompatActivity {
 
                 //kind qty
                 AddNewItemWithLeftAndRight(document,"Kind","Quantity",subtitleFont,subtitleFont);
-                AddNewItemWithLeftAndRight(document, bailData.getItemName(),
-                        String.valueOf(bailData.getQuantity()), textFont,textFont);
+//                AddNewItemWithLeftAndRight(document, bailData.getItemName(),
+//                        String.valueOf(bailData.getQuantity()), textFont,textFont);
                 addLineSeperator(document);
 
 
                 //From and to Details
                 AddNewItemWithLeftAndRight(document,"From","To",subtitleFont,subtitleFont);
-                AddNewItemWithLeftAndRight(document, StaticClasses.cities.get(Integer.valueOf(bailData.getFromCity())) ,
-                        StaticClasses.cities.get(Integer.valueOf(bailData.getToCity())), textFont,textFont);
+                AddNewItemWithLeftAndRight(document, bailData.getFromCity() ,
+                        bailData.getToCity(), textFont,textFont);
                 addLineSeperator(document);
 
                 //Sender Receiver
                 AddNewItemWithLeftAndRight(document,"Sender","Receiver",subtitleFont,subtitleFont);
-                AddNewItemWithLeftAndRight(document, bailData.getSendName() ,
-                        bailData.getReceiverName(), textFont,textFont);
+//                AddNewItemWithLeftAndRight(document, bailData.getSendName() ,
+//                        bailData.getReceiverName(), textFont,textFont);
                 addLineSeperator(document);
 
 
                 //Transporter
                 addNewItem(document,"Transporter",Element.ALIGN_LEFT,subtitleFont);
                 addLineSpace(document);
-                addNewItem(document,bailData.getTransporterName(),Element.ALIGN_LEFT,textFont);
+//                addNewItem(document,bailData.getTransporterName(),Element.ALIGN_LEFT,textFont);
                 addLineSeperator(document);
 
                 //agent
                 addNewItem(document,"Agent",Element.ALIGN_LEFT,subtitleFont);
                 addLineSpace(document);
-                addNewItem(document,bailData.getName(),Element.ALIGN_LEFT,textFont);
+//                addNewItem(document,bailData.getName(),Element.ALIGN_LEFT,textFont);
                 addLineSeperator(document);
 
 
@@ -208,6 +267,7 @@ public class PrintOutActivity extends AppCompatActivity {
 
                 document.close();
 
+                dismissDialog();
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
                 printPDF();

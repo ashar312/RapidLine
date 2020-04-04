@@ -145,8 +145,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addAgent(final Agents agent) {
-        rapidLineRepository.addAgent(agent);
+    public LiveData<String> addAgent(final Agents agent) {
+
+         return rapidLineRepository.addAgent(agent);
     }
 
     public void updateAgent(final Agents agent) {
@@ -207,8 +208,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addCustomer(final Customers customer) {
-        rapidLineRepository.addCustomer(customer);
+    public LiveData<String> addCustomer(final Customers customer) {
+        return rapidLineRepository.addCustomer(customer);
     }
 
     public void updateCustomer(final Customers customer) {
@@ -262,8 +263,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addTransporter(final Transporters transporter) {
-        rapidLineRepository.addTransporter(transporter);
+    public LiveData<String> addTransporter(final Transporters transporter) {
+        return rapidLineRepository.addTransporter(transporter);
     }
 
     public void updateTransporter(final Transporters transporter) {
@@ -313,8 +314,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addLabour(final Labours labour) {
-        rapidLineRepository.addLabour(labour);
+    public LiveData<String> addLabour(final Labours labour) {
+        return rapidLineRepository.addLabour(labour);
     }
 
     public void updateLabour(final Labours labour) {
@@ -361,8 +362,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addPatri(final Patri patri) {
-        rapidLineRepository.addPatri(patri);
+    public LiveData<String> addPatri(final Patri patri) {
+
+        return rapidLineRepository.addPatri(patri);
     }
 
     public void updatePatri(final Patri patri) {
@@ -462,7 +464,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
     public LiveData<List<Bails>> getBailDataRvByDate() {
         MutableLiveData<List<Bails>> data=new MutableLiveData<>();
-        rapidLineRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING).addSnapshotListener((queryDocumentSnapshots, e) -> {
+        rapidLineRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -483,14 +486,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
-    public BailMinimal getBailPrintData(long bailId) {
-        try {
-            return rapidLineRepository.getBailPrintData(bailId);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     public void addBail(final Bails bail) {
         rapidLineRepository.addBail(bail);

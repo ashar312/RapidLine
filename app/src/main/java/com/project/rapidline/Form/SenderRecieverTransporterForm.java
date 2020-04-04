@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Database.entity.Transporters;
+import com.project.rapidline.Models.Responses;
 import com.project.rapidline.Models.StaticClasses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivitySenderTransporterformBinding;
@@ -128,9 +129,13 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     customerEditUpdate.setMadeBy(getAdminName());
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
-                    saeedSonsViewModel.addCustomer(customerEditUpdate);
-                    Toast.makeText(this,"Customer added sucessfully",Toast.LENGTH_SHORT).show();
-                    finish();
+                    saeedSonsViewModel.addCustomer(customerEditUpdate).observe(this,response -> {
+                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
+                        if(response.equals(Responses.CUSTOMER_ADDED))
+                            finish();
+                    });
+
+
                 }
             } else {
                 if (isTranporterDataFieldsEmpty()) {
@@ -168,10 +173,12 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     transporterEditUpdate.setMadeBy(getAdminName());
                     transporterEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
-                    saeedSonsViewModel.addTransporter(transporterEditUpdate);
+                    saeedSonsViewModel.addTransporter(transporterEditUpdate).observe(this,response -> {
+                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
+                        if(response.equals(Responses.TRANSPORTER_ADDED))
+                            finish();
+                    });
 
-                    Toast.makeText(this,"Transporter added sucessfully",Toast.LENGTH_SHORT).show();
-                    finish();
                 }
             }
 

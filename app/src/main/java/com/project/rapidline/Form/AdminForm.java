@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.project.rapidline.AdminRights;
 import com.project.rapidline.Database.entity.Admins;
+import com.project.rapidline.Models.Responses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAdminFormBinding;
 import com.project.rapidline.viewmodel.AdminViewModel;
@@ -52,7 +53,7 @@ public class AdminForm extends AppCompatActivity {
 
             adminViewModel.addAdmin(admins).observe(this,response -> {
                 Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
-                if(response.equals("Admin Sucessfully Added")){
+                if(response.equals(Responses.ADMIN_ADDED)){
                     startActivity(new Intent(AdminForm.this, AdminRights.class));
                     finish();
                 }

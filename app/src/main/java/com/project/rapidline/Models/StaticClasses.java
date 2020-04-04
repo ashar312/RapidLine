@@ -4,7 +4,7 @@ package com.project.rapidline.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaticClasses {
+public  class StaticClasses {
 
 
 
@@ -19,5 +19,6 @@ public class StaticClasses {
         add("Sort By");
         add("Date");
     }};
+
 
 }

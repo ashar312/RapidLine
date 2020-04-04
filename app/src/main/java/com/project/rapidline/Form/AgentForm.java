@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.project.rapidline.Database.entity.Agents;
+import com.project.rapidline.Models.Responses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAgentFormBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -39,31 +40,31 @@ public class AgentForm extends AppCompatActivity {
             //Load the data
             String id = bundle.getString("itemId");
 //            agentEditUpdate = saeedSonsViewModel.getAgentById(id);
-            saeedSonsViewModel.getAgentById(id).observe(this,agents -> {
-                agentEditUpdate=agents;
+            saeedSonsViewModel.getAgentById(id).observe(this, agents -> {
+                agentEditUpdate = agents;
                 loadData();
             });
         }
 
         agentFormBinding.saveBtn.setOnClickListener(view -> {
-            RadioButton radioButton = findViewById(agentFormBinding.agentRadio.getCheckedRadioButtonId());;
+            RadioButton radioButton = findViewById(agentFormBinding.agentRadio.getCheckedRadioButtonId());
+            ;
 
             if (radioButton.getText().toString().equals("Weight")) {
-                if(TextUtils.isEmpty(agentFormBinding.weightTxt.getText())){
+                if (TextUtils.isEmpty(agentFormBinding.weightTxt.getText())) {
                     Toast.makeText(AgentForm.this, "Please fill all field to continue",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-            }
-            else {
-                if(TextUtils.isEmpty(agentFormBinding.quanTxt.getText())){
+            } else {
+                if (TextUtils.isEmpty(agentFormBinding.quanTxt.getText())) {
                     Toast.makeText(AgentForm.this, "Please fill all field to continue",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
 
-            if (TextUtils.isEmpty(agentFormBinding.agentName.getText()) || TextUtils.isEmpty(agentFormBinding.agentNo.getText()) ) {
+            if (TextUtils.isEmpty(agentFormBinding.agentName.getText()) || TextUtils.isEmpty(agentFormBinding.agentNo.getText())) {
 
                 Toast.makeText(AgentForm.this, "Please fill all field to continue",
                         Toast.LENGTH_SHORT).show();
@@ -88,7 +89,7 @@ public class AgentForm extends AppCompatActivity {
                 agentEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
                 saeedSonsViewModel.updateAgent(agentEditUpdate);
-                Toast.makeText(this,"Agent updated sucessfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Agent updated sucessfully", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 agentEditUpdate = new Agents();
@@ -109,9 +110,12 @@ public class AgentForm extends AppCompatActivity {
                 agentEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                 agentEditUpdate.setMadeBy(getAdminName());
 
-                saeedSonsViewModel.addAgent(agentEditUpdate);
-                Toast.makeText(this,"Agent updated sucessfully",Toast.LENGTH_SHORT).show();
-                finish();
+                saeedSonsViewModel.addAgent(agentEditUpdate).observe(this, response -> {
+                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                    if (response.equals(Responses.AGENT_ADDED))
+                        finish();
+                });
+
             }
 
         });
@@ -133,7 +137,7 @@ public class AgentForm extends AppCompatActivity {
 
     }
 
-    private String getAdminName(){
-        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
+    private String getAdminName() {
+        return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
 }

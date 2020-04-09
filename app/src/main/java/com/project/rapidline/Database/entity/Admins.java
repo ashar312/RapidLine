@@ -30,6 +30,12 @@ public class Admins {
     @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
+    public String bailSymbol;
+    public int bailCounter;
+
+    public int builtyRange;
+    public int builtyCounter;
+
     public Admins(){
 
     }
@@ -43,6 +49,13 @@ public class Admins {
         this.companyName = companyName;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
+    }
+
+    public Admins(String bailSymbol, Double bailCounter, Double builtyRange, Double builtyCounter) {
+        this.bailSymbol = bailSymbol;
+        this.bailCounter = bailCounter.intValue();
+        this.builtyRange = builtyRange.intValue();
+        this.builtyCounter = builtyCounter.intValue();
     }
 
     public String getAdminName() {
@@ -63,6 +76,12 @@ public class Admins {
         map.put("companyName",this.getCompanyName());
         map.put("madeBy", this.getMadeBy());
         map.put("madeDateTime", this.getMadeDateTime());
+
+        map.put("bailSymbol",this.getBailSymbol());
+        map.put("bailCounter",this.getBailCounter());
+        map.put("builtyRange",this.getBuiltyRange());
+        map.put("builtyCounter",this.getBailCounter());
+
         return map;
     }
 
@@ -120,5 +139,37 @@ public class Admins {
 
     public void setMadeDateTime(Date madeDateTime) {
         this.madeDateTime = madeDateTime;
+    }
+
+    public String getBailSymbol() {
+        return bailSymbol;
+    }
+
+    public void setBailSymbol(String bailSymbol) {
+        this.bailSymbol = bailSymbol;
+    }
+
+    public int getBailCounter() {
+        return bailCounter;
+    }
+
+    public void setBailCounter(int bailCounter) {
+        this.bailCounter = bailCounter;
+    }
+
+    public int getBuiltyRange() {
+        return builtyRange;
+    }
+
+    public void setBuiltyRange(int builtyRange) {
+        this.builtyRange = builtyRange;
+    }
+
+    public int getBuiltyCounter() {
+        return builtyCounter;
+    }
+
+    public void setBuiltyCounter(int builtyCounter) {
+        this.builtyCounter = builtyCounter;
     }
 }

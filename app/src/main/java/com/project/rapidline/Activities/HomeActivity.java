@@ -1,11 +1,13 @@
-package com.project.rapidline.HomeScreens;
+package com.project.rapidline.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,21 +21,19 @@ import com.google.android.material.navigation.NavigationView;
 
 import com.project.rapidline.Form.AddBailForm;
 import com.project.rapidline.Form.AdminForm;
-import com.project.rapidline.HomeScreens.AddActivities.ListActivities;
-import com.project.rapidline.Login;
 import com.project.rapidline.R;
-import com.project.rapidline.Register_Entries;
-import com.project.rapidline.viewmodel.SaeedSonsViewModel;
+import com.project.rapidline.databinding.ActivityHomeBinding;
+import com.project.rapidline.viewmodel.HomeViewModel;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Toolbar toolbar;
 
-    //ViewModel
-    private SaeedSonsViewModel saeedSonsViewModel;
+    private HomeViewModel homeViewModel;
+    private ActivityHomeBinding activityHomeBinding;
 
     enum Activities {
         SenderReceiver,
@@ -48,14 +48,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
         drawerLayout = findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolbar1);
         ImageView imageView = findViewById(R.id.draweropenclose);
         navigationView = findViewById(R.id.navigationView);
         View header_view = navigationView.getHeaderView(0);
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawerOpen, R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -67,7 +67,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         });
 
         //Intialize viewmodel
-
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        initializeViewModel();
         //Get cities
 //        saeedSonsViewModel= ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
 //        saeedSonsViewModel.getListAllAdmins().observe(this, new Observer<List<Admins>>() {
@@ -92,6 +93,46 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     }
 
+    private void initializeViewModel() {
+
+        homeViewModel.getCustomerCount().observe(this, value -> {
+            activityHomeBinding.sendervalue.setText(value + "");
+        });
+
+
+        homeViewModel.getAgentCount().observe(this, value -> {
+            activityHomeBinding.agentvalue.setText(value + "");
+        });
+
+        homeViewModel.getTransporterCount().observe(this, value -> {
+            activityHomeBinding.transportervalue.setText(value + "");
+        });
+        homeViewModel.getLabourCount().observe(this, value -> {
+            activityHomeBinding.labourvalue.setText(value + "");
+        });
+        homeViewModel.getPatriCount().observe(this, value -> {
+            activityHomeBinding.patrisvalue.setText(value + "");
+        });
+
+        homeViewModel.getBailCount().observe(this, integerList -> {
+            //Offline quantity
+            int offline = integerList.get(0);
+            activityHomeBinding.offlineTxt.setText(offline + "");
+            activityHomeBinding.pendingVal.setText(offline + "");
+            if (offline > 0)
+                activityHomeBinding.notificationTxt.setText("You have " + offline + " offline bails/");
+
+            int online=integerList.get(1);
+            //Online quantity
+            activityHomeBinding.onlineTxt.setText(online + "");
+
+            //Set total
+            int total=online+offline;
+            activityHomeBinding.totalVal.setText(total+"");
+
+        });
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -101,27 +142,27 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-    private void OpenDrawer(){
+    private void OpenDrawer() {
         drawerLayout.openDrawer(GravityCompat.START);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.add_bail:
-                boolean add_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("add_bail_perm",true);
-                if(add_bail_state){
-                    Intent intent = new Intent(Home.this, AddBailForm.class);
-                    intent.putExtra("action","add");
+                boolean add_bail_state = getApplicationContext().getSharedPreferences("MyPref", 0).getBoolean("add_bail_perm", true);
+                if (add_bail_state) {
+                    Intent intent = new Intent(HomeActivity.this, AddBailForm.class);
+                    intent.putExtra("action", "add");
                     startActivity(intent);
-                }
-                else {
-                    Toast.makeText(this,"You do not have permissions to add a bail",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "You do not have permissions to add a bail", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
 
             case R.id.regEntries:
-                startActivity(new Intent(this, Register_Entries.class));
+                startActivity(new Intent(this, ViewBailsActivity.class));
 
                 break;
 
@@ -141,7 +182,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.labour:
-            //    startActivity(new Intent(Home.this, AR_Navigation.class));
+                //    startActivity(new Intent(Home.this, AR_Navigation.class));
                 SendDataToListActivities(String.valueOf(Activities.Labour));
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
@@ -152,12 +193,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
 
             case R.id.adminSettings:
+                startActivity(new Intent(this, AdminSettingsActivity.class));
+                break;
+            case R.id.addAdmin:
                 startActivity(new Intent(this, AdminForm.class));
                 break;
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             case R.id.logOut:
                 LogOut();
+                break;
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return true;
             default:
@@ -167,21 +212,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void LogOut() {
-            addCurrentStateToPref(false);
-            startActivity(new Intent(Home.this, Login.class));
-            finish();
+        addCurrentStateToPref(false);
+        startActivity(new Intent(HomeActivity.this, Login.class));
+        finish();
     }
 
     private void addCurrentStateToPref(boolean loginState) {
         SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("LoginPref", 0).edit();
-        editor.putString("username","");
+        editor.putString("username", "");
         editor.putBoolean("loggedIn", loginState);
         editor.apply(); //apply writes the data in background process
     }
 
-    private void SendDataToListActivities(String ListItem){
-        Intent intent = new Intent(Home.this, ListActivities.class);
-        intent.putExtra("ListItem",ListItem);
+    private void SendDataToListActivities(String ListItem) {
+        Intent intent = new Intent(HomeActivity.this, ListActivities.class);
+        intent.putExtra("ListItem", ListItem);
         startActivity(intent);
     }
 }

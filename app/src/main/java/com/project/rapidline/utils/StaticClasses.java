@@ -1,4 +1,4 @@
-package com.project.rapidline.Models;
+package com.project.rapidline.utils;
 
 
 import java.util.ArrayList;

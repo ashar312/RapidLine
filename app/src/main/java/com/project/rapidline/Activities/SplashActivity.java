@@ -1,4 +1,4 @@
-package com.project.rapidline;
+package com.project.rapidline.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.project.rapidline.HomeScreens.Home;
+import com.project.rapidline.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
             if(loggedIn){
-                startActivity(new Intent(SplashActivity.this, Home.class));
+                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 finish();
             }
             else {

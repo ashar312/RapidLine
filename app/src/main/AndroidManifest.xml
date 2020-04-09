@@ -12,20 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Activities.SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminRights" />
+        <activity android:name=".Activities.AdminSettingsActivity" />
         <activity android:name=".Form.AdminForm" />
         <activity
-            android:name=".PrintOut.PrintOutActivity"
+            android:name=".Activities.PrintOutActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Register_Entries"
+            android:name=".Activities.ViewBailsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Form.AddBailForm"
@@ -40,13 +41,13 @@
             android:name=".Form.SenderRecieverTransporterForm"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".HomeScreens.AddActivities.ListActivities"
+            android:name=".Activities.ListActivities"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".HomeScreens.Home"
+            android:name=".Activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Login"
+            android:name=".Activities.Login"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
 

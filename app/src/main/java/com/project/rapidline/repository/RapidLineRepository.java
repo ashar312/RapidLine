@@ -1,19 +1,11 @@
 package com.project.rapidline.repository;
 
 import android.app.Application;
-import android.util.Log;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.project.rapidline.Database.dao.AdminDao;
-import com.project.rapidline.Database.dao.BailDao;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Source;
 import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
@@ -22,17 +14,9 @@ import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
-import com.project.rapidline.Models.BailMinimal;
-import com.project.rapidline.Models.Responses;
-
+import com.project.rapidline.Models.BailCounters;
+import com.project.rapidline.utils.Responses;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -42,9 +26,6 @@ public class RapidLineRepository {
 
     private Application application;
     //    private CityDao cityDao;
-    private AdminDao adminDao;
-
-    private BailDao bailDao;
 
     protected FirebaseFirestore firestore;
     private DocumentReference saeedSonReference;
@@ -59,38 +40,43 @@ public class RapidLineRepository {
     private final String LabourTableName = "Labours";
     private final String BailTableName = "Bails";
     private final String KindTableName = "KindOfItem";
+    private final String CounterTableName="BailCounter";
 
     public RapidLineRepository(Application application) {
         this.application = application;
 
         firestore = FirebaseFirestore.getInstance();
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);
+
         saeedSonReference = firestore.collection(Database).document(SaeedSonDbName);
-
-
     }
 
     //
 //    public LiveData<List<Cities>> getAllCities(){return cityDao.getCities();}
     //Admins
-    public LiveData<List<Admins>> getAllAdmins() {
-//        List<Admins> adminsList=new ArrayList<>();
-//        firestore.collection(Database).document(SaeedSonDbName).collection(AdminTableName)
-//                .addSnapshotListener((documentSnapshot, e) -> {
-//                    if (e != null) {
-////                        Log.w(TAG, "Listen failed.", e);
-//                        return;
-//                    }
-//
-//                    if(!documentSnapshot.isEmpty()){
-//                        for (QueryDocumentSnapshot doc : documentSnapshot) {
-//                            adminsList.add(new Admins())
-//                        }
-//                });
-//
-//        MutableLiveData<List<Admins>> mutableLiveData=new MutableLiveData<>();
-//        mutableLiveData.postValue(adminDao.getAllAdmins().getValue());
-        return adminDao.getAllAdmins();
-    }
+//    public LiveData<List<Admins>> getAllAdmins() {
+////        List<Admins> adminsList=new ArrayList<>();
+////        firestore.collection(Database).document(SaeedSonDbName).collection(AdminTableName)
+////                .addSnapshotListener((documentSnapshot, e) -> {
+////                    if (e != null) {
+//////                        Log.w(TAG, "Listen failed.", e);
+////                        return;
+////                    }
+////
+////                    if(!documentSnapshot.isEmpty()){
+////                        for (QueryDocumentSnapshot doc : documentSnapshot) {
+////                            adminsList.add(new Admins())
+////                        }
+////                });
+////
+////        MutableLiveData<List<Admins>> mutableLiveData=new MutableLiveData<>();
+////        mutableLiveData.postValue(adminDao.getAllAdmins().getValue());
+//        return adminDao.getAllAdmins();
+//    }
 
     public CollectionReference getAdmins() {
         return saeedSonReference.collection(AdminTableName);
@@ -100,19 +86,23 @@ public class RapidLineRepository {
         MutableLiveData<String> response = new MutableLiveData<>();
 
         saeedSonReference.collection(AdminTableName).document(admin.getUsername())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().exists()) {
-                            //username already present
-                            response.postValue(Responses.ADMIN_EXISTS);
-                        } else {
-                            saeedSonReference.collection(AdminTableName)
-                                    .document(admin.getUsername())
-                                    .set(admin.toHashMap());
-                            response.postValue(Responses.ADMIN_ADDED);
-                        }
+                .get(Source.DEFAULT)
+                .addOnSuccessListener(documentSnapshot -> {
+                    //username already present
+                    if(documentSnapshot.exists())
+                        response.postValue(Responses.ADMIN_EXISTS);
+                    else{
+                        saeedSonReference.collection(AdminTableName)
+                                .document(admin.getUsername())
+                                .set(admin.toHashMap());
+                        response.postValue(Responses.ADMIN_ADDED);
                     }
+                })
+                .addOnFailureListener(e -> {
+                    saeedSonReference.collection(AdminTableName)
+                            .document(admin.getUsername())
+                            .set(admin.toHashMap());
+                    response.postValue(Responses.ADMIN_ADDED);
                 });
 //
 //        saeedSonReference.collection(AdminTableName).whereEqualTo("username", admin.getUsername())
@@ -150,17 +140,22 @@ public class RapidLineRepository {
     public LiveData<String> addAgent(final Agents agent) {
         MutableLiveData<String> response = new MutableLiveData<>();
         saeedSonReference.collection(AgentTableName).document(agent.getAgentName())
-                .get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (task.getResult().exists()) {
-                    response.postValue(Responses.AGENT_EXISTS);
-                } else {
+                .get(Source.DEFAULT)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists())
+                        response.postValue(Responses.AGENT_EXISTS);
+                    else {
+                        saeedSonReference.collection(AgentTableName)
+                                .document(agent.getAgentName()).set(agent.toHashMap());
+                        response.postValue(Responses.AGENT_ADDED);
+                    }
+                })
+                .addOnFailureListener(e -> {
                     saeedSonReference.collection(AgentTableName)
                             .document(agent.getAgentName()).set(agent.toHashMap());
                     response.postValue(Responses.AGENT_ADDED);
-                }
-            }
-        });
+                });
+
 
         return response;
     }
@@ -191,13 +186,17 @@ public class RapidLineRepository {
 
         MutableLiveData<String> response = new MutableLiveData<>();
         saeedSonReference.collection(CustomerTableName).document(customer.getCompanyName())
-                .get().
-                addOnSuccessListener(documentSnapshot -> {
-                    Log.d(TAG, "sucess: ");
-                    response.postValue(Responses.CUSTOMER_EXISTS);
+                .get(Source.DEFAULT)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(documentSnapshot.exists())
+                        response.postValue(Responses.CUSTOMER_EXISTS);
+                    else {
+                        saeedSonReference.collection(CustomerTableName).
+                                document(customer.getCompanyName()).set(customer.toHashMap());
+                        response.postValue(Responses.CUSTOMER_ADDED);
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    Log.d(TAG, "failed: ");
                     saeedSonReference.collection(CustomerTableName).
                             document(customer.getCompanyName()).set(customer.toHashMap());
                     response.postValue(Responses.CUSTOMER_ADDED);
@@ -216,11 +215,6 @@ public class RapidLineRepository {
                 document(cusId).delete();
     }
 
-    private void BackgroundWork(Runnable runnable) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(runnable);
-    }
-
     //Transpoter
     public CollectionReference getAllTransporters() {
         return saeedSonReference.collection(TransporterTableName);
@@ -235,13 +229,19 @@ public class RapidLineRepository {
 
         MutableLiveData<String> response = new MutableLiveData<>();
         saeedSonReference.collection(TransporterTableName).document(transporter.getCompanyName())
-                .get().
-                addOnSuccessListener(documentSnapshot -> {
-                    response.postValue(Responses.TRANSPORTER_EXISTS);
+                .get(Source.DEFAULT)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(documentSnapshot.exists())
+                        response.postValue(Responses.TRANSPORTER_EXISTS);
+                    else {
+                        saeedSonReference.collection(TransporterTableName).
+                                document(transporter.getCompanyName()).set(transporter.toHashMap());
+                        response.postValue(Responses.TRANSPORTER_ADDED);
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    saeedSonReference.collection(TransporterTableName)
-                            .document(transporter.getCompanyName()).set(transporter.toHashMap());
+                    saeedSonReference.collection(TransporterTableName).
+                            document(transporter.getCompanyName()).set(transporter.toHashMap());
                     response.postValue(Responses.TRANSPORTER_ADDED);
                 });
 
@@ -276,9 +276,15 @@ public class RapidLineRepository {
         MutableLiveData<String> response = new MutableLiveData<>();
 
         saeedSonReference.collection(LabourTableName).document(labour.getName())
-                .get()
+                .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
-                    response.postValue(Responses.LABOUR_EXISTS);
+                    if(documentSnapshot.exists())
+                        response.postValue(Responses.LABOUR_EXISTS);
+                    else {
+                        saeedSonReference.collection(LabourTableName).
+                                document(labour.getName()).set(labour.toHashMap());
+                        response.postValue(Responses.LABOUR_ADDED);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     saeedSonReference.collection(LabourTableName).
@@ -313,16 +319,21 @@ public class RapidLineRepository {
         MutableLiveData<String> response = new MutableLiveData<>();
 
         saeedSonReference.collection(PatriTableName).document(patri.getName())
-                .get()
-                .addOnSuccessListener(runnable -> {
-                    response.postValue(Responses.PATRI_EXISTS);
+                .get(Source.DEFAULT)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(documentSnapshot.exists())
+                        response.postValue(Responses.PATRI_EXISTS);
+                    else {
+                        saeedSonReference.collection(PatriTableName)
+                                .document(patri.getName()).set(patri.toHashMap());
+                        response.postValue(Responses.PATRI_ADDED);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     saeedSonReference.collection(PatriTableName)
                             .document(patri.getName()).set(patri.toHashMap());
                     response.postValue(Responses.PATRI_ADDED);
                 });
-
         return response;
     }
 
@@ -370,6 +381,19 @@ public class RapidLineRepository {
                 .document(bail.getBiltyNo()).delete();
     }
 
+    public DocumentReference getBailCounter(){
+        return saeedSonReference.collection(BailTableName).document(CounterTableName);
+    }
+
+    public void updateBailCounter(BailCounters bailCounters){
+        saeedSonReference.collection(BailTableName).document(CounterTableName)
+                .update(bailCounters.toHashMap());
+    }
+
+
+
+
+
     //Items
     public CollectionReference getAllItems() {
 
@@ -393,7 +417,6 @@ public class RapidLineRepository {
         saeedSonReference.collection(KindTableName)
                 .document(itemId).delete();
     }
-
 
 
 }

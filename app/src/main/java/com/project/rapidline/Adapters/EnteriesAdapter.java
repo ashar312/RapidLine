@@ -1,4 +1,4 @@
-package com.project.rapidline.HomeScreens.Adapter;
+package com.project.rapidline.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

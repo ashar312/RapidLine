@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
-import com.project.rapidline.Database.entity.Transporters;
-import com.project.rapidline.Models.Responses;
+import com.project.rapidline.utils.Responses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityLabourPatriFormBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -46,6 +44,7 @@ public class LabourPatriForm extends AppCompatActivity {
             labourPatriFormBinding.formNo.setHint("Labour No");
             labourPatriFormBinding.formCnic.setHint("CNIC (Optional)");
             if (action.equals("edit")) {
+                labourPatriFormBinding.formName.setEnabled(false);
                 //Load the data
                 String id = bundle.getString("itemId");
                 saeedSonsViewModel.getAllLaboursById(id).observe(this,labours -> {
@@ -62,6 +61,7 @@ public class LabourPatriForm extends AppCompatActivity {
             labourPatriFormBinding.formCnic.setHint("CNIC (Optional)");
 
             if (action.equals("edit")) {
+                labourPatriFormBinding.formName.setEnabled(false);
                 //Load the data
                 String id = bundle.getString("itemId");
                 saeedSonsViewModel.getPatriById(id).observe(this,patri -> {

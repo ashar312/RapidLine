@@ -1,15 +1,10 @@
 package com.project.rapidline.viewmodel;
 
-import android.app.Activity;
 import android.app.Application;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
@@ -18,17 +13,14 @@ import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Labours;
 import com.project.rapidline.Database.entity.Patri;
 import com.project.rapidline.Database.entity.Transporters;
-import com.project.rapidline.Models.BailMinimal;
-import com.project.rapidline.Models.StaticClasses;
+import com.project.rapidline.utils.StaticClasses;
 import com.project.rapidline.repository.RapidLineRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -64,7 +56,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
         listAllCustomers = new MutableLiveData<>();
         listAllTransporters = new MutableLiveData<>();
-        listAllLabours =new MutableLiveData<>();
+        listAllLabours = new MutableLiveData<>();
         listAllPatris = new MutableLiveData<>();
         listAllBails = new MutableLiveData<>();
 
@@ -99,6 +91,11 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
 
     //Agents
+    public LiveData<Integer> getAgentCount() {
+
+        return null;
+    }
+
     public LiveData<List<Agents>> getListAllAgents() {
         rapidLineRepository.getAllAgents().addSnapshotListener((queryDocumentSnapshots, e) -> {
 
@@ -129,25 +126,22 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<Agents> getAgentById(String agentId) {
         MutableLiveData<Agents> data = new MutableLiveData<>();
-        rapidLineRepository.getAgentById(agentId).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot doc) {
-                        if (doc.exists())
-                            data.postValue(new Agents(doc.getId(),
-                                    doc.getString("agentNumber"),
-                                    doc.getString("dealType"),
-                                    doc.getDouble("dealAmount"),
-                                    doc.getString("madeBy"),
-                                    doc.getDate("madeDateTime")));
-                    }
+        rapidLineRepository.getAgentById(agentId).get(Source.DEFAULT)
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists())
+                        data.postValue(new Agents(doc.getId(),
+                                doc.getString("agentNumber"),
+                                doc.getString("dealType"),
+                                doc.getDouble("dealAmount"),
+                                doc.getString("madeBy"),
+                                doc.getDate("madeDateTime")));
                 });
         return data;
     }
 
     public LiveData<String> addAgent(final Agents agent) {
 
-         return rapidLineRepository.addAgent(agent);
+        return rapidLineRepository.addAgent(agent);
     }
 
     public void updateAgent(final Agents agent) {
@@ -190,20 +184,17 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     public LiveData<Customers> getCustById(String cusId) {
         MutableLiveData<Customers> data = new MutableLiveData<>();
 
-        rapidLineRepository.getCustomerById(cusId).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot doc) {
-                        if (doc.exists())
-                            data.postValue(new Customers(doc.getId(),
-                                    doc.getString("companyNo"),
-                                    doc.getString("city"),
-                                    doc.getString("address"),
-                                    doc.getString("pocName"),
-                                    doc.getString("pocNo"),
-                                    doc.getString("madeBy"),
-                                    doc.getDate("madeDateTime")));
-                    }
+        rapidLineRepository.getCustomerById(cusId).get(Source.DEFAULT)
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists())
+                        data.postValue(new Customers(doc.getId(),
+                                doc.getString("companyNo"),
+                                doc.getString("city"),
+                                doc.getString("address"),
+                                doc.getString("pocName"),
+                                doc.getString("pocNo"),
+                                doc.getString("madeBy"),
+                                doc.getDate("madeDateTime")));
                 });
         return data;
     }
@@ -249,7 +240,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public MutableLiveData<Transporters> getAllTransporterById(String transpId) {
         MutableLiveData<Transporters> data = new MutableLiveData<>();
-        rapidLineRepository.getTransporterById(transpId).get()
+        rapidLineRepository.getTransporterById(transpId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Transporters(doc.getId(),
@@ -277,6 +268,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     //Labours
     public LiveData<List<Labours>> getListAllLabours() {
+        MutableLiveData<List<Labours>> data = new MutableLiveData<>();
         rapidLineRepository.getAllLabours().addSnapshotListener((queryDocumentSnapshots, e) -> {
 
             if (e != null) {
@@ -293,18 +285,18 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                             doc.getDate("madeDateTime")));
                 }
             }
-            listAllLabours.postValue(laboursList);
+            data.postValue(laboursList);
         });
 
 
-        return listAllLabours;
+        return data;
     }
 
-    public LiveData<Labours>  getAllLaboursById(String labourId) {
-        MutableLiveData<Labours> data=new MutableLiveData<>();
-        rapidLineRepository.getAllLaboursById(labourId).get()
+    public LiveData<Labours> getAllLaboursById(String labourId) {
+        MutableLiveData<Labours> data = new MutableLiveData<>();
+        rapidLineRepository.getAllLaboursById(labourId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
-                    if(doc.exists())
+                    if (doc.exists())
                         data.postValue(new Labours(doc.getId(),
                                 doc.getString("nic"),
                                 doc.getString("phoneNumber"),
@@ -349,10 +341,10 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<Patri> getPatriById(String patriId) {
-        MutableLiveData<Patri> data=new MutableLiveData<>();
-        rapidLineRepository.getPatriById(patriId).get()
+        MutableLiveData<Patri> data = new MutableLiveData<>();
+        rapidLineRepository.getPatriById(patriId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
-                    if(doc.exists())
+                    if (doc.exists())
                         data.postValue(new Patri(doc.getId(),
                                 doc.getString("nic"),
                                 doc.getString("phoneNumber"),
@@ -386,24 +378,26 @@ public class SaeedSonsViewModel extends AndroidViewModel {
             List<Bails> bailsList = new ArrayList<>();
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    bailsList.add(new Bails(doc.getId(),
-                            doc.getString("fromCity"),
-                            doc.getString("toCity"),
-                            doc.getString("kindId"),
-                            doc.getDouble("qty") ,
-                            doc.getString("senderId"),
-                            doc.getString("receiverId"),
-                            doc.getString("transporterId"),
-                            doc.getString("agentId"),
-                            doc.getDouble("volume"),
-                            doc.getDouble("weight"),
-                            doc.getString("madeBy"),
-                            doc.getDate("madeDateTime"),
-                            doc.getString("transportCharge"),
-                            doc.getString("labourCharge"),
-                            doc.getString("electric_charge"),
-                            doc.getString("packingCharge"),
-                            doc.getString("comments")));
+                    if (!doc.getId().equals("BailCounter")) {
+                        bailsList.add(new Bails(doc.getId(),
+                                doc.getString("fromCity"),
+                                doc.getString("toCity"),
+                                doc.getString("kindId"),
+                                doc.getDouble("qty"),
+                                doc.getString("senderId"),
+                                doc.getString("receiverId"),
+                                doc.getString("transporterId"),
+                                doc.getString("agentId"),
+                                doc.getDouble("volume"),
+                                doc.getDouble("weight"),
+                                doc.getString("madeBy"),
+                                doc.getDate("madeDateTime"),
+                                doc.getString("transportCharge"),
+                                doc.getString("labourCharge"),
+                                doc.getString("electric_charge"),
+                                doc.getString("packingCharge"),
+                                doc.getString("comments")));
+                    }
                 }
             }
 
@@ -414,10 +408,10 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<Bails> getBailById(String bailId) {
-        MutableLiveData<Bails> data=new MutableLiveData<>();
-        rapidLineRepository.getBailsById(bailId).get()
+        MutableLiveData<Bails> data = new MutableLiveData<>();
+        rapidLineRepository.getBailsById(bailId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
-                    if(doc.exists())
+                    if (doc.exists())
                         data.postValue(new Bails(doc.getId(),
                                 doc.getString("fromCity"),
                                 doc.getString("toCity"),
@@ -440,8 +434,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return data;
     }
 
+
     public LiveData<List<Bails>> getBailDataRv() {
-        MutableLiveData<List<Bails>> data=new MutableLiveData<>();
+        MutableLiveData<List<Bails>> data = new MutableLiveData<>();
         rapidLineRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -450,11 +445,14 @@ public class SaeedSonsViewModel extends AndroidViewModel {
             List<Bails> bailsList = new ArrayList<>();
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    bailsList.add(new Bails(doc.getId(),
-                            doc.getString("senderId"),
-                            doc.getString("receiverId"),
-                            doc.getString("madeBy"),
-                            doc.getDate("madeDateTime")));
+                    if (!doc.getId().equals("BailCounter")) {
+                        bailsList.add(new Bails(doc.getId(),
+                                doc.getString("senderId"),
+                                doc.getString("receiverId"),
+                                doc.getString("madeBy"),
+                                doc.getDate("madeDateTime")));
+                    }
+
                 }
             }
             data.postValue(bailsList);
@@ -462,31 +460,33 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
         return data;
     }
+
     public LiveData<List<Bails>> getBailDataRvByDate() {
-        MutableLiveData<List<Bails>> data=new MutableLiveData<>();
+        MutableLiveData<List<Bails>> data = new MutableLiveData<>();
         rapidLineRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
-            if (e != null) {
+                    if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
-                return;
-            }
-            List<Bails> bailsList = new ArrayList<>();
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    bailsList.add(new Bails(doc.getId(),
-                            doc.getString("senderId"),
-                            doc.getString("receiverId"),
-                            doc.getString("madeBy"),
-                            doc.getDate("madeDateTime")));
-                }
-            }
-            data.postValue(bailsList);
-        });
+                        return;
+                    }
+                    List<Bails> bailsList = new ArrayList<>();
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            if (!doc.getId().equals("BailCounter")) {
+                                bailsList.add(new Bails(doc.getId(),
+                                        doc.getString("senderId"),
+                                        doc.getString("receiverId"),
+                                        doc.getString("madeBy"),
+                                        doc.getDate("madeDateTime")));
+                            }
+                        }
+
+                    }
+                    data.postValue(bailsList);
+                });
 
         return data;
     }
-
-
 
     public void addBail(final Bails bail) {
         rapidLineRepository.addBail(bail);

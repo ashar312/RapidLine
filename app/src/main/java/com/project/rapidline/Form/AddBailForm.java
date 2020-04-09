@@ -6,25 +6,26 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.project.rapidline.Database.entity.Admins;
 import com.project.rapidline.Database.entity.Agents;
 import com.project.rapidline.Database.entity.Bails;
 import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Database.entity.KindOfItem;
 import com.project.rapidline.Database.entity.Transporters;
-import com.project.rapidline.Models.StaticClasses;
+import com.project.rapidline.utils.StaticClasses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAddBailFormBinding;
+import com.project.rapidline.viewmodel.AdminViewModel;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
+import java.util.Locale;
 
 public class AddBailForm extends AppCompatActivity {
 
@@ -33,7 +34,9 @@ public class AddBailForm extends AppCompatActivity {
     private Bails bailEditUpdate;
     private String action;
     private ArrayAdapter<Customers> senderAdap;
-
+    private AdminViewModel adminViewModel;
+    private Admins adminInfo;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,13 @@ public class AddBailForm extends AppCompatActivity {
 
         activityAddBailFormBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_bail_form);
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
+
+
+        adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
+        username=getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
+        adminViewModel.getAdminInfo(username).observe(this,admins -> {
+            adminInfo=admins;
+        });
 
 
         Bundle bundle = getIntent().getExtras();
@@ -95,6 +105,7 @@ public class AddBailForm extends AppCompatActivity {
 
                 //Genrate builty no
                 bailEditUpdate.setBiltyNo(generateBuiltyNo());
+
 
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
                 bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItem().toString());
@@ -352,9 +363,19 @@ public class AddBailForm extends AppCompatActivity {
     }
 
     private String generateBuiltyNo() {
-        //TODO generate bailID
-        Random random = new Random();
-        return String.valueOf(random.nextInt());
+        String symbol=adminInfo.getBailSymbol();
+        int value=adminInfo.getBailCounter();
+
+        //format value
+        String formatted_value=String.format(Locale.ENGLISH, "%03d", value);
+        String bailId=formatted_value+""+symbol;
+
+        //update value
+        int updated_val=value+1;
+        adminViewModel.updateAdminBailInfo(updated_val,username);
+
+
+        return bailId;
     }
 
     private int getIntQuantity(String quan){

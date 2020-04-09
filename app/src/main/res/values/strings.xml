@@ -2,4 +2,5 @@
     <string name="app_name">RapidLine</string>
     <string name="drawerOpen">drawerOpen</string>
     <string name="drawerClose">drawerClose</string>
+    <string name="total">Total</string>
 </resources>

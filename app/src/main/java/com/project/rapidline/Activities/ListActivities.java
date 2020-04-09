@@ -1,4 +1,4 @@
-package com.project.rapidline.HomeScreens.AddActivities;
+package com.project.rapidline.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -20,7 +20,7 @@ import com.project.rapidline.Database.entity.Transporters;
 import com.project.rapidline.Form.AgentForm;
 import com.project.rapidline.Form.LabourPatriForm;
 import com.project.rapidline.Form.SenderRecieverTransporterForm;
-import com.project.rapidline.HomeScreens.Adapter.ListAdapter;
+import com.project.rapidline.Adapters.ListAdapter;
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityListBinding;
@@ -153,7 +153,7 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
 
 //        recyclerView = findViewById(R.id.List_recycler);
 //        setListModelArrayList();
-//        mAdapter = new com.project.rapidline.HomeScreens.Adapter.ListAdapter(getApplicationContext(),
+//        mAdapter = new com.project.rapidline.Adapters.ListAdapter(getApplicationContext(),
 //                recyclerViewItemsCounts);
 //        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 //        recyclerView.setLayoutManager(mLayoutManager);

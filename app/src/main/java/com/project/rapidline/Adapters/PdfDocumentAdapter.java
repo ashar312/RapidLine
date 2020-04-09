@@ -1,4 +1,4 @@
-package com.project.rapidline.PrintOut;
+package com.project.rapidline.Adapters;
 
 import android.content.Context;
 import android.os.Build;

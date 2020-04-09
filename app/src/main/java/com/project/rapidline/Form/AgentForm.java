@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.project.rapidline.Database.entity.Agents;
-import com.project.rapidline.Models.Responses;
+import com.project.rapidline.utils.Responses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAgentFormBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -38,6 +37,7 @@ public class AgentForm extends AppCompatActivity {
         //initialize UI
         if (action.equals("edit")) {
             //Load the data
+            agentFormBinding.agentName.setEnabled(false);
             String id = bundle.getString("itemId");
 //            agentEditUpdate = saeedSonsViewModel.getAgentById(id);
             saeedSonsViewModel.getAgentById(id).observe(this, agents -> {

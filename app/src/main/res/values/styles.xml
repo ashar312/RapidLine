@@ -19,6 +19,18 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="FormInputTextFieldsDisabled" parent="FormInputTextFields">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/Dark_gray</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/edittextshapedisabled</item>
+        <item name="android:enabled">false</item>
+    </style>
+
 
     <style name="Checkbox">
         <item name="android:layout_width">wrap_content</item>

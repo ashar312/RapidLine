@@ -1,4 +1,4 @@
-package com.project.rapidline.HomeScreens.Adapter;
+package com.project.rapidline.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,13 +8,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
-import com.project.rapidline.Models.ListItems;
 import com.project.rapidline.R;
 
 import java.util.ArrayList;

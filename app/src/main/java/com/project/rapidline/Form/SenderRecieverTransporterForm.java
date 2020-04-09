@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.project.rapidline.Database.entity.Customers;
 import com.project.rapidline.Database.entity.Transporters;
-import com.project.rapidline.Models.Responses;
-import com.project.rapidline.Models.StaticClasses;
+import com.project.rapidline.utils.Responses;
+import com.project.rapidline.utils.StaticClasses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivitySenderTransporterformBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
@@ -60,6 +60,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
             senderRecieverFormBinding.headerText.setText(activityValue);
 
             if (action.equals("edit")) {
+                senderRecieverFormBinding.comanyNameTxt.setEnabled(false);
+
                 //Load the data
                 String id = bundle.getString("itemId");
                 saeedSonsViewModel.getCustById(id).observe(this, customers -> {
@@ -75,6 +77,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 
             if (action.equals("edit")) {
                 //Load the data
+                senderRecieverFormBinding.comanyNameTxt.setEnabled(false);
+
                 String id = bundle.getString("itemId");
                 saeedSonsViewModel.getAllTransporterById(id).observe(this, transporters -> {
                     transporterEditUpdate = transporters;

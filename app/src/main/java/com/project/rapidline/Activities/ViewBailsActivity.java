@@ -1,4 +1,4 @@
-package com.project.rapidline;
+package com.project.rapidline.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -19,17 +19,17 @@ import android.widget.Toast;
 
 import com.project.rapidline.Database.entity.Bails;
 import com.project.rapidline.Form.AddBailForm;
-import com.project.rapidline.HomeScreens.Adapter.EnteriesAdapter;
+import com.project.rapidline.Adapters.EnteriesAdapter;
 
 import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
-import com.project.rapidline.Models.StaticClasses;
-import com.project.rapidline.PrintOut.PrintOutActivity;
+import com.project.rapidline.utils.StaticClasses;
+import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityRegisterEntriesBinding;
 import com.project.rapidline.viewmodel.SaeedSonsViewModel;
 
 import java.util.ArrayList;
 
-public class Register_Entries extends AppCompatActivity implements OnItemClickListener, EnteriesAdapter.OnNoteListener {
+public class ViewBailsActivity extends AppCompatActivity implements OnItemClickListener, EnteriesAdapter.OnNoteListener {
 
     private ActivityRegisterEntriesBinding entriesBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
@@ -75,10 +75,10 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
                 if(spinnerItem.equals(StaticClasses.sortOrder.get(1))){
 
                     //Remove Old Observers
-                    saeedSonsViewModel.getBailDataRv().removeObservers(Register_Entries.this);
+                    saeedSonsViewModel.getBailDataRv().removeObservers(ViewBailsActivity.this);
 
                     //sort by date
-                    saeedSonsViewModel.getBailDataRvByDate().observe(Register_Entries.this,bails -> {
+                    saeedSonsViewModel.getBailDataRvByDate().observe(ViewBailsActivity.this, bails -> {
                         enteriesAdapter.setBailsArrayList((ArrayList<Bails>) bails);
                     });
                 }
@@ -168,7 +168,7 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
     @Override
     public void onItemClick(String itemId, String action) {
 
-        Intent intent=new Intent(Register_Entries.this, PrintOutActivity.class);
+        Intent intent=new Intent(ViewBailsActivity.this, PrintOutActivity.class);
         intent.putExtra("action",action);
         intent.putExtra("itemId",itemId);
         startActivity(intent);
@@ -182,7 +182,7 @@ public class Register_Entries extends AppCompatActivity implements OnItemClickLi
         boolean edit_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("edit_bail_perm",false);
 
         if(edit_bail_state){
-            Intent intent=new Intent(Register_Entries.this, AddBailForm.class);
+            Intent intent=new Intent(ViewBailsActivity.this, AddBailForm.class);
             intent.putExtra("action","edit");
             intent.putExtra("itemId",itemId);
             startActivity(intent);

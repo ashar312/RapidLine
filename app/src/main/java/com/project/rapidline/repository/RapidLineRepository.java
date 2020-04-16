@@ -376,9 +376,9 @@ public class RapidLineRepository {
                 .document(bail.getBiltyNo()).update(bail.toHashMap());
     }
 
-    public void deleteBail(final Bails bail) {
+    public void deleteBail(String bailid) {
         saeedSonReference.collection(BailTableName)
-                .document(bail.getBiltyNo()).delete();
+                .document(bailid).delete();
     }
 
     public DocumentReference getBailCounter(){

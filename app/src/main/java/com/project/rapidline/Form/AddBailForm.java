@@ -43,6 +43,7 @@ public class AddBailForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         activityAddBailFormBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_bail_form);
+
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
 
 

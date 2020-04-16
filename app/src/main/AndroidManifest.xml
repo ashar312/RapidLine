@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activities.AdminSettingsActivity" />
         <activity android:name=".Form.AdminForm" />
         <activity
@@ -30,13 +31,13 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Form.AddBailForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Form.LabourPatriForm"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Form.AgentForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Form.SenderRecieverTransporterForm"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

@@ -496,8 +496,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         rapidLineRepository.updateBail(bail);
     }
 
-    public void deleteBail(final Bails bail) {
-        rapidLineRepository.deleteBail(bail);
+    public void deleteBail(final String bailId) {
+        rapidLineRepository.deleteBail(bailId);
     }
 
     //Items

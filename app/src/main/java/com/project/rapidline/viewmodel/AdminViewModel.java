@@ -27,22 +27,24 @@ public class AdminViewModel extends AndroidViewModel {
         MutableLiveData<String> response = new MutableLiveData<>();
         rapidLineRepository.getAdmins().whereEqualTo("username", username)
                 .get(Source.DEFAULT)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()) {
-                            response.setValue("Either password or username is incorrect");
-                        } else {
-                            for (QueryDocumentSnapshot users : task.getResult()) {
-                                //Check pass
-                                if (password.equals(users.getString("pass"))) {
-                                    response.setValue("Login Sucessfull");
-                                    adminName = users.getString("adminName");
-                                    return;
-                                }
-                            }
-                            response.setValue("Password is incorrect");
-                        }
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots.isEmpty()){
+                        response.setValue("Either password or username is incorrect");
                     }
+                    else {
+                        for (QueryDocumentSnapshot users : queryDocumentSnapshots) {
+                            //Check pass
+                            if (password.equals(users.getString("pass"))) {
+                                response.setValue("Login Sucessfull");
+                                adminName = users.getString("adminName");
+                                return;
+                            }
+                        }
+                        response.setValue("Password is incorrect");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    response.setValue("Either password or username is incorrect");
                 });
 
         return response;
@@ -62,6 +64,7 @@ public class AdminViewModel extends AndroidViewModel {
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
+
                         Admins admins = new Admins(documentSnapshot.getString("bailSymbol"),
                                 documentSnapshot.getDouble("bailCounter"),
                                 documentSnapshot.getDouble("builtyRange"),

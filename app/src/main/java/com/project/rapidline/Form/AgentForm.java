@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.project.rapidline.Database.entity.Agents;
@@ -46,9 +48,31 @@ public class AgentForm extends AppCompatActivity {
             });
         }
 
+        agentFormBinding.weightBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
+                if (isCheck) {
+                    agentFormBinding.weightTxt.setEnabled(true);
+                } else {
+                    agentFormBinding.weightTxt.setEnabled(false);
+                }
+            }
+        });
+
+        agentFormBinding.quanBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
+                if (isCheck) {
+                    agentFormBinding.quanTxt.setEnabled(true);
+                } else {
+                    agentFormBinding.quanTxt.setEnabled(false);
+                }
+            }
+        });
+
+
         agentFormBinding.saveBtn.setOnClickListener(view -> {
             RadioButton radioButton = findViewById(agentFormBinding.agentRadio.getCheckedRadioButtonId());
-            ;
 
             if (radioButton.getText().toString().equals("Weight")) {
                 if (TextUtils.isEmpty(agentFormBinding.weightTxt.getText())) {

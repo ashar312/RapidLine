@@ -1,10 +1,13 @@
 package com.project.rapidline.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -144,6 +147,27 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
         saeedSonsViewModel.getBailDataRv().observe(this,bails -> {
             enteriesAdapter.setBailsArrayList((ArrayList<Bails>) bails);
         });
+
+        //On Right swipe listener
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                boolean delete_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("delete_bail_perm",false);
+                if(delete_bail_state){
+                    Bails bail= enteriesAdapter.getBailsArrayList().get(viewHolder.getAdapterPosition());
+                    saeedSonsViewModel.deleteBail(bail.getBiltyNo());
+                }
+                else {
+                    Toast.makeText(ViewBailsActivity.this,"You don not have permissions to delete bail",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }).attachToRecyclerView(entriesBinding.enteriesRv);
 
     }
 

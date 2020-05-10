@@ -4,21 +4,23 @@
         android:id="@+id/add_bail"
         android:icon="@drawable/icons8_add_rule_60px"
         android:title="Add Bail" />
+
     <item
         android:id="@+id/regEntries"
         android:icon="@drawable/icons8_order_history_60px"
         android:title="Register Entries" />
+
     <item
         android:id="@+id/sender_receiver"
-        android:icon="@drawable/icons8_group_background_selected_60px"
+        android:icon="@drawable/ic_people_share"
         android:title="Sender / Receiver" />
     <item
         android:id="@+id/agents"
-        android:icon="@drawable/icons8_key_exchange_filled_100px"
+        android:icon="@drawable/ic_key_exchange"
         android:title="Agents" />
     <item
         android:id="@+id/transporters"
-        android:icon="@drawable/icons8_truck_60px"
+        android:icon="@drawable/ic_truck"
         android:title="Transportes" />
     <item
         android:id="@+id/labour"
@@ -39,6 +41,5 @@
     <item
         android:id="@+id/logOut"
         android:title="Log Out" />
-
 
 </menu>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rapid_line_bg"
+    tools:context=".Activities.Forms.RapidLine.MaintainanceChartForm">
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_goback" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Back"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11" />
+
+    <TextView
+        android:id="@+id/textView9"
+        style="@style/HeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maintainance Chart"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/appCompatSpinner3"
+        style="@style/SpinnerField"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <EditText
+        android:id="@+id/editText6"
+        style="@style/FormInputTextFields"
+        android:ems="10"
+        android:hint="Current KMs"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/appCompatSpinner5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/appCompatSpinner3"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatSpinner3" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/appCompatSpinner5"
+        style="@style/SpinnerField"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatSpinner3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editText6"
+        app:layout_constraintTop_toTopOf="@+id/editText6" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/appCompatSpinner6"
+        style="@style/SpinnerField"
+        app:layout_constraintEnd_toStartOf="@+id/editText7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editText6"
+        app:layout_constraintTop_toTopOf="@+id/editText7" />
+
+    <EditText
+        android:id="@+id/editText7"
+        style="@style/FormInputTextFields"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="Cost"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatSpinner5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/appCompatSpinner6"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatSpinner5" />
+
+    <EditText
+        android:id="@+id/editText8"
+        style="@style/FormInputTextFields"
+        android:layout_height="150dp"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editText7"
+        app:layout_constraintStart_toStartOf="@+id/appCompatSpinner6"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatSpinner6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonshaperapidline"
+        android:text="Save Chart"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/editText8"
+        app:layout_constraintStart_toStartOf="@+id/editText8"
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

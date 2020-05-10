@@ -38,12 +38,12 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.project.rapidline.Database.entity.Bails;
-import com.project.rapidline.Database.entity.Customers;
+import com.project.rapidline.Models.Bails;
+import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Adapters.PdfDocumentAdapter;
 import com.project.rapidline.utils.Common;
 import com.project.rapidline.R;
-import com.project.rapidline.viewmodel.SaeedSonsViewModel;
+import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;

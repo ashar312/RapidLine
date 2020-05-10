@@ -20,15 +20,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 
-import com.project.rapidline.Database.entity.Bails;
-import com.project.rapidline.Form.AddBailForm;
+import com.project.rapidline.Models.Bails;
+import com.project.rapidline.Activities.Forms.AddBailForm;
 import com.project.rapidline.Adapters.EnteriesAdapter;
 
-import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
+import com.project.rapidline.Adapters.OnItemClickListener;
 import com.project.rapidline.utils.StaticClasses;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityRegisterEntriesBinding;
-import com.project.rapidline.viewmodel.SaeedSonsViewModel;
+import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
 import java.util.ArrayList;
 
@@ -203,7 +203,7 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
     @Override
     public void onBailClick(String itemId) {
 
-        boolean edit_bail_state=getApplicationContext().getSharedPreferences("MyPref",0).getBoolean("edit_bail_perm",false);
+        boolean edit_bail_state=this.getSharedPreferences("MyPref",MODE_PRIVATE).getBoolean("edit_bail_perm",false);
 
         if(edit_bail_state){
             Intent intent=new Intent(ViewBailsActivity.this, AddBailForm.class);

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/normalbackground"
         android:layout_height="match_parent"
-        tools:context=".Form.AdminForm">
+        tools:context=".Activities.Forms.AdminForm">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"

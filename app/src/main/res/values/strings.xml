@@ -3,4 +3,5 @@
     <string name="drawerOpen">drawerOpen</string>
     <string name="drawerClose">drawerClose</string>
     <string name="total">Total</string>
+    <string name="office_staff">Office Staff</string>
 </resources>

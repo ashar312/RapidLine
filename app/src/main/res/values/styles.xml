@@ -1,12 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Brown</item>
         <item name="colorPrimaryDark">@color/Brown</item>
         <item name="colorAccent">@color/Brown</item>
     </style>
+
+    <style name="RapidLineTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/Dark_gray</item>
+        <item name="colorPrimaryDark">@color/Dark_gray</item>
+        <item name="colorAccent">@color/Dark_gray</item>
+    </style>
+
+
 
     <style name="FormInputTextFields">
         <item name="android:layout_height">50dp</item>
@@ -38,6 +47,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="CheckboxFields">
         <item name="android:layout_width">45dp</item>
         <item name="android:layout_height">40dp</item>

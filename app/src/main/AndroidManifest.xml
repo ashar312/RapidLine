@@ -6,23 +6,44 @@
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Activities.SettingsActivity"></activity>
+        <activity android:name=".Activities.Forms.RapidLine.OfficeStaffForm" />
+        <activity
+            android:name=".Activities.Forms.RapidLine.MaintainanceChartForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.Forms.RapidLine.FitnessTest"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.Forms.RapidLine.DriverSideKickForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.Forms.RapidLine.VechileForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.ViewData.RapidLine.VechilesActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.ViewData.RapidLine.StaffRegistationActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.ViewData.RapidLine.RapidLineHomeActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activities.AdminSettingsActivity" />
-        <activity android:name=".Form.AdminForm" />
+        <activity android:name=".Activities.AdminRightsActivity" />
+        <activity android:name=".Activities.Forms.AdminForm" />
         <activity
             android:name=".Activities.PrintOutActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -30,27 +51,26 @@
             android:name=".Activities.ViewBailsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Form.AddBailForm"
+            android:name=".Activities.Forms.AddBailForm"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Form.LabourPatriForm"
+            android:name=".Activities.Forms.SaeedSons.LabourPatriForm"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Form.AgentForm"
+            android:name=".Activities.Forms.SaeedSons.AgentForm"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Form.SenderRecieverTransporterForm"
+            android:name=".Activities.Forms.SaeedSons.SenderRecieverTransporterForm"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Activities.ListActivities"
+            android:name=".Activities.ViewData.SaeedSons.ListActivities"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Activities.HomeActivity"
+            android:name=".Activities.ViewData.SaeedSons.SaeedSonsHomeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Activities.Login"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

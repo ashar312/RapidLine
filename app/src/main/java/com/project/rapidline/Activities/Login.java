@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.project.rapidline.Activities.ViewData.RapidLine.RapidLineHomeActivity;
+import com.project.rapidline.Activities.ViewData.SaeedSons.SaeedSonsHomeActivity;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityLoginBinding;
 import com.project.rapidline.viewmodel.AdminViewModel;
@@ -41,7 +44,7 @@ public class Login extends AppCompatActivity {
                             if(response.equals("Login Sucessfull")){
                                 Toast.makeText(Login.this,response,Toast.LENGTH_SHORT).show();
                                 addCurrentStateToPref(true,activityLoginBinding.usernameTxt.getText().toString(),adminViewModel.getAdminName());
-                                startActivity(new Intent(Login.this, HomeActivity.class));
+                                startActivity(new Intent(Login.this, SaeedSonsHomeActivity.class));
                                 finish();
                             }
 
@@ -52,7 +55,24 @@ public class Login extends AppCompatActivity {
                         });
             }
             else {
+                //Rapid Line Work
                 Toast.makeText(this,"Rapid Line is under Development",Toast.LENGTH_SHORT).show();
+                adminViewModel.checkAdmin(activityLoginBinding.usernameTxt.getText().toString(),
+                        activityLoginBinding.passTxt.getText().toString())
+                        .observe(this, response -> {
+
+                            if(response.equals("Login Sucessfull")){
+                                Toast.makeText(Login.this,response,Toast.LENGTH_SHORT).show();
+                                addCurrentStateToPref(true,activityLoginBinding.usernameTxt.getText().toString(),adminViewModel.getAdminName());
+                                startActivity(new Intent(Login.this, RapidLineHomeActivity.class));
+                                finish();
+                            }
+
+                            else {
+                                Toast.makeText(Login.this,response,Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
             }
 
         });
@@ -60,7 +80,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void addCurrentStateToPref(boolean loginState,String username,String adminName) {
-        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("LoginPref", 0).edit();
+        SharedPreferences.Editor editor = this.getSharedPreferences("LoginPref", Context.MODE_PRIVATE).edit();
         editor.putString("username",username);
         editor.putString("adminName",adminName);
         editor.putBoolean("loggedIn", loginState);

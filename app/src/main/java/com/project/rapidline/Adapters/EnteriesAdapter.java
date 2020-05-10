@@ -9,8 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.project.rapidline.Database.entity.Bails;
-import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
+import com.project.rapidline.Models.Bails;
 import com.project.rapidline.R;
 
 import java.text.DateFormat;
@@ -22,7 +21,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.EnterieViewHolder> implements Filterable {
+public class EnteriesAdapter extends RecyclerView.Adapter<EnteriesAdapter.EnterieViewHolder> implements Filterable {
 
     private ArrayList<Bails> bailsArrayList;
     private Context mCtx;
@@ -31,20 +30,20 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
     private OnNoteListener mOnNoteListener;
 
 
-    public EnteriesAdapter(Context mCtx,ArrayList<Bails> bailsArrayList, OnItemClickListener clickListener,OnNoteListener onNoteListener) {
+    public EnteriesAdapter(Context mCtx, ArrayList<Bails> bailsArrayList, OnItemClickListener clickListener, OnNoteListener onNoteListener) {
         this.bailsArrayList = bailsArrayList;
         this.mCtx = mCtx;
         this.onItemClickListener = clickListener;
-        bailCopyList=new ArrayList<>(this.bailsArrayList);
-        this.mOnNoteListener=onNoteListener;
+        bailCopyList = new ArrayList<>(this.bailsArrayList);
+        this.mOnNoteListener = onNoteListener;
     }
 
     @NonNull
     @Override
     public EnterieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cell_register,
-                parent,false);
-        return new EnterieViewHolder(view,mOnNoteListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cell_register,
+                parent, false);
+        return new EnterieViewHolder(view, mOnNoteListener);
     }
 
     @Override
@@ -56,14 +55,14 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         holder.date_txt.setText(formattedDate(bailsArrayList.get(position).getMadeDateTime()));
 
         //Set click listeners for print
-        if(onItemClickListener!=null){
-            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getBiltyNo(),"print"));
+        if (onItemClickListener != null) {
+            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getBiltyNo(), "print"));
         }
 
     }
 
-    private String formattedDate(Date mydate){
-        DateFormat dateFormat=DateFormat.getDateInstance();
+    private String formattedDate(Date mydate) {
+        DateFormat dateFormat = DateFormat.getDateInstance();
         return dateFormat.format(mydate);
     }
 
@@ -74,19 +73,19 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
 
 
     public class EnterieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView sender_txt,receiver_txt,date_txt,builty_no,name_txt;
+        TextView sender_txt, receiver_txt, date_txt, builty_no, name_txt;
         Button print_btn;
         OnNoteListener onNoteListener;
 
-        public EnterieViewHolder(@NonNull View itemView,OnNoteListener onNoteListener) {
+        public EnterieViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
-            this.onNoteListener=onNoteListener;
-            sender_txt=itemView.findViewById(R.id.sender_name);
-            receiver_txt=itemView.findViewById(R.id.receiver_name);
-            builty_no=itemView.findViewById(R.id.builty_no);
-            date_txt=itemView.findViewById(R.id.date_txt);
-            name_txt=itemView.findViewById(R.id.name_txt);
-            print_btn=itemView.findViewById(R.id.print_btn);
+            this.onNoteListener = onNoteListener;
+            sender_txt = itemView.findViewById(R.id.sender_name);
+            receiver_txt = itemView.findViewById(R.id.receiver_name);
+            builty_no = itemView.findViewById(R.id.builty_no);
+            date_txt = itemView.findViewById(R.id.date_txt);
+            name_txt = itemView.findViewById(R.id.name_txt);
+            print_btn = itemView.findViewById(R.id.print_btn);
 
             itemView.setOnClickListener(this::onClick);
         }
@@ -97,13 +96,13 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         }
     }
 
-    public interface OnNoteListener{
+    public interface OnNoteListener {
         void onBailClick(String itemId);
     }
 
     public void setBailsArrayList(ArrayList<Bails> bailsArrayList) {
         this.bailsArrayList = bailsArrayList;
-        bailCopyList=new ArrayList<>(this.bailsArrayList);
+        bailCopyList = new ArrayList<>(this.bailsArrayList);
         notifyDataSetChanged();
     }
 
@@ -116,29 +115,27 @@ public class EnteriesAdapter  extends RecyclerView.Adapter<EnteriesAdapter.Enter
         return myFilter;
     }
 
-    private Filter myFilter=new Filter() {
+    private Filter myFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
-            List<Bails> filtredList=new ArrayList<>();
+            List<Bails> filtredList = new ArrayList<>();
 
-            if(charSequence==null || charSequence.length()==0){
+            if (charSequence == null || charSequence.length() == 0) {
                 filtredList.addAll(bailCopyList);
-            }
-            else {
-                String filterPattern=charSequence.toString().toLowerCase().trim();
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for(Bails bailList:bailCopyList){
-                    if(bailList.getBiltyNo().toLowerCase().contains(filterPattern)){
+                for (Bails bailList : bailCopyList) {
+                    if (bailList.getBiltyNo().toLowerCase().contains(filterPattern)) {
                         filtredList.add(bailList);
                     }
                 }
 
-
             }
 
-            FilterResults results=new FilterResults();
-            results.values=filtredList;
+            FilterResults results = new FilterResults();
+            results.values = filtredList;
             return results;
         }
 

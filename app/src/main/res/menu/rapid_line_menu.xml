@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_bail"
+        android:icon="@drawable/icons8_add_rule_60px"
+        android:title="Add Bail" />
+    <item
+        android:id="@+id/regEntries"
+        android:icon="@drawable/icons8_order_history_60px"
+        android:title="Register Entries" />
+    <item
+        android:id="@+id/staffReg"
+        android:icon="@drawable/ic_sidekick"
+        android:title="Staff Registration" />
+    <item
+        android:id="@+id/vechReg"
+        android:icon="@drawable/ic_truck"
+        android:title="Vechile Registration" />
+
+    <item
+        android:id="@+id/vechFit"
+        android:icon="@drawable/ic_vechfitness"
+        android:title="Vechile Fitness Test" />
+
+    <item
+        android:id="@+id/maintainChart"
+        android:icon="@drawable/ic_maintainance"
+        android:title="Maintainance Chart" />
+
+    <item
+        android:id="@+id/adminSettings"
+        android:icon="@drawable/icons8_settings_filled_100px"
+        android:title="Admin Settings" />
+    <item
+        android:id="@+id/addAdmin"
+        android:title="Add Admin" />
+    <item
+        android:id="@+id/logOut"
+        android:title="Log Out" />
+
+</menu>

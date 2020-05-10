@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.rapidline.HomeScreens.Adapter.Listeners.OnItemClickListener;
 import com.project.rapidline.R;
 
 import java.util.ArrayList;

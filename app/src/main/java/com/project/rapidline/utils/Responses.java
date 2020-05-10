@@ -27,4 +27,12 @@ public class Responses {
     public static final String PATRI_ADDED="Patri added sucessfully";
 
 
+    //City class responses
+    public static final String CITY_EXISTS="City already exists";
+    public static final String CITY_ADDED="City added sucessfully";
+
+
+    //Item class responses
+    public static final String ITEM_EXISTS="Item already exists";
+    public static final String ITEM_ADDED="Item added sucessfully";
 }

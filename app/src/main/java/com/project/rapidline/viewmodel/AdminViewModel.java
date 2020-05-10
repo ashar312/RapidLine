@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Source;
-import com.project.rapidline.Database.entity.Admins;
+import com.project.rapidline.Models.Admins;
 import com.project.rapidline.Models.BailCounters;
 import com.project.rapidline.repository.RapidLineRepository;
 

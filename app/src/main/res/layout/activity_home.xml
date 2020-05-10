@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/normalbackground"
-        tools:context=".Activities.HomeActivity">
+        tools:context=".Activities.ViewData.SaeedSons.SaeedSonsHomeActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -262,89 +262,122 @@
                     android:text="Offline"
                     android:textColor="@color/black"
                     android:textSize="15dp"
-                    app:layout_constraintStart_toStartOf="@+id/textView_1"
+                    app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView_1" />
 
                 <TextView
                     android:id="@+id/offline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="Online"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
                 <TextView
                     android:id="@+id/offline2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="Pending"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     app:layout_constraintStart_toStartOf="@+id/offline"
-                    app:layout_constraintTop_toBottomOf="@+id/offline" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView9" />
 
                 <TextView
                     android:id="@+id/offline3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="@string/total"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/offline2"
-                    app:layout_constraintTop_toBottomOf="@+id/offline2" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
                 <TextView
                     android:id="@+id/offline_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="2dp"
                     android:text="10"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="@+id/textView2"
                     app:layout_constraintStart_toStartOf="@+id/textView2"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    app:layout_constraintTop_toTopOf="@+id/textView4" />
 
                 <TextView
                     android:id="@+id/online_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="10"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="@+id/offline_txt"
                     app:layout_constraintStart_toStartOf="@+id/offline_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/offline_txt" />
+                    app:layout_constraintTop_toTopOf="@+id/offline" />
 
                 <TextView
                     android:id="@+id/pending_val"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="10"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="@+id/online_txt"
                     app:layout_constraintStart_toStartOf="@+id/online_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/online_txt" />
+                    app:layout_constraintTop_toTopOf="@+id/offline2" />
 
                 <TextView
                     android:id="@+id/total_val"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="10"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/pending_val"
                     app:layout_constraintStart_toStartOf="@+id/pending_val"
-                    app:layout_constraintTop_toBottomOf="@+id/pending_val" />
+                    app:layout_constraintTop_toTopOf="@+id/offline3" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView4"
+                    app:srcCompat="@drawable/ic_offline" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                    app:srcCompat="@drawable/ic_online" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView8"
+                    app:srcCompat="@drawable/ic_pending" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView9"
+                    app:srcCompat="@drawable/ic_total" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

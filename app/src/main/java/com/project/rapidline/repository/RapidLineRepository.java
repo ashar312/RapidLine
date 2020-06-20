@@ -5,461 +5,244 @@ import android.app.Application;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
-import com.project.rapidline.Models.Admins;
-import com.project.rapidline.Models.SaeedSons.Agents;
-import com.project.rapidline.Models.Bails;
-import com.project.rapidline.Models.SaeedSons.Cities;
-import com.project.rapidline.Models.SaeedSons.Customers;
-import com.project.rapidline.Models.SaeedSons.KindOfItem;
-import com.project.rapidline.Models.SaeedSons.Labours;
-import com.project.rapidline.Models.SaeedSons.Patri;
-import com.project.rapidline.Models.SaeedSons.Transporters;
-import com.project.rapidline.Models.BailCounters;
+import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
+import com.project.rapidline.Models.RapidLine.Bilty;
+import com.project.rapidline.Models.RapidLine.Drivers;
+import com.project.rapidline.Models.RapidLine.MaintainanceChart;
+import com.project.rapidline.Models.RapidLine.VechileFitness;
+import com.project.rapidline.Models.RapidLine.OfficeStaff;
+import com.project.rapidline.Models.RapidLine.SideKick;
+import com.project.rapidline.Models.RapidLine.Vechile;
 import com.project.rapidline.utils.Responses;
-
-import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class RapidLineRepository {
 
-    private static final String TAG = "RapidLineRepository";
-
     private Application application;
-    //    private CityDao cityDao;
 
-    protected FirebaseFirestore firestore;
-    private DocumentReference saeedSonReference;
+    private DocumentReference rapidLineReference;
+
 
     private final String Database = "Database";
-    private final String SaeedSonDbName = "SaeedSonsDB";
-    private final String AdminTableName = "Admins";
-    private final String AgentTableName = "Agents";
-    private final String CustomerTableName = "Customers";
-    private final String TransporterTableName = "Transporters";
-    private final String PatriTableName = "Patris";
-    private final String LabourTableName = "Labours";
-    private final String BailTableName = "Bails";
-    private final String KindTableName = "KindOfItem";
-    private final String CounterTableName = "BailCounter";
-    private final String CitiesTableName = "Cities";
+    private final String RapidLineDbName = "RapidLineDB";
+    private final String DriverTableName = "Drivers";
+    private final String SideKickTableName = "Sidekicks";
+    private final String OfficeStaffTableName = "OfficeStaff";
+    private final String VechileTableName = "Vechiles";
+    private final String VechileDataTableName = "VechileData";
+    private final String FitnessTestTableName = "VechileFitnessTest";
+    private final String MaintainanceTableName = "MaintainanceChart";
+    private final String MaintainanceDataTableName = "MaintainanceData";
+    private final String BiltyTableName = "Bilty";
+
 
     public RapidLineRepository(Application application) {
         this.application = application;
 
-        firestore = FirebaseFirestore.getInstance();
+        rapidLineReference = FirebaseFirestore.getInstance()
+                .collection(Database).document(RapidLineDbName);
 
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build();
-        firestore.setFirestoreSettings(settings);
 
-        saeedSonReference = firestore.collection(Database).document(SaeedSonDbName);
     }
 
-    //
-//    public LiveData<List<Cities>> getAllCities(){return cityDao.getCities();}
-    //Admins
-//    public LiveData<List<Admins>> getAllAdmins() {
-////        List<Admins> adminsList=new ArrayList<>();
-////        firestore.collection(Database).document(SaeedSonDbName).collection(AdminTableName)
-////                .addSnapshotListener((documentSnapshot, e) -> {
-////                    if (e != null) {
-//////                        Log.w(TAG, "Listen failed.", e);
-////                        return;
-////                    }
-////
-////                    if(!documentSnapshot.isEmpty()){
-////                        for (QueryDocumentSnapshot doc : documentSnapshot) {
-////                            adminsList.add(new Admins())
-////                        }
-////                });
-////
-////        MutableLiveData<List<Admins>> mutableLiveData=new MutableLiveData<>();
-////        mutableLiveData.postValue(adminDao.getAllAdmins().getValue());
-//        return adminDao.getAllAdmins();
-//    }
 
-    public CollectionReference getAdmins() {
-        return saeedSonReference.collection(AdminTableName);
+    public CollectionReference getAllDrivers() {
+        return rapidLineReference.collection(DriverTableName);
     }
 
-    public MutableLiveData<String> addAdmin(final Admins admin) {
+    public LiveData<String> addDriver(Drivers driver) {
         MutableLiveData<String> response = new MutableLiveData<>();
 
-        saeedSonReference.collection(AdminTableName).document(admin.getUsername())
-                .get(Source.DEFAULT)
-                .addOnSuccessListener(documentSnapshot -> {
-                    //username already present
-                    if (documentSnapshot.exists())
-                        response.postValue(Responses.ADMIN_EXISTS);
-                    else {
-                        saeedSonReference.collection(AdminTableName)
-                                .document(admin.getUsername())
-                                .set(admin.toHashMap());
-                        response.postValue(Responses.ADMIN_ADDED);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    saeedSonReference.collection(AdminTableName)
-                            .document(admin.getUsername())
-                            .set(admin.toHashMap());
-                    response.postValue(Responses.ADMIN_ADDED);
-                });
-//
-//        saeedSonReference.collection(AdminTableName).whereEqualTo("username", admin.getUsername())
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        if (task.getResult().isEmpty()) {
-//                            saeedSonReference.collection(AdminTableName)
-//                                    .document(admin.getUsername())
-//                                    .set(admin.toHashMap());
-//                            response.postValue(Responses.ADMIN_ADDED);
-//                            return;
-//                        }
-//
-//                        for (QueryDocumentSnapshot users : task.getResult()) {
-//                            if (admin.getUsername().equals(users.getString("username"))) {
-//                                response.postValue(Responses.ADMIN_EXISTS);
-//                            }
-//                        }
-//                    }
-//                });
-
-        return response;
-    }
-
-    //Agents
-    public CollectionReference getAllAgents() {
-        return saeedSonReference.collection(AgentTableName);
-    }
-
-    public DocumentReference getAgentById(String agentId) {
-        return saeedSonReference.collection(AgentTableName).document(agentId);
-    }
-
-    public LiveData<String> addAgent(final Agents agent) {
-        MutableLiveData<String> response = new MutableLiveData<>();
-        saeedSonReference.collection(AgentTableName).document(agent.getAgentName())
+        rapidLineReference.collection(DriverTableName).document(driver.getDriverName())
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists())
-                        response.postValue(Responses.AGENT_EXISTS);
+                        response.setValue(Responses.DRIVER_EXISTS);
                     else {
-                        saeedSonReference.collection(AgentTableName)
-                                .document(agent.getAgentName()).set(agent.toHashMap());
-                        response.postValue(Responses.AGENT_ADDED);
+                        rapidLineReference.collection(DriverTableName).document(driver.getDriverName())
+                                .set(driver);
+                        response.setValue(Responses.DRIVER_ADDED);
                     }
+
                 })
                 .addOnFailureListener(e -> {
-                    saeedSonReference.collection(AgentTableName)
-                            .document(agent.getAgentName()).set(agent.toHashMap());
-                    response.postValue(Responses.AGENT_ADDED);
+                    rapidLineReference.collection(DriverTableName).document(driver.getDriverName())
+                            .set(driver);
+                    response.setValue(Responses.DRIVER_ADDED);
                 });
-
-
         return response;
     }
 
-    public void updateAgent(final Agents agent) {
-        saeedSonReference.collection(AgentTableName)
-                .document(agent.getAgentName()).update(agent.toHashMap());
+    public void updateDriver(Drivers driver) {
+        rapidLineReference.collection(DriverTableName)
+                .document(driver.getDriverName()).set(driver);
     }
 
-    public void deleteAgentById(String agentId) {
-        saeedSonReference.collection(AgentTableName)
-                .document(agentId).delete();
+    public void deleteDriver(String key) {
+        rapidLineReference.collection(DriverTableName)
+                .document(key).delete();
     }
 
-    //Customers
-    public CollectionReference getAllCustomers() {
-
-        return saeedSonReference.collection(CustomerTableName);
-
+    public CollectionReference getAllSideKicks() {
+        return rapidLineReference.collection(SideKickTableName);
     }
 
-    public DocumentReference getCustomerById(String custId) {
-        return saeedSonReference.collection(CustomerTableName).document(custId);
-
-    }
-
-    public LiveData<String> addCustomer(final Customers customer) {
-
+    public LiveData<String> addSideKick(SideKick sideKick) {
         MutableLiveData<String> response = new MutableLiveData<>();
-        saeedSonReference.collection(CustomerTableName).document(customer.getCompanyName())
+
+        rapidLineReference.collection(SideKickTableName).document(sideKick.getSideKickName())
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists())
-                        response.postValue(Responses.CUSTOMER_EXISTS);
+                        response.setValue(Responses.SIDEKICK_EXISTS);
                     else {
-                        saeedSonReference.collection(CustomerTableName).
-                                document(customer.getCompanyName()).set(customer.toHashMap());
-                        response.postValue(Responses.CUSTOMER_ADDED);
+                        rapidLineReference.collection(SideKickTableName).document(sideKick.getSideKickName())
+                                .set(sideKick);
+                        response.setValue(Responses.SIDEKICK_ADDED);
                     }
+
                 })
                 .addOnFailureListener(e -> {
-                    saeedSonReference.collection(CustomerTableName).
-                            document(customer.getCompanyName()).set(customer.toHashMap());
-                    response.postValue(Responses.CUSTOMER_ADDED);
+                    rapidLineReference.collection(SideKickTableName).document(sideKick.getSideKickName())
+                            .set(sideKick);
+                    response.setValue(Responses.SIDEKICK_ADDED);
                 });
-
         return response;
     }
 
-    public void updateCustomer(final Customers customer) {
-        saeedSonReference.collection(CustomerTableName).
-                document(customer.getCompanyName()).update(customer.toHashMap());
+    public void updateSideKick(SideKick sideKick) {
+        rapidLineReference.collection(SideKickTableName).document(sideKick.getSideKickName())
+                .set(sideKick);
     }
 
-    public void deleteCustomerById(String cusId) {
-        saeedSonReference.collection(CustomerTableName).
-                document(cusId).delete();
+    public void deleteSideKick(String key) {
+        rapidLineReference.collection(SideKickTableName)
+                .document(key).delete();
     }
 
-    //Transpoter
-    public CollectionReference getAllTransporters() {
-        return saeedSonReference.collection(TransporterTableName);
 
+    public CollectionReference getAllOfficeStaff() {
+        return rapidLineReference.collection(OfficeStaffTableName);
     }
 
-    public DocumentReference getTransporterById(String transpId) {
-        return saeedSonReference.collection(TransporterTableName).document(transpId);
-    }
-
-    public LiveData<String> addTransporter(final Transporters transporter) {
-
+    public LiveData<String> addOfficeStaff(OfficeStaff staff) {
         MutableLiveData<String> response = new MutableLiveData<>();
-        saeedSonReference.collection(TransporterTableName).document(transporter.getCompanyName())
+
+        rapidLineReference.collection(OfficeStaffTableName).document(staff.getStaffName())
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists())
-                        response.postValue(Responses.TRANSPORTER_EXISTS);
+                        response.setValue(Responses.STAFF_EXISTS);
                     else {
-                        saeedSonReference.collection(TransporterTableName).
-                                document(transporter.getCompanyName()).set(transporter.toHashMap());
-                        response.postValue(Responses.TRANSPORTER_ADDED);
+                        rapidLineReference.collection(OfficeStaffTableName).document(staff.getStaffName())
+                                .set(staff);
+                        response.setValue(Responses.STAFF_ADDED);
                     }
+
                 })
                 .addOnFailureListener(e -> {
-                    saeedSonReference.collection(TransporterTableName).
-                            document(transporter.getCompanyName()).set(transporter.toHashMap());
-                    response.postValue(Responses.TRANSPORTER_ADDED);
+                    rapidLineReference.collection(OfficeStaffTableName).document(staff.getStaffName())
+                            .set(staff);
+                    response.setValue(Responses.STAFF_ADDED);
                 });
-
         return response;
     }
 
-    public void updateTransporter(final Transporters transporter) {
-        saeedSonReference.collection(TransporterTableName)
-                .document(transporter.getCompanyName()).update(transporter.toHashMap());
+    public void updateStaff(OfficeStaff staff) {
+        rapidLineReference.collection(OfficeStaffTableName).document(staff.getStaffName())
+                .set(staff);
     }
 
-    public void deleteTransporterById(String transpId) {
-        saeedSonReference.collection(TransporterTableName)
-                .document(transpId).delete();
+    public void deleteStaff(String key) {
+        rapidLineReference.collection(OfficeStaffTableName)
+                .document(key).delete();
     }
 
-    //Labour
-    public CollectionReference getAllLabours() {
 
-        return saeedSonReference.collection(LabourTableName);
-
-//        return labourDao.getAllLabours();
+    public CollectionReference getAllVechiles() {
+        return rapidLineReference.collection(VechileTableName);
     }
 
-    public DocumentReference getAllLaboursById(String labourId) {
-
-        return saeedSonReference.collection(LabourTableName).document(labourId);
-    }
-
-    public LiveData<String> addLabour(final Labours labour) {
-
+    public LiveData<String> addVechile(Vechile vechile) {
         MutableLiveData<String> response = new MutableLiveData<>();
 
-        saeedSonReference.collection(LabourTableName).document(labour.getName())
+        rapidLineReference.collection(VechileTableName).document(vechile.getRegNo())
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists())
-                        response.postValue(Responses.LABOUR_EXISTS);
+                        response.setValue(Responses.VECHILE_EXISTS);
                     else {
-                        saeedSonReference.collection(LabourTableName).
-                                document(labour.getName()).set(labour.toHashMap());
-                        response.postValue(Responses.LABOUR_ADDED);
+                        rapidLineReference.collection(VechileTableName).document(vechile.getRegNo())
+                                .set(vechile);
+                        response.setValue(Responses.VECHILE_ADDED);
                     }
+
                 })
                 .addOnFailureListener(e -> {
-                    saeedSonReference.collection(LabourTableName).
-                            document(labour.getName()).set(labour.toHashMap());
-                    response.postValue(Responses.LABOUR_ADDED);
-                });
-
-        return response;
-    }
-
-    public void updateLabour(final Labours labour) {
-        saeedSonReference.collection(LabourTableName).
-                document(labour.getName()).update(labour.toHashMap());
-    }
-
-    public void deleteLabourById(String labourId) {
-        saeedSonReference.collection(LabourTableName).
-                document(labourId).delete();
-    }
-
-
-    //Patri
-    public CollectionReference getAllPatris() {
-        return saeedSonReference.collection(PatriTableName);
-    }
-
-    public DocumentReference getPatriById(String patriId) {
-        return saeedSonReference.collection(PatriTableName).document(patriId);
-    }
-
-    public LiveData<String> addPatri(final Patri patri) {
-        MutableLiveData<String> response = new MutableLiveData<>();
-
-        saeedSonReference.collection(PatriTableName).document(patri.getName())
-                .get(Source.DEFAULT)
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists())
-                        response.postValue(Responses.PATRI_EXISTS);
-                    else {
-                        saeedSonReference.collection(PatriTableName)
-                                .document(patri.getName()).set(patri.toHashMap());
-                        response.postValue(Responses.PATRI_ADDED);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    saeedSonReference.collection(PatriTableName)
-                            .document(patri.getName()).set(patri.toHashMap());
-                    response.postValue(Responses.PATRI_ADDED);
+                    rapidLineReference.collection(VechileTableName).document(vechile.getRegNo())
+                            .set(vechile);
+                    response.setValue(Responses.VECHILE_ADDED);
                 });
         return response;
     }
 
-    public void updatePatri(final Patri patri) {
-
-        saeedSonReference.collection(PatriTableName)
-                .document(patri.getName()).update(patri.toHashMap());
+    public void updateVechile(Vechile vechile) {
+        rapidLineReference.collection(VechileTableName).document(vechile.getRegNo())
+                .set(vechile);
     }
 
-    public void deletePatriById(String patriId) {
-        saeedSonReference.collection(PatriTableName)
-                .document(patriId).delete();
-    }
-
-
-    //Bails
-    public CollectionReference getAllBails() {
-
-        return saeedSonReference.collection(BailTableName);
-    }
-
-    public DocumentReference getBailsById(String bailId) {
-        return saeedSonReference.collection(BailTableName).document(bailId);
+    public void deleteVechile(String key) {
+        rapidLineReference.collection(VechileTableName)
+                .document(key).delete();
     }
 
 
-    public LiveData<List<Customers>> getBailCustomerData(String senderId, String receiverId) {
-        return null;
+    public DocumentReference getAllVechileData() {
+        return rapidLineReference.collection(VechileTableName).document(VechileDataTableName);
     }
 
-    public void addBail(final Bails bail) {
-        saeedSonReference.collection(BailTableName)
-                .document(bail.getBiltyNo()).set(bail.toHashMap());
-
-
+    public CollectionReference getAllVechileFitness() {
+        return rapidLineReference.collection(FitnessTestTableName);
     }
 
-    public void updateBail(final Bails bail) {
-        saeedSonReference.collection(BailTableName)
-                .document(bail.getBiltyNo()).update(bail.toHashMap());
+    public void addVechileFitness(VechileFitness vechileFitness) {
+        rapidLineReference.collection(FitnessTestTableName).document(vechileFitness.getVechileRegNo())
+                .set(vechileFitness);
     }
 
-    public void deleteBail(String bailid) {
-        saeedSonReference.collection(BailTableName)
-                .document(bailid).delete();
+    public DocumentReference getAllMaintainanceData() {
+        return rapidLineReference.collection(MaintainanceTableName).document(MaintainanceDataTableName);
     }
 
-    public DocumentReference getBailCounter() {
-        return saeedSonReference.collection(BailTableName).document(CounterTableName);
+    public CollectionReference getAllMaintainanceRecord() {
+        return rapidLineReference.collection(MaintainanceTableName);
     }
 
-    public void updateBailCounter(BailCounters bailCounters) {
-        saeedSonReference.collection(BailTableName).document(CounterTableName)
-                .update(bailCounters.toHashMap());
+    public void addMaintainanceRecord(MaintainanceChart maintainanceChart) {
+        rapidLineReference.collection(MaintainanceTableName).document(maintainanceChart.getRegNo())
+                .set(maintainanceChart);
     }
 
-
-    //Items
-    public CollectionReference getAllItems() {
-
-        return saeedSonReference.collection(KindTableName);
-//        return itemDao.getAllItem();
+    //Bilty table
+    public CollectionReference getAllBilty() {
+        return rapidLineReference.collection(BiltyTableName);
     }
 
-    public LiveData<String> addItem(KindOfItem item) {
-        MutableLiveData<String> response = new MutableLiveData<>();
-
-        saeedSonReference.collection(KindTableName)
-                .document(item.getName()).set(item)
-                .addOnSuccessListener(aVoid -> {
-                    response.postValue(Responses.ITEM_ADDED);
-                })
-                .addOnFailureListener(e -> {
-                    response.postValue(Responses.ITEM_EXISTS);
-                });
-        return response;
+    public void addBilty(Bilty bilty) {
+        rapidLineReference.collection(BiltyTableName).document(bilty.getBiltyNo())
+                .set(bilty);
     }
 
-    public void updateItem(String key, String value) {
-
-        saeedSonReference.collection(KindTableName)
-                .document(key).update("name", value);
+    public void updateBilty(Bilty bilty) {
+        rapidLineReference.collection(BiltyTableName).document(bilty.getBiltyNo())
+                .set(bilty);
     }
 
-    public void deleteItemById(String itemId) {
-        saeedSonReference.collection(KindTableName)
-                .document(itemId).delete();
+    public void deleteBilty(String key) {
+        rapidLineReference.collection(BiltyTableName).document(key)
+                .delete();
     }
-
-    //Cities
-    public CollectionReference getAllCities() {
-        return saeedSonReference.collection(CitiesTableName);
-    }
-
-    public LiveData<String> addCity(Cities cities) {
-        MutableLiveData<String> response = new MutableLiveData<>();
-
-        saeedSonReference.collection(CitiesTableName)
-                .document(cities.getName()).set(cities)
-                .addOnSuccessListener(aVoid -> {
-                    response.postValue(Responses.CITY_ADDED);
-                })
-                .addOnFailureListener(e -> {
-                    response.postValue(Responses.CITY_EXISTS);
-                });
-
-        return response;
-    }
-
-    public void updateCity(String key, String value) {
-
-
-        saeedSonReference.collection(CitiesTableName)
-                .document(key).update("name", value);
-
-    }
-
-    public void deleteCityById(String itemId) {
-        saeedSonReference.collection(CitiesTableName)
-                .document(itemId).delete();
-    }
-
-
 }

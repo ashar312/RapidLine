@@ -11,7 +11,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/normalbackground"
-            tools:context=".Activities.Forms.SaeedSons.SenderRecieverTransporterForm">
+            tools:context=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm">
+
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_goback" />
+
+            <TextView
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:text="Back"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+                app:layout_constraintStart_toEndOf="@+id/imageView15"
+                app:layout_constraintTop_toTopOf="@+id/imageView15" />
+
+            <TextView
+                android:id="@+id/headerText"
+                style="@style/HeaderText"
+                android:text="Sender/Receiver"
+                android:textSize="30sp"
+                android:layout_marginTop="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"
@@ -19,15 +53,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.25" />
-
-            <TextView
-                android:id="@+id/headerText"
-                style="@style/HeaderText"
-                android:text="Sender/Receiver"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/comanyNameTxt"

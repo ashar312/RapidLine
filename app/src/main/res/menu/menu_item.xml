@@ -35,9 +35,7 @@
         android:id="@+id/adminSettings"
         android:icon="@drawable/icons8_settings_filled_100px"
         android:title="Admin Settings" />
-    <item
-        android:id="@+id/addAdmin"
-        android:title="Add Admin" />
+
     <item
         android:id="@+id/logOut"
         android:title="Log Out" />

@@ -1,22 +1,21 @@
 package com.project.rapidline.viewmodel.SaeedSons;
 
-import android.app.Activity;
 import android.app.Application;
 
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Source;
 import com.project.rapidline.Models.Admins;
+import com.project.rapidline.Models.RapidLine.Supplier;
 import com.project.rapidline.Models.SaeedSons.Agents;
-import com.project.rapidline.Models.Bails;
+import com.project.rapidline.Models.SaeedSons.Bails;
 import com.project.rapidline.Models.SaeedSons.Cities;
 import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Models.SaeedSons.KindOfItem;
 import com.project.rapidline.Models.SaeedSons.Labours;
 import com.project.rapidline.Models.SaeedSons.Patri;
 import com.project.rapidline.Models.SaeedSons.Transporters;
-import com.project.rapidline.utils.StaticClasses;
-import com.project.rapidline.repository.RapidLineRepository;
+import com.project.rapidline.repository.SaeedSonsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import androidx.lifecycle.MutableLiveData;
 
 public class SaeedSonsViewModel extends AndroidViewModel {
 
-    private RapidLineRepository rapidLineRepository;
+    private SaeedSonsRepository saeedSonsRepository;
 
 
     private MutableLiveData<List<Cities>> listAllCities;
@@ -42,11 +41,12 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     private MutableLiveData<List<Patri>> listAllPatris;
     private MutableLiveData<List<Bails>> listAllBails;
     private MutableLiveData<List<KindOfItem>> listAllItems;
+    private MutableLiveData<List<Supplier>> listAllSupplier;
 
     public SaeedSonsViewModel(@NonNull Application application) {
         super(application);
 
-        rapidLineRepository = new RapidLineRepository(application);
+        saeedSonsRepository = new SaeedSonsRepository(application);
 
 //        listAllAdmins = rapidLineRepository.getAllAdmins();
 
@@ -62,15 +62,16 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         listAllCities = new MutableLiveData<>();
 
         listAllItems = new MutableLiveData<>();
-        listAllAdmins=new MutableLiveData<>();
+        listAllAdmins = new MutableLiveData<>();
+        listAllSupplier = new MutableLiveData<>();
     }
 
 //    public LiveData<List<Cities>> getListAllCities() {
 //        return listAllCities;
 //    }
 
-    public LiveData<List<Admins>> getListAllAdmins(Activity activity) {
-        rapidLineRepository.getAdmins().addSnapshotListener(activity,(queryDocumentSnapshots, e) -> {
+    public LiveData<List<Admins>> getListAllAdmins() {
+        saeedSonsRepository.getAdmins().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -79,7 +80,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
             List<Admins> adminList = new ArrayList<>();
             if (!queryDocumentSnapshots.isEmpty()) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Admins admins=doc.toObject(Admins.class);
+                    Admins admins = doc.toObject(Admins.class);
                     admins.setKey(doc.getId());
                     adminList.add(admins);
                 }
@@ -91,6 +92,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         return listAllAdmins;
     }
 
+    public void deleteAdminById(String key) {
+        saeedSonsRepository.deleteAdminById(key);
+    }
 
 //    public Admins getAdminById(long adminId) {
 //
@@ -108,13 +112,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
 
     //Agents
-    public LiveData<Integer> getAgentCount() {
-
-        return null;
-    }
-
     public LiveData<List<Agents>> getListAllAgents() {
-        rapidLineRepository.getAllAgents().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllAgents().addSnapshotListener((queryDocumentSnapshots, e) -> {
 
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -143,7 +142,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<Agents> getAgentById(String agentId) {
         MutableLiveData<Agents> data = new MutableLiveData<>();
-        rapidLineRepository.getAgentById(agentId).get(Source.DEFAULT)
+        saeedSonsRepository.getAgentById(agentId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Agents(doc.getId(),
@@ -158,21 +157,21 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<String> addAgent(final Agents agent) {
 
-        return rapidLineRepository.addAgent(agent);
+        return saeedSonsRepository.addAgent(agent);
     }
 
     public void updateAgent(final Agents agent) {
-        rapidLineRepository.updateAgent(agent);
+        saeedSonsRepository.updateAgent(agent);
     }
 
     public void deleteAgentById(String agentId) {
-        rapidLineRepository.deleteAgentById(agentId);
+        saeedSonsRepository.deleteAgentById(agentId);
     }
 
     public LiveData<List<Customers>> getListAllCustomers() {
 
 
-        rapidLineRepository.getAllCustomers().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllCustomers().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -201,7 +200,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     public LiveData<Customers> getCustById(String cusId) {
         MutableLiveData<Customers> data = new MutableLiveData<>();
 
-        rapidLineRepository.getCustomerById(cusId).get(Source.DEFAULT)
+        saeedSonsRepository.getCustomerById(cusId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Customers(doc.getId(),
@@ -217,20 +216,20 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> addCustomer(final Customers customer) {
-        return rapidLineRepository.addCustomer(customer);
+        return saeedSonsRepository.addCustomer(customer);
     }
 
     public void updateCustomer(final Customers customer) {
-        rapidLineRepository.updateCustomer(customer);
+        saeedSonsRepository.updateCustomer(customer);
     }
 
     public void deleteCustomerById(String cusId) {
-        rapidLineRepository.deleteCustomerById(cusId);
+        saeedSonsRepository.deleteCustomerById(cusId);
     }
 
     //Transporters
     public LiveData<List<Transporters>> getListAllTransporters() {
-        rapidLineRepository.getAllTransporters().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllTransporters().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -257,7 +256,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public MutableLiveData<Transporters> getAllTransporterById(String transpId) {
         MutableLiveData<Transporters> data = new MutableLiveData<>();
-        rapidLineRepository.getTransporterById(transpId).get(Source.DEFAULT)
+        saeedSonsRepository.getTransporterById(transpId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Transporters(doc.getId(),
@@ -272,21 +271,21 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> addTransporter(final Transporters transporter) {
-        return rapidLineRepository.addTransporter(transporter);
+        return saeedSonsRepository.addTransporter(transporter);
     }
 
     public void updateTransporter(final Transporters transporter) {
-        rapidLineRepository.updateTransporter(transporter);
+        saeedSonsRepository.updateTransporter(transporter);
     }
 
     public void deleteTransporterById(String transpId) {
-        rapidLineRepository.deleteTransporterById(transpId);
+        saeedSonsRepository.deleteTransporterById(transpId);
     }
 
     //Labours
     public LiveData<List<Labours>> getListAllLabours() {
         MutableLiveData<List<Labours>> data = new MutableLiveData<>();
-        rapidLineRepository.getAllLabours().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllLabours().addSnapshotListener((queryDocumentSnapshots, e) -> {
 
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -311,7 +310,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<Labours> getAllLaboursById(String labourId) {
         MutableLiveData<Labours> data = new MutableLiveData<>();
-        rapidLineRepository.getAllLaboursById(labourId).get(Source.DEFAULT)
+        saeedSonsRepository.getAllLaboursById(labourId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Labours(doc.getId(),
@@ -324,20 +323,20 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> addLabour(final Labours labour) {
-        return rapidLineRepository.addLabour(labour);
+        return saeedSonsRepository.addLabour(labour);
     }
 
     public void updateLabour(final Labours labour) {
-        rapidLineRepository.updateLabour(labour);
+        saeedSonsRepository.updateLabour(labour);
     }
 
     public void deleteLabourById(String labourId) {
-        rapidLineRepository.deleteLabourById(labourId);
+        saeedSonsRepository.deleteLabourById(labourId);
     }
 
     //Patri
     public LiveData<List<Patri>> getListAllPatris() {
-        rapidLineRepository.getAllPatris().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllPatris().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -359,7 +358,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<Patri> getPatriById(String patriId) {
         MutableLiveData<Patri> data = new MutableLiveData<>();
-        rapidLineRepository.getPatriById(patriId).get(Source.DEFAULT)
+        saeedSonsRepository.getPatriById(patriId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Patri(doc.getId(),
@@ -373,21 +372,21 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<String> addPatri(final Patri patri) {
 
-        return rapidLineRepository.addPatri(patri);
+        return saeedSonsRepository.addPatri(patri);
     }
 
     public void updatePatri(final Patri patri) {
-        rapidLineRepository.updatePatri(patri);
+        saeedSonsRepository.updatePatri(patri);
     }
 
     public void deletePatriById(String patriId) {
-        rapidLineRepository.deletePatriById(patriId);
+        saeedSonsRepository.deletePatriById(patriId);
     }
 
 
     //Bails
     public LiveData<List<Bails>> getListAllBails() {
-        rapidLineRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -426,7 +425,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<Bails> getBailById(String bailId) {
         MutableLiveData<Bails> data = new MutableLiveData<>();
-        rapidLineRepository.getBailsById(bailId).get(Source.DEFAULT)
+        saeedSonsRepository.getBailsById(bailId).get(Source.DEFAULT)
                 .addOnSuccessListener(doc -> {
                     if (doc.exists())
                         data.postValue(new Bails(doc.getId(),
@@ -454,7 +453,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<List<Bails>> getBailDataRv() {
         MutableLiveData<List<Bails>> data = new MutableLiveData<>();
-        rapidLineRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -480,7 +479,7 @@ public class SaeedSonsViewModel extends AndroidViewModel {
 
     public LiveData<List<Bails>> getBailDataRvByDate() {
         MutableLiveData<List<Bails>> data = new MutableLiveData<>();
-        rapidLineRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING)
+        saeedSonsRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -506,21 +505,21 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public void addBail(final Bails bail) {
-        rapidLineRepository.addBail(bail);
+        saeedSonsRepository.addBail(bail);
     }
 
     public void updateBail(final Bails bail) {
-        rapidLineRepository.updateBail(bail);
+        saeedSonsRepository.updateBail(bail);
     }
 
     public void deleteBail(final String bailId) {
-        rapidLineRepository.deleteBail(bailId);
+        saeedSonsRepository.deleteBail(bailId);
     }
 
     //Items
 
-    public LiveData<List<KindOfItem>> getListAllItems(Activity activity) {
-        rapidLineRepository.getAllItems().addSnapshotListener((queryDocumentSnapshots, e) -> {
+    public LiveData<List<KindOfItem>> getListAllItems() {
+        saeedSonsRepository.getAllItems().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -540,19 +539,19 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> addItem(KindOfItem item) {
-        return rapidLineRepository.addItem(item);
+        return saeedSonsRepository.addItem(item);
     }
 
     public void updateItem(String key, String value) {
-        rapidLineRepository.updateItem(key, value);
+        saeedSonsRepository.updateItem(key, value);
     }
 
     public void deleteItem(String key) {
-        rapidLineRepository.deleteItemById(key);
+        saeedSonsRepository.deleteItemById(key);
     }
 
-    public LiveData<List<Cities>> getListAllCities(Activity activity) {
-        rapidLineRepository.getAllCities().addSnapshotListener(activity,(queryDocumentSnapshots, e) -> {
+    public LiveData<List<Cities>> getListAllCities() {
+        saeedSonsRepository.getAllCities().addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
                 return;
@@ -572,15 +571,62 @@ public class SaeedSonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> addCity(Cities cities) {
-        return rapidLineRepository.addCity(cities);
+        return saeedSonsRepository.addCity(cities);
     }
 
     public void updateCity(String key, String value) {
-        rapidLineRepository.updateCity(key, value);
+        saeedSonsRepository.updateCity(key, value);
     }
 
     public void deleteCity(String key) {
-        rapidLineRepository.deleteCityById(key);
+        saeedSonsRepository.deleteCityById(key);
     }
+
+    //Supplier
+    public LiveData<List<Supplier>> getListAllSuppliers() {
+        saeedSonsRepository.getAllSuppliers()
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+//                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    List<Supplier> supplierList = new ArrayList<>();
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            if (doc.exists())
+                                supplierList.add(doc.toObject(Supplier.class));
+                        }
+                        listAllSupplier.postValue(supplierList);
+
+                    }
+                });
+
+        return listAllSupplier;
+    }
+
+    public LiveData<Supplier> getSupplierById(String supplierId) {
+        MutableLiveData<Supplier> data = new MutableLiveData<>();
+
+        saeedSonsRepository.getSupplierById(supplierId).get(Source.DEFAULT)
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists())
+                        data.postValue(doc.toObject(Supplier.class));
+                });
+
+        return data;
+    }
+
+    public LiveData<String> addSupplier(final Supplier supplier) {
+        return saeedSonsRepository.addSupplier(supplier);
+    }
+
+    public void updateSupplier(final Supplier supplier) {
+        saeedSonsRepository.updateSupplier(supplier);
+    }
+
+    public void deleteSupplierById(String supplierId) {
+        saeedSonsRepository.deleteSupplierById(supplierId);
+    }
+
 
 }

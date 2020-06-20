@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rapid_line_bg"
-        tools:context=".Activities.ViewData.RapidLine.VechilesActivity">
+        tools:context=".Activities.RapidLine.ViewData.VechilesActivity">
 
         <ImageView
             android:id="@+id/imageView11"

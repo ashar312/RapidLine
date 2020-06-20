@@ -35,4 +35,24 @@ public class Responses {
     //Item class responses
     public static final String ITEM_EXISTS="Item already exists";
     public static final String ITEM_ADDED="Item added sucessfully";
+
+    //Driver class responses
+    public static final String DRIVER_EXISTS="Driver already exists";
+    public static final String DRIVER_ADDED="Driver added sucessfully";
+
+    //SideKick class responses
+    public static final String SIDEKICK_EXISTS="SideKick already exists";
+    public static final String SIDEKICK_ADDED="SideKick added sucessfully";
+
+    //Office Staff class responses
+    public static final String STAFF_EXISTS="Office staff already exists";
+    public static final String STAFF_ADDED="Office staff added sucessfully";
+
+    //Vechile class responses
+    public static final String VECHILE_EXISTS="Vechile already exists";
+    public static final String VECHILE_ADDED="Vechile added sucessfully";
+
+    //Supplier class responses
+    public static final String SUPPLIER_EXISTS="Supplier already exists";
+    public static final String SUPPLIER_ADDED="Supplier added sucessfully";
 }

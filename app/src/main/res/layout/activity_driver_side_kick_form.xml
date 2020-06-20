@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rapid_line_bg"
-        tools:context=".Activities.Forms.RapidLine.DriverSideKickForm">
+        tools:context=".Activities.RapidLine.Forms.DriverSideKickForm">
 
         <ImageView
             android:id="@+id/imageView11"
@@ -52,7 +52,7 @@
             app:layout_constraintGuide_percent="0.25" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/dsName"
             style="@style/FormInputTextFields"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
@@ -65,24 +65,24 @@
             app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/dsNum"
             style="@style/FormInputTextFields"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:hint="No"
-            app:layout_constraintEnd_toEndOf="@+id/editText"
-            app:layout_constraintStart_toStartOf="@+id/editText"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintEnd_toEndOf="@+id/dsName"
+            app:layout_constraintStart_toStartOf="@+id/dsName"
+            app:layout_constraintTop_toBottomOf="@+id/dsName" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/dsNic"
             style="@style/FormInputTextFields"
             android:ems="10"
             android:inputType="number"
             android:hint="NIC (Optional)"
-            app:layout_constraintEnd_toEndOf="@+id/editText4"
-            app:layout_constraintStart_toStartOf="@+id/editText4"
-            app:layout_constraintTop_toBottomOf="@+id/editText4" />
+            app:layout_constraintEnd_toEndOf="@+id/dsNum"
+            app:layout_constraintStart_toStartOf="@+id/dsNum"
+            app:layout_constraintTop_toBottomOf="@+id/dsNum" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imagesLayout"
@@ -91,7 +91,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText5">
+            app:layout_constraintTop_toBottomOf="@+id/dsNic">
 
             <TextView
                 android:id="@+id/textView21"
@@ -140,7 +140,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/addDsBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"

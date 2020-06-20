@@ -15,6 +15,12 @@
         <item name="colorAccent">@color/Dark_gray</item>
     </style>
 
+    <style name="MaintainanceActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/Dark_gray</item>
+        <item name="colorPrimaryDark">@color/Dark_gray</item>
+        <item name="colorAccent">@color/Dark_gray</item>
+    </style>
 
 
     <style name="FormInputTextFields">

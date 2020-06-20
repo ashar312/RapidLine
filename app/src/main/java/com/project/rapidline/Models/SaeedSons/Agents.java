@@ -47,7 +47,6 @@ public class Agents {
     public Agents(String agentName) {
 
         this.agentName = agentName;
-        this.madeBy = madeBy;
     }
 
     public HashMap<String,Object> toHashMap(){

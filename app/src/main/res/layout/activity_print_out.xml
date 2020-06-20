@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:background="@drawable/normalbackground"
     android:layout_height="match_parent"
-    tools:context=".Activities.PrintOutActivity">
+    tools:context=".Activities.Common.PrintOutActivity">
+
+
 
     <Button
         android:id="@+id/print_btn"

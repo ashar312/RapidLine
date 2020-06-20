@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rapid_line_bg"
+        tools:context=".Activities.RapidLine.Forms.AddBiltyForm">
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_goback" />
+
+        <TextView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Back"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView11"
+            app:layout_constraintTop_toTopOf="@+id/imageView11" />
+
+        <TextView
+            android:id="@+id/textView9"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add bilty"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/from_spinner"
+                    style="@style/SpinnerField"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toStartOf="@+id/to_spinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/to_spinner"
+                    style="@style/SpinnerField"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/from_spinner"
+                    app:layout_constraintTop_toTopOf="@+id/from_spinner" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="130dp"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/kind_spinner"
+                    app:layout_constraintEnd_toEndOf="@+id/to_spinner"
+                    app:layout_constraintTop_toTopOf="@+id/kind_spinner">
+
+                    <ImageView
+                        android:id="@+id/subract_quan_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:tint="@color/Brown"
+                        app:srcCompat="@drawable/ic_remove_black_24dp" />
+
+                    <EditText
+                        android:id="@+id/quan_txt"
+                        style="@style/FormInputTextFields"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:text="Qty: 1"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/add_quan_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:tint="@color/Brown"
+                        app:srcCompat="@drawable/ic_add_black_24dp" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/kind_spinner"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+                    app:layout_constraintStart_toStartOf="@+id/from_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/from_spinner" />
+
+                <Spinner
+                    android:id="@+id/sender_spiner"
+                    style="@style/FormInputTextFields"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                    app:layout_constraintStart_toStartOf="@+id/kind_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/kind_spinner" />
+
+
+                <Spinner
+                    android:id="@+id/receiver_spinner"
+                    style="@style/FormInputTextFields"
+                    app:layout_constraintEnd_toEndOf="@+id/sender_spiner"
+                    app:layout_constraintStart_toStartOf="@+id/sender_spiner"
+                    app:layout_constraintTop_toBottomOf="@+id/sender_spiner" />
+
+                <Spinner
+                    android:id="@+id/supplier_spinner"
+                    style="@style/FormInputTextFields"
+                    app:layout_constraintEnd_toEndOf="@+id/receiver_spinner"
+                    app:layout_constraintStart_toStartOf="@+id/receiver_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/receiver_spinner" />
+
+
+                <EditText
+                    android:id="@+id/supplier_pno_text"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
+                    android:hint="Supplier P.No"
+                    app:layout_constraintEnd_toEndOf="@+id/supplier_spinner"
+                    app:layout_constraintStart_toStartOf="@+id/supplier_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/supplier_spinner" />
+
+                <Spinner
+                    android:id="@+id/agent_spinner"
+                    style="@style/FormInputTextFields"
+                    app:layout_constraintEnd_toEndOf="@+id/supplier_pno_text"
+                    app:layout_constraintStart_toStartOf="@+id/supplier_pno_text"
+                    app:layout_constraintTop_toBottomOf="@+id/supplier_pno_text" />
+
+                <EditText
+                    android:id="@+id/volume_txt"
+                    style="@style/FormInputTextFields"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Volume"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toStartOf="@+id/weight_txt"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="@+id/agent_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/agent_spinner" />
+
+                <EditText
+                    android:id="@+id/weight_txt"
+                    style="@style/FormInputTextFields"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:hint="Weight"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toEndOf="@+id/agent_spinner"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/volume_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/agent_spinner" />
+
+                <CheckBox
+                    android:id="@+id/transport_chk"
+                    style="@style/Checkbox"
+                    android:layout_marginTop="24dp"
+                    android:text="Transport Charges"
+                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/volume_txt" />
+
+                <EditText
+                    android:id="@+id/transport_txt"
+                    style="@style/CheckboxFields"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:text=""
+                    app:layout_constraintBaseline_toBaselineOf="@+id/transport_chk"
+                    app:layout_constraintEnd_toStartOf="@+id/textView6" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="/PKR"
+                    android:textColor="@color/Dark_gray"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/transport_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/weight_txt" />
+
+                <CheckBox
+                    android:id="@+id/labour_chk"
+                    style="@style/Checkbox"
+                    android:layout_marginTop="16dp"
+                    android:text="Labour Charges"
+                    app:layout_constraintStart_toStartOf="@+id/transport_chk"
+                    app:layout_constraintTop_toBottomOf="@+id/transport_chk" />
+
+                <EditText
+                    android:id="@+id/labout_txt"
+                    style="@style/CheckboxFields"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:text=""
+                    app:layout_constraintBaseline_toBaselineOf="@+id/labour_chk"
+                    app:layout_constraintEnd_toStartOf="@+id/textView11" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/PKR"
+                    android:textColor="@color/Dark_gray"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/labout_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/textView6" />
+
+                <CheckBox
+                    android:id="@+id/electricity_chk"
+                    style="@style/Checkbox"
+                    android:layout_marginTop="16dp"
+                    android:text="Electricity Charges"
+                    app:layout_constraintStart_toStartOf="@+id/labour_chk"
+                    app:layout_constraintTop_toBottomOf="@+id/labour_chk" />
+
+                <EditText
+                    android:id="@+id/electricity_txt"
+                    style="@style/CheckboxFields"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:text=""
+                    app:layout_constraintBaseline_toBaselineOf="@+id/electricity_chk"
+                    app:layout_constraintEnd_toStartOf="@+id/textview_85" />
+
+
+                <TextView
+                    android:id="@+id/textview_85"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/PKR"
+                    android:textColor="@color/Dark_gray"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/electricity_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11" />
+
+                <CheckBox
+                    android:id="@+id/packing_chk"
+                    style="@style/Checkbox"
+                    android:layout_marginTop="16dp"
+                    android:text="Packing Charges"
+                    app:layout_constraintStart_toStartOf="@+id/electricity_chk"
+                    app:layout_constraintTop_toBottomOf="@+id/electricity_chk" />
+
+                <EditText
+                    android:id="@+id/packing_txt"
+                    style="@style/CheckboxFields"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:text=""
+                    app:layout_constraintBaseline_toBaselineOf="@+id/packing_chk"
+                    app:layout_constraintEnd_toStartOf="@+id/textView23" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/PKR"
+                    android:textColor="@color/Dark_gray"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/packing_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/textview_85" />
+
+                <EditText
+                    android:id="@+id/comments_txt"
+                    style="@style/FormInputTextFields"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:gravity="top"
+                    android:hint="Comments ..."
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    app:layout_constraintEnd_toEndOf="@+id/weight_txt"
+                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/packing_chk" />
+
+                <Button
+                    android:id="@+id/save_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/buttonshaperapidline"
+                    android:text="Save"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="w,5:1"
+                    app:layout_constraintEnd_toEndOf="@+id/comments_txt"
+                    app:layout_constraintStart_toStartOf="@+id/comments_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/comments_txt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

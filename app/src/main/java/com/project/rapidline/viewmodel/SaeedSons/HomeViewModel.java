@@ -1,31 +1,21 @@
 package com.project.rapidline.viewmodel.SaeedSons;
 
 import android.app.Application;
-import android.util.Log;
-
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
-import com.project.rapidline.repository.RapidLineRepository;
-import com.project.rapidline.viewmodel.AdminViewModel;
+import com.project.rapidline.repository.SaeedSonsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class HomeViewModel extends AdminViewModel {
 
     private static final String TAG = "HomeViewModel";
-    private RapidLineRepository rapidLineRepository;
+    private SaeedSonsRepository saeedSonsRepository;
     private MutableLiveData<Integer> customerCount;
     private MutableLiveData<Integer> transporterCount;
     private MutableLiveData<Integer> patriCount;
@@ -35,7 +25,7 @@ public class HomeViewModel extends AdminViewModel {
     private MutableLiveData<List<Integer>> bailsCountInfo;
     public HomeViewModel(@NonNull Application application) {
         super(application);
-        rapidLineRepository = new RapidLineRepository(application);
+        saeedSonsRepository = new SaeedSonsRepository(application);
         customerCount =new MutableLiveData<>();
         labourCount=new MutableLiveData<>();
         patriCount=new MutableLiveData<>();
@@ -45,7 +35,7 @@ public class HomeViewModel extends AdminViewModel {
     }
 
     public LiveData<Integer> getCustomerCount(){
-        rapidLineRepository.getAllCustomers().
+        saeedSonsRepository.getAllCustomers().
                 addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -63,7 +53,7 @@ public class HomeViewModel extends AdminViewModel {
     }
 
     public LiveData<Integer> getAgentCount(){
-        rapidLineRepository.getAllAgents()
+        saeedSonsRepository.getAllAgents()
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -81,7 +71,7 @@ public class HomeViewModel extends AdminViewModel {
     }
 
     public LiveData<Integer> getTransporterCount(){
-        rapidLineRepository.getAllTransporters()
+        saeedSonsRepository.getAllTransporters()
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -99,7 +89,7 @@ public class HomeViewModel extends AdminViewModel {
     }
 
     public LiveData<Integer> getLabourCount(){
-        rapidLineRepository.getAllLabours()
+        saeedSonsRepository.getAllLabours()
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -117,7 +107,7 @@ public class HomeViewModel extends AdminViewModel {
     }
 
     public LiveData<Integer> getPatriCount(){
-        rapidLineRepository.getAllPatris()
+        saeedSonsRepository.getAllPatris()
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);
@@ -136,7 +126,7 @@ public class HomeViewModel extends AdminViewModel {
 
     public LiveData<List<Integer>> getBailCount(){
 
-        rapidLineRepository.getAllBails()
+        saeedSonsRepository.getAllBails()
                 .addSnapshotListener(MetadataChanges.INCLUDE,(queryDocumentSnapshots, e) -> {
                     if (e != null) {
 //                        Log.w(TAG, "Listen failed.", e);

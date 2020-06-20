@@ -12,64 +12,55 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SettingsActivity"></activity>
-        <activity android:name=".Activities.Forms.RapidLine.OfficeStaffForm" />
+        <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"></activity>
+        <activity android:name=".Activities.Common.SupplierForm" />
+        <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm" />
+        <activity android:name=".Activities.Common.SettingsActivity" />
         <activity
-            android:name=".Activities.Forms.RapidLine.MaintainanceChartForm"
+            android:name=".Activities.RapidLine.Forms.OfficeStaffForm"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.Forms.RapidLine.FitnessTest"
+            android:name=".Activities.RapidLine.Forms.MaintainanceChartForm"
+            android:theme="@style/MaintainanceActivityTheme" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.FitnessTest"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.Forms.RapidLine.DriverSideKickForm"
+            android:name=".Activities.RapidLine.Forms.DriverSideKickForm"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.Forms.RapidLine.VechileForm"
+            android:name=".Activities.RapidLine.Forms.VechileForm"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.ViewData.RapidLine.VechilesActivity"
+            android:name=".Activities.RapidLine.ViewData.VechilesActivity"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.ViewData.RapidLine.StaffRegistationActivity"
+            android:name=".Activities.RapidLine.ViewData.StaffRegistationActivity"
             android:theme="@style/RapidLineTheme" />
         <activity
-            android:name=".Activities.ViewData.RapidLine.RapidLineHomeActivity"
+            android:name=".Activities.RapidLine.ViewData.RapidLineHomeActivity"
             android:theme="@style/RapidLineTheme" />
-        <activity android:name=".Activities.SplashActivity">
+        <activity android:name=".Activities.Common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.AdminRightsActivity" />
-        <activity android:name=".Activities.Forms.AdminForm" />
+        <activity android:name=".Activities.Common.AdminRightsActivity" />
+        <activity android:name=".Activities.Common.AdminForm" />
         <activity
-            android:name=".Activities.PrintOutActivity"
+            android:name=".Activities.Common.PrintOutActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Activities.SaeedSons.ViewData.ViewBailsActivity" />
+        <activity android:name=".Activities.SaeedSons.Forms.AddBailForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.LabourPatriForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.AgentForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm" />
+        <activity android:name=".Activities.SaeedSons.ViewData.ListActivities" />
+        <activity android:name=".Activities.SaeedSons.ViewData.SaeedSonsHomeActivity" />
         <activity
-            android:name=".Activities.ViewBailsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Activities.Forms.AddBailForm"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".Activities.Forms.SaeedSons.LabourPatriForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Activities.Forms.SaeedSons.AgentForm"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".Activities.Forms.SaeedSons.SenderRecieverTransporterForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Activities.ViewData.SaeedSons.ListActivities"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Activities.ViewData.SaeedSons.SaeedSonsHomeActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Activities.Login"
+            android:name=".Activities.Common.Login"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <provider

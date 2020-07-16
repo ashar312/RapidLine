@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startShipmentFragment">
+
+    <fragment
+        android:id="@+id/startShipmentFragment"
+        android:name="com.project.rapidline.Activities.RapidLine.Forms.Shipment.StartShipmentFragment"
+        android:label="fragment_start_shipment"
+        tools:layout="@layout/fragment_start_shipment" >
+        <action
+            android:id="@+id/action_startShipmentFragment_to_prepareShipmentFragment"
+            app:destination="@id/prepareShipmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/prepareShipmentFragment"
+        android:name="com.project.rapidline.Activities.RapidLine.Forms.Shipment.PrepareShipmentFragment"
+        android:label="fragment_prepare_shipment"
+        tools:layout="@layout/fragment_prepare_shipment" >
+
+        <action
+            android:id="@+id/action_prepareShipmentFragment_to_shipementSummaryFragment"
+            app:destination="@id/shipementSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shipementSummaryFragment"
+        android:name="com.project.rapidline.Activities.RapidLine.Forms.Shipment.ShipmentSummaryFragment"
+        android:label="fragment_shipement_summary"
+        tools:layout="@layout/fragment_shipement_summary" />
+</navigation>

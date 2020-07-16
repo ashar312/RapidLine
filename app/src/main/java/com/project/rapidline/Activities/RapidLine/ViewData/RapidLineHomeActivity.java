@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Activities.RapidLine.Forms.FitnessTest;
 import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
+import com.project.rapidline.Activities.RapidLine.Forms.Shipment.ShipmentMainActivity;
 import com.project.rapidline.Activities.SaeedSons.ViewData.ListActivities;
 import com.project.rapidline.Activities.SaeedSons.ViewData.SaeedSonsHomeActivity;
 import com.project.rapidline.R;
@@ -36,6 +37,11 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
 
         rapidLineHomeBinding.draweropenclose.setOnClickListener(view -> openDrawer());
         rapidLineHomeBinding.rapidLineNav.setNavigationItemSelectedListener(this);
+
+
+        rapidLineHomeBinding.addShipmentBtn.setOnClickListener(view -> {
+            startActivity(new Intent(RapidLineHomeActivity.this, ShipmentMainActivity.class));
+        });
     }
 
     private void openDrawer() {
@@ -84,6 +90,8 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
             case R.id.rapidline_supplier:
                 SendDataToListActivities(String.valueOf(SaeedSonActivities.Supplier));
                 break;
+            case R.id.regBilty:
+                startActivity(new Intent(RapidLineHomeActivity.this,ViewBiltyActivity.class));
         }
         return false;
     }

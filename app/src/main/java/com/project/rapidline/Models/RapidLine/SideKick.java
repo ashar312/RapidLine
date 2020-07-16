@@ -1,5 +1,7 @@
 package com.project.rapidline.Models.RapidLine;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.Exclude;
 
 public class SideKick {
@@ -56,4 +58,9 @@ public class SideKick {
         this.key = key;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return this.sideKickName;
+    }
 }

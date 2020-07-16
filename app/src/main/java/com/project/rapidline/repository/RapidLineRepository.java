@@ -10,6 +10,7 @@ import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
 import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.RapidLine.Drivers;
 import com.project.rapidline.Models.RapidLine.MaintainanceChart;
+import com.project.rapidline.Models.RapidLine.Shipment;
 import com.project.rapidline.Models.RapidLine.VechileFitness;
 import com.project.rapidline.Models.RapidLine.OfficeStaff;
 import com.project.rapidline.Models.RapidLine.SideKick;
@@ -18,6 +19,10 @@ import com.project.rapidline.utils.Responses;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RapidLineRepository {
 
@@ -32,12 +37,11 @@ public class RapidLineRepository {
     private final String SideKickTableName = "Sidekicks";
     private final String OfficeStaffTableName = "OfficeStaff";
     private final String VechileTableName = "Vechiles";
-    private final String VechileDataTableName = "VechileData";
-    private final String FitnessTestTableName = "VechileFitnessTest";
+    private final String VechileDataTableName = "Category";
     private final String MaintainanceTableName = "MaintainanceChart";
     private final String MaintainanceDataTableName = "MaintainanceData";
     private final String BiltyTableName = "Bilty";
-
+    private final String ShipmentTableName="Shipments";
 
     public RapidLineRepository(Application application) {
         this.application = application;
@@ -204,15 +208,13 @@ public class RapidLineRepository {
         return rapidLineReference.collection(VechileTableName).document(VechileDataTableName);
     }
 
-    public CollectionReference getAllVechileFitness() {
-        return rapidLineReference.collection(FitnessTestTableName);
+
+    public void addVechileFitness(String vechileNo, int fitnessPercentage, Date lastTestTaken) {
+        rapidLineReference.collection(VechileTableName).document(vechileNo)
+                .update("fitnessPercentage",fitnessPercentage,"lastTestTaken",lastTestTaken);
     }
 
-    public void addVechileFitness(VechileFitness vechileFitness) {
-        rapidLineReference.collection(FitnessTestTableName).document(vechileFitness.getVechileRegNo())
-                .set(vechileFitness);
-    }
-
+    //Maintainance
     public DocumentReference getAllMaintainanceData() {
         return rapidLineReference.collection(MaintainanceTableName).document(MaintainanceDataTableName);
     }
@@ -244,5 +246,11 @@ public class RapidLineRepository {
     public void deleteBilty(String key) {
         rapidLineReference.collection(BiltyTableName).document(key)
                 .delete();
+    }
+
+    //SHIPMENTS
+
+    public void addShipment(Shipment shipment){
+        rapidLineReference.collection(ShipmentTableName).add(shipment);
     }
 }

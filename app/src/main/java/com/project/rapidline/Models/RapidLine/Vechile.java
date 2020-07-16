@@ -4,6 +4,8 @@ import com.google.firebase.firestore.Exclude;
 
 import androidx.annotation.NonNull;
 
+import java.util.Date;
+
 public class Vechile {
 
     private String regNo;
@@ -20,17 +22,23 @@ public class Vechile {
 
     private String key;
 
+    private int fitnessPercentage;
+
+    private Date lastTestTaken;
+
     public Vechile() {
 
     }
 
-    public Vechile(String regNo, String chasisNo, String vechileCompany, String vechileCategory, String model, int capacity) {
+    public Vechile(String regNo, String chasisNo, String vechileCompany, String vechileCategory, String model, int capacity, int fitnessPercentage, Date lastTestTaken) {
         this.regNo = regNo;
         this.chasisNo = chasisNo;
         this.vechileCompany = vechileCompany;
         this.vechileCategory = vechileCategory;
         this.model = model;
         this.capacity = capacity;
+        this.fitnessPercentage = fitnessPercentage;
+        this.lastTestTaken = lastTestTaken;
     }
 
     public Vechile(String regNo) {
@@ -83,6 +91,22 @@ public class Vechile {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public int getFitnessPercentage() {
+        return fitnessPercentage;
+    }
+
+    public void setFitnessPercentage(int fitnessPercentage) {
+        this.fitnessPercentage = fitnessPercentage;
+    }
+
+    public Date getLastTestTaken() {
+        return lastTestTaken;
+    }
+
+    public void setLastTestTaken(Date lastTestTaken) {
+        this.lastTestTaken = lastTestTaken;
     }
 
     @Exclude

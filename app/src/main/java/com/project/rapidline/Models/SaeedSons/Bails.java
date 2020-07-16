@@ -113,12 +113,14 @@ public class Bails {
         this.comments = comments;
     }
 
-    public Bails(String biltyNo, String senderId, String receiverId, String madeBy, Date madeDateTime) {
+    public Bails(String biltyNo, String senderId, String receiverId, String madeBy, Date madeDateTime,String fromCity,String toCity) {
         this.biltyNo = biltyNo;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
+        this.fromCity=fromCity;
+        this.toCity=toCity;
     }
 
     public String getBiltyNo() {

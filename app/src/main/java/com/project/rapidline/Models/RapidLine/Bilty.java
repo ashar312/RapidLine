@@ -43,6 +43,28 @@ public class Bilty {
 
     }
 
+    public Bilty(String biltyNo, String fromCity, String toCity, String kindId, Double qty, String senderId, String receiverId, String supplierName, String supplierPNo, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
+        this.biltyNo = biltyNo;
+        this.fromCity = fromCity;
+        this.toCity = toCity;
+        this.kindId = kindId;
+        this.qty = qty.intValue();
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.supplierName = supplierName;
+        this.supplierPNo = supplierPNo;
+        this.agentId = agentId;
+        this.volume = volume;
+        this.weight = weight;
+        this.madeBy = madeBy;
+        this.madeDateTime = madeDateTime;
+        this.transport_charge = transport_charge;
+        this.labour_charge = labour_charge;
+        this.electricity_charge = electricity_charge;
+        this.packing_charge = packing_charge;
+        this.comments = comments;
+    }
+
     public Bilty(String biltyNo, String fromCity, String toCity, String kindId, int qty, String senderId, String receiverId, String supplierName, String supplierPNo, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
         this.biltyNo = biltyNo;
         this.fromCity = fromCity;

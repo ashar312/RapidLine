@@ -53,11 +53,13 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
         holder.receiver_txt.setText(bailsArrayList.get(position).getReceiverId());
         holder.name_txt.setText(bailsArrayList.get(position).getMadeBy());
         holder.date_txt.setText(formattedDate(bailsArrayList.get(position).getMadeDateTime()));
+        holder.fromCity.setText(bailsArrayList.get(position).getFromCity());
+        holder.toCity.setText(bailsArrayList.get(position).getToCity());
 
-        //Set click listeners for print
-        if (onItemClickListener != null) {
-            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getBiltyNo(), "print"));
-        }
+//        //Set click listeners for print
+//        if (onItemClickListener != null) {
+//            holder.print_btn.setOnClickListener(view -> onItemClickListener.onItemClick(bailsArrayList.get(position).getBiltyNo(), "print"));
+//        }
 
     }
 
@@ -73,7 +75,7 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
 
 
     public class EnterieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView sender_txt, receiver_txt, date_txt, builty_no, name_txt;
+        TextView sender_txt, receiver_txt, date_txt, builty_no, name_txt,fromCity,toCity;
         Button print_btn;
         OnNoteListener onNoteListener;
 
@@ -85,8 +87,9 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
             builty_no = itemView.findViewById(R.id.builty_no);
             date_txt = itemView.findViewById(R.id.date_txt);
             name_txt = itemView.findViewById(R.id.name_txt);
-            print_btn = itemView.findViewById(R.id.print_btn);
-
+//            print_btn = itemView.findViewById(R.id.print_btn);
+            fromCity=itemView.findViewById(R.id.senderCity);
+            toCity=itemView.findViewById(R.id.receiverCity);
             itemView.setOnClickListener(this::onClick);
         }
 

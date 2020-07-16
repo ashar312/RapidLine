@@ -10,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.project.rapidline.Activities.SaeedSons.Forms.AddBailForm;
 import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.RapidLine.Supplier;
 import com.project.rapidline.Models.SaeedSons.Agents;
-import com.project.rapidline.Models.SaeedSons.Cities;
+import com.project.rapidline.Models.SaeedSons.Bails;
 import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Models.SaeedSons.KindOfItem;
 import com.project.rapidline.R;
@@ -22,11 +21,15 @@ import com.project.rapidline.databinding.ActivityAddBiltyFormBinding;
 import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
 import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.google.common.reflect.Reflection.initialize;
 
 public class AddBiltyForm extends AppCompatActivity {
 
@@ -36,7 +39,8 @@ public class AddBiltyForm extends AppCompatActivity {
 
 
     private String action;
-    private Bilty mBilty;
+    private Bilty mBilty=null;
+    private Bails mBail=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,21 @@ public class AddBiltyForm extends AppCompatActivity {
 
         if (action.equals("edit")) {
             //Load data
+            String itemType = bundle.getString("itemType");
             String id = bundle.getString("itemId");
 
-            rapidLineViewModel.getBiltyById(id).observe(this, bilty -> {
-                mBilty = bilty;
-                loadData();
-            });
+            if (itemType.equals("Bail")) {
+                saeedSonsViewModel.getBailById(id).observe(this, bails -> {
+                    mBail = bails;
+                    loadBailData();
+                });
+            } else {
+                rapidLineViewModel.getBiltyById(id).observe(this, bilty -> {
+                    mBilty = bilty;
+                    loadBiltyData();
+                });
+            }
+
         }
         initialize();
 
@@ -70,34 +83,54 @@ public class AddBiltyForm extends AppCompatActivity {
             //TODO generate builty no work
             if (action.equals("edit")) {
 
-                mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getSelectedItem().toString());
-                mBilty.setToCity(addBiltyFormBinding.toSpinner.getSelectedItem().toString());
-                mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
-                mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
-                mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
-
-                mBilty.setSupplierName(addBiltyFormBinding.supplierSpinner.getSelectedItem().toString());
+                if(mBail!=null){
+                    mBail.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
+                    mBail.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
 
 
-                mBilty.setAgentId(addBiltyFormBinding.agentSpinner.getSelectedItem().toString());
+                    mBail.setTransport_charge(addBiltyFormBinding.transportTxt.getText().toString());
+                    mBail.setLabour_charge(addBiltyFormBinding.laboutTxt.getText().toString());
+                    mBail.setElectricity_charge(addBiltyFormBinding.electricityTxt.getText().toString());
+                    mBail.setPacking_charge(addBiltyFormBinding.packingTxt.getText().toString());
+                    mBail.setComments(addBiltyFormBinding.commentsTxt.getText().toString());
 
-                mBilty.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
-                mBilty.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
-                mBilty.setQty(getIntQuantity(addBiltyFormBinding.quanTxt.getText().toString()));
+                    String id = bundle.getString("itemId");
+                    mBail.setBiltyNo(id);
 
-                mBilty.setMadeDateTime(Calendar.getInstance().getTime());
+                    saeedSonsViewModel.updateBail(mBail);
+
+                }
+                else {
+                    mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getSelectedItem().toString());
+                    mBilty.setToCity(addBiltyFormBinding.toSpinner.getSelectedItem().toString());
+                    mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
+                    mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
+                    mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
+
+                    mBilty.setSupplierName(addBiltyFormBinding.supplierSpinner.getSelectedItem().toString());
 
 
-                mBilty.setTransport_charge(addBiltyFormBinding.transportTxt.getText().toString());
-                mBilty.setLabour_charge(addBiltyFormBinding.laboutTxt.getText().toString());
-                mBilty.setElectricity_charge(addBiltyFormBinding.electricityTxt.getText().toString());
-                mBilty.setPacking_charge(addBiltyFormBinding.packingTxt.getText().toString());
-                mBilty.setComments(addBiltyFormBinding.commentsTxt.getText().toString());
-                mBilty.setSupplierPNo(addBiltyFormBinding.supplierPnoText.getText().toString());
+                    mBilty.setAgentId(addBiltyFormBinding.agentSpinner.getSelectedItem().toString());
+
+                    mBilty.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
+                    mBilty.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
+                    mBilty.setQty(getIntQuantity(addBiltyFormBinding.quanTxt.getText().toString()));
+
+                    mBilty.setMadeDateTime(Calendar.getInstance().getTime());
 
 
-                //TODO add admin field
-                rapidLineViewModel.updateBilty(mBilty);
+                    mBilty.setTransport_charge(addBiltyFormBinding.transportTxt.getText().toString());
+                    mBilty.setLabour_charge(addBiltyFormBinding.laboutTxt.getText().toString());
+                    mBilty.setElectricity_charge(addBiltyFormBinding.electricityTxt.getText().toString());
+                    mBilty.setPacking_charge(addBiltyFormBinding.packingTxt.getText().toString());
+                    mBilty.setComments(addBiltyFormBinding.commentsTxt.getText().toString());
+                    mBilty.setSupplierPNo(addBiltyFormBinding.supplierPnoText.getText().toString());
+
+
+                    //TODO add admin field
+                    rapidLineViewModel.updateBilty(mBilty);
+
+                }
                 Toast.makeText(this, "Bilty updated sucessfully", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
@@ -142,20 +175,66 @@ public class AddBiltyForm extends AppCompatActivity {
     }
 
 
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("pk.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
     private void initialize() {
         //Load Cities
-        saeedSonsViewModel.getListAllCities().observe(this, cities -> {
-            List<Cities> fromCityList = new ArrayList<>(cities);
-            fromCityList.add(0, new Cities("From"));
+//        saeedSonsViewModel.getListAllCities().observe(this, cities -> {
+//            List<Cities> fromCityList = new ArrayList<>(cities);
+//            fromCityList.add(0, new Cities("From"));
+//
+//            ArrayAdapter<Cities> fromCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+//                    R.layout.spinner_item, fromCityList);
+//            fromCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+//
+//            List<Cities> toCityList = new ArrayList<>(cities);
+//            toCityList.add(0, new Cities("To"));
+//
+//            ArrayAdapter<Cities> toCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+//                    R.layout.spinner_item, toCityList);
+//            toCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+//
+//
+//            addBiltyFormBinding.fromSpinner.setAdapter(fromCityArrayAdapter);
+//            addBiltyFormBinding.toSpinner.setAdapter(toCityArrayAdapter);
+//
+//        });
 
-            ArrayAdapter<Cities> fromCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+        //Load cities
+        try {
+            JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
+            List<String> cityList = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String currCity = jsonObject.getString("city");
+                cityList.add(currCity);
+            }
+
+            List<String> fromCityList = new ArrayList<>(cityList);
+            fromCityList.add(0, "From");
+
+            ArrayAdapter<String> fromCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, fromCityList);
             fromCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
-            List<Cities> toCityList = new ArrayList<>(cities);
-            toCityList.add(0, new Cities("To"));
+            List<String> toCityList = new ArrayList<>(cityList);
+            toCityList.add(0, "To");
 
-            ArrayAdapter<Cities> toCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+            ArrayAdapter<String> toCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, toCityList);
             toCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
@@ -163,7 +242,10 @@ public class AddBiltyForm extends AppCompatActivity {
             addBiltyFormBinding.fromSpinner.setAdapter(fromCityArrayAdapter);
             addBiltyFormBinding.toSpinner.setAdapter(toCityArrayAdapter);
 
-        });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         //Load kind of data
         saeedSonsViewModel.getListAllItems().observe(this, kindOfItems -> {
@@ -209,15 +291,19 @@ public class AddBiltyForm extends AppCompatActivity {
         });
 
         //TODO fix spinners when no data is present to show in bail also
-        saeedSonsViewModel.getListAllSuppliers().observe(this, suppliers -> {
-            List<Supplier> supplierList = new ArrayList<>(suppliers);
-            supplierList.add(0, new Supplier("Select a supplier"));
+        if(mBail==null){
+            saeedSonsViewModel.getListAllSuppliers().observe(this, suppliers -> {
+                List<Supplier> supplierList = new ArrayList<>(suppliers);
+                supplierList.add(0, new Supplier("Select a supplier"));
 
-            ArrayAdapter<Supplier> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
-                    R.layout.spinner_item, supplierList);
+                ArrayAdapter<Supplier> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+                        R.layout.spinner_item, supplierList);
 
-            addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
-        });
+                addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
+            });
+
+        }
+
         //Set Listeners
         addBiltyFormBinding.addQuanBtn.setOnClickListener(view -> {
             String quan = addBiltyFormBinding.quanTxt.getText().toString();
@@ -275,7 +361,60 @@ public class AddBiltyForm extends AppCompatActivity {
         });
     }
 
-    private void loadData() {
+    private void loadBailData() {
+        addBiltyFormBinding.quanTxt.setText("Qty: " + mBail.getQuantity());
+        addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBail.getVolume()));
+        addBiltyFormBinding.weightTxt.setText(String.valueOf(mBail.getWeight()));
+        addBiltyFormBinding.supplierPnoText.setText(mBail.getBiltyNo());
+        addBiltyFormBinding.supplierPnoText.setEnabled(false);
+
+        if (!TextUtils.isEmpty(mBail.getTransport_charge())) {
+            addBiltyFormBinding.transportChk.setChecked(true);
+            addBiltyFormBinding.transportTxt.setText(mBail.getTransport_charge());
+        }
+        if (!TextUtils.isEmpty(mBail.getLabour_charge())) {
+            addBiltyFormBinding.labourChk.setChecked(true);
+            addBiltyFormBinding.laboutTxt.setText(mBail.getLabour_charge());
+        }
+        if (!TextUtils.isEmpty(mBail.getElectricity_charge())) {
+            addBiltyFormBinding.electricityChk.setChecked(true);
+            addBiltyFormBinding.electricityTxt.setText(mBail.getElectricity_charge());
+        }
+        if (!TextUtils.isEmpty(mBail.getPacking_charge())) {
+            addBiltyFormBinding.packingChk.setChecked(true);
+            addBiltyFormBinding.packingTxt.setText(mBail.getPacking_charge());
+        }
+        addBiltyFormBinding.commentsTxt.setText(mBail.getComments());
+
+
+        int senderVal = getIndex(addBiltyFormBinding.senderSpiner, mBail.getSenderId());
+        addBiltyFormBinding.senderSpiner.setSelection(senderVal);
+
+        int receiverVal = getIndex(addBiltyFormBinding.receiverSpinner, mBail.getReceiverId());
+        addBiltyFormBinding.receiverSpinner.setSelection(receiverVal);
+
+        int agentVal = getIndex(addBiltyFormBinding.agentSpinner, mBail.getAgentId());
+        addBiltyFormBinding.agentSpinner.setSelection(agentVal);
+
+        int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBail.getKindId());
+        addBiltyFormBinding.kindSpinner.setSelection(itemVal);
+
+        int fromCityVal = getIndex(addBiltyFormBinding.fromSpinner, mBail.getFromCity());
+        addBiltyFormBinding.fromSpinner.setSelection(fromCityVal);
+
+        int toCityVal = getIndex(addBiltyFormBinding.toSpinner, mBail.getToCity());
+        addBiltyFormBinding.toSpinner.setSelection(toCityVal);
+
+        List<String> supplierList=new ArrayList<>();
+        supplierList.add(mBail.getTransporterId());
+        ArrayAdapter<String> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+                R.layout.spinner_item, supplierList);
+        addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
+        addBiltyFormBinding.supplierSpinner.setSelection(0);
+
+    }
+
+    private void loadBiltyData() {
         addBiltyFormBinding.quanTxt.setText("Qty: " + mBilty.getQty());
         addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBilty.getVolume()));
         addBiltyFormBinding.weightTxt.setText(String.valueOf(mBilty.getWeight()));

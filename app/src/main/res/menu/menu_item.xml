@@ -3,7 +3,7 @@
     <item
         android:id="@+id/add_bail"
         android:icon="@drawable/icons8_add_rule_60px"
-        android:title="Add Bail" />
+        android:title="Add Bilty" />
 
     <item
         android:id="@+id/regEntries"

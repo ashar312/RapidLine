@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,12 +18,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.project.rapidline.Activities.Common.PrintOutActivity;
+import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Activities.SaeedSons.ViewData.ViewBailsActivity;
 import com.project.rapidline.Adapters.BailsAdapter;
 import com.project.rapidline.Adapters.BiltyAdapter;
 import com.project.rapidline.Adapters.OnItemClickListener;
 import com.project.rapidline.Models.RapidLine.Bilty;
-import com.project.rapidline.Models.SaeedSons.Bails;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityViewBiltyBinding;
 import com.project.rapidline.utils.StaticClasses;
@@ -30,8 +32,9 @@ import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
 import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ViewBiltyActivity extends AppCompatActivity implements OnItemClickListener, BailsAdapter.OnNoteListener {
+public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter.OnNoteListener {
 
     private ActivityViewBiltyBinding activityViewBiltyBinding;
     private SaeedSonsViewModel saeedSonsViewModel;
@@ -87,28 +90,16 @@ public class ViewBiltyActivity extends AppCompatActivity implements OnItemClickL
     }
 
     private void setupRecyclerView() {
-        biltyAdapter = new BiltyAdapter(this, new ArrayList<>(), this::onItemClick, this::onBailClick);
+        biltyAdapter = new BiltyAdapter(this, new ArrayList<>(), this);
         activityViewBiltyBinding.biltyRv.setLayoutManager(new LinearLayoutManager(this));
         activityViewBiltyBinding.biltyRv.setAdapter(biltyAdapter);
         activityViewBiltyBinding.biltyRv.setItemAnimator(new DefaultItemAnimator());
 
 
         rapidLineViewModel.getAllBilty().observe(this, bilties -> {
-
-            ArrayList<Bilty> biltyArrayList=new ArrayList<>(bilties);
-
-            //also get the data from saeed sons
-            saeedSonsViewModel.getListAllBails().observe(this,bails -> {
-                for(Bails currBail:bails){
-                    if(currBail.getTransporterId().equals("")){
-
-                    }
-                }
-
-
-            });
-
-            biltyAdapter.setBiltyArrayList((ArrayList<Bilty>) bilties);
+            ArrayList<Bilty> combinedList=new ArrayList<>(bilties.get(0));
+            combinedList.addAll(bilties.get(1));
+            biltyAdapter.setBiltyArrayList(combinedList);
         });
 
         //On Right swipe listener
@@ -120,24 +111,26 @@ public class ViewBiltyActivity extends AppCompatActivity implements OnItemClickL
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+                //TODO delete on swipe
 
             }
         }).attachToRecyclerView(activityViewBiltyBinding.biltyRv);
 
 
-
     }
 
 
     @Override
-    public void onBailClick(String itemId) {
-
+    public void onBiltyClick(Bilty bilty) {
+        //Check whether bail or bilty
+        Intent intent = new Intent(ViewBiltyActivity.this, AddBiltyForm.class);
+        intent.putExtra("action", "edit");
+        intent.putExtra("itemId", bilty.getBiltyNo());
+        if (bilty.getSupplierName().toLowerCase().contains("rapid line")) {
+            intent.putExtra("itemType", "Bail");
+        } else
+            intent.putExtra("itemType", "Bilty");
+        startActivity(intent);
     }
 
-    //on Print btn click
-    @Override
-    public void onItemClick(String itemId, String action) {
-
-    }
 }

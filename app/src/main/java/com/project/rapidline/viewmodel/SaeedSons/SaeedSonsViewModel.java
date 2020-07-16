@@ -466,7 +466,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                 doc.getString("senderId"),
                                 doc.getString("receiverId"),
                                 doc.getString("madeBy"),
-                                doc.getDate("madeDateTime")));
+                                doc.getDate("madeDateTime"),
+                                doc.getString("fromCity"),
+                                doc.getString("toCity")));
                     }
 
                 }
@@ -493,7 +495,9 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                         doc.getString("senderId"),
                                         doc.getString("receiverId"),
                                         doc.getString("madeBy"),
-                                        doc.getDate("madeDateTime")));
+                                        doc.getDate("madeDateTime"),
+                                        doc.getString("fromCity"),
+                                        doc.getString("toCity")));
                             }
                         }
 

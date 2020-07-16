@@ -7,7 +7,7 @@
         android:title="Add Bail" />
 
     <item
-        android:id="@+id/regEntries"
+        android:id="@+id/regBilty"
         android:icon="@drawable/icons8_order_history_60px"
         android:title="Register Entries" />
     <item

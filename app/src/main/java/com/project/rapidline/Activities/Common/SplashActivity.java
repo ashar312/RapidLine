@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.project.rapidline.Activities.RapidLine.ViewData.RapidLineHomeActivity;
 import com.project.rapidline.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
 //                startActivity(new Intent(SplashActivity.this, SaeedSonsHomeActivity.class));
 //                finish();
 //            } else {
-                startActivity(new Intent(SplashActivity.this, Login.class));
+                startActivity(new Intent(SplashActivity.this, RapidLineHomeActivity.class));
                 finish();
 //            }
         }, SPLASH_TIMEOUT);

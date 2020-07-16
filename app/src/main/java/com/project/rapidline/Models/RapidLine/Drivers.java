@@ -1,5 +1,7 @@
 package com.project.rapidline.Models.RapidLine;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.Exclude;
 
 public class Drivers {
@@ -57,4 +59,9 @@ public class Drivers {
         this.key = key;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return this.driverName;
+    }
 }

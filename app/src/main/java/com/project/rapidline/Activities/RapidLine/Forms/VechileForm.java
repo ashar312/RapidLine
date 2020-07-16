@@ -83,6 +83,8 @@ public class VechileForm extends AppCompatActivity {
                 vechileEdit.setVechileCategory(vechilesBinding.vechCategorySpinner.getSelectedItem().toString());
                 vechileEdit.setModel(vechilesBinding.modelSpinner.getSelectedItem().toString());
 
+                vechileEdit.setFitnessPercentage(0);
+
                 rapidLineViewModel.addVechile(vechileEdit).observe(this, response -> {
                     Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
 

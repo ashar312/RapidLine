@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.project.rapidline.Models.RapidLine.Vechile;
-import com.project.rapidline.Models.RapidLine.VechileFitness;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityFitnessTestBinding;
 import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
@@ -40,8 +39,6 @@ public class FitnessTest extends AppCompatActivity {
         });
 
         fitnessTestBinding.testBtn.setOnClickListener(view -> {
-
-
             if (fitnessTestBinding.vechileSpinner.getSelectedItem().toString().equals("Select a vechile")) {
                 Toast.makeText(this, "Please select a vechile", Toast.LENGTH_SHORT).show();
                 return;
@@ -54,21 +51,21 @@ public class FitnessTest extends AppCompatActivity {
             fitnessTestBinding.progressBarFitness.setProgress((int) percentage);
             fitnessTestBinding.progressPercent.setText((int) percentage + " %");
 
-            VechileFitness vechileFitness = new VechileFitness(
-                    fitnessTestBinding.vechileSpinner.getSelectedItem().toString(),
-                    (int) percentage,
-                    Calendar.getInstance().getTime());
-            rapidLineViewModel.addVechileFitness(vechileFitness);
-
-
+            //Scroll to top
             fitnessTestBinding.scrollVechView.post(() -> fitnessTestBinding.scrollVechView.fullScroll(fitnessTestBinding.scrollVechView.FOCUS_UP));
 
-            if(percentage<80){
-                Toast.makeText(this,"Vechile not fit\nMaintainaince required",Toast.LENGTH_SHORT).show();
+            rapidLineViewModel.addVechileFitness(
+                    fitnessTestBinding.vechileSpinner.getSelectedItem().toString(),
+                    (int) percentage,
+                    Calendar.getInstance().getTime()
+            );
 
-            }
-            else {
-                Toast.makeText(this,"Vechile fitness is good",Toast.LENGTH_SHORT).show();
+
+            if (percentage < 80) {
+                Toast.makeText(this, "Vechile not fit\nMaintainaince required", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(this, "Vechile fitness is good", Toast.LENGTH_SHORT).show();
             }
 
 

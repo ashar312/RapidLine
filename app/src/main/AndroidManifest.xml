@@ -12,9 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"></activity>
+        <activity android:name=".Activities.RapidLine.Forms.Shipment.ShipmentMainActivity"
+            android:theme="@style/MaintainanceActivityTheme"/>
+        <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"
+            android:theme="@style/RapidLineTheme"/>
         <activity android:name=".Activities.Common.SupplierForm" />
-        <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm" />
+        <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm"
+            android:theme="@style/RapidLineTheme"/>
         <activity android:name=".Activities.Common.SettingsActivity" />
         <activity
             android:name=".Activities.RapidLine.Forms.OfficeStaffForm"

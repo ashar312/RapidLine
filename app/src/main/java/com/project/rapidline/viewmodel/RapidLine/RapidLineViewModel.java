@@ -13,9 +13,11 @@ import com.project.rapidline.Models.RapidLine.OfficeStaff;
 import com.project.rapidline.Models.RapidLine.SideKick;
 import com.project.rapidline.Models.RapidLine.Vechile;
 import com.project.rapidline.repository.RapidLineRepository;
+import com.project.rapidline.repository.SaeedSonsRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import androidx.lifecycle.MutableLiveData;
 
 public class RapidLineViewModel extends AndroidViewModel {
     private RapidLineRepository rapidLineRepository;
+    private SaeedSonsRepository saeedSonsRepository;
 
     private MutableLiveData<List<Drivers>> listAllDrivers;
     private MutableLiveData<List<OfficeStaff>> listAllStaff;
@@ -36,6 +39,7 @@ public class RapidLineViewModel extends AndroidViewModel {
         super(application);
 
         rapidLineRepository = new RapidLineRepository(application);
+        saeedSonsRepository = new SaeedSonsRepository(application);
 
         listAllDrivers = new MutableLiveData<>();
         listAllStaff = new MutableLiveData<>();
@@ -277,22 +281,9 @@ public class RapidLineViewModel extends AndroidViewModel {
         return data;
     }
 
-    public LiveData<VechileFitness> getVechileFitness(String vechNo) {
-        MutableLiveData<VechileFitness> data = new MutableLiveData<>();
 
-        rapidLineRepository.getAllVechileFitness().document(vechNo)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        data.postValue(documentSnapshot.toObject(VechileFitness.class));
-                    }
-                });
-
-        return data;
-    }
-
-    public void addVechileFitness(VechileFitness vechileFitness) {
-        rapidLineRepository.addVechileFitness(vechileFitness);
+    public void addVechileFitness(String vechileNo, int fitnessPercentage, Date lastTestTaken) {
+        rapidLineRepository.addVechileFitness(vechileNo,fitnessPercentage,lastTestTaken);
     }
 
     public LiveData<MaintainanceData> getAllMaintainanceData() {
@@ -312,23 +303,85 @@ public class RapidLineViewModel extends AndroidViewModel {
         rapidLineRepository.addMaintainanceRecord(maintainanceChart);
     }
 
-    public LiveData<List<Bilty>> getAllBilty() {
-        rapidLineRepository.getAllBilty()
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    if (e != null)
-                        return;
+    public LiveData<List<List<Bilty>>> getAllBilty() {
 
-                    List<Bilty> biltyList = new ArrayList<>();
+        MutableLiveData<List<List<Bilty>>> data=new MutableLiveData<>();
 
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                            biltyList.add(doc.toObject(Bilty.class));
-                        }
+        //Get all bails
+        saeedSonsRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
+            if (e != null) {
+                return;
+            }
+
+            List<Bilty> bailList = new ArrayList<>();
+
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    if (!doc.getId().equals("BailCounter") && doc.getString("transporterId").toLowerCase().equals("rapid line")) {
+                        bailList.add(new Bilty(doc.getId(),
+                                doc.getString("fromCity"),
+                                doc.getString("toCity"),
+                                doc.getString("kindId"),
+                                doc.getDouble("qty"),
+                                doc.getString("senderId"),
+                                doc.getString("receiverId"),
+                                doc.getString("transporterId"),
+                                doc.getId(),
+                                doc.getString("agentId"),
+                                doc.getDouble("volume"),
+                                doc.getDouble("weight"),
+                                doc.getString("madeBy"),
+                                doc.getDate("madeDateTime"),
+                                doc.getString("transportCharge"),
+                                doc.getString("labourCharge"),
+                                doc.getString("electric_charge"),
+                                doc.getString("packingCharge"),
+                                doc.getString("comments")
+                        ));
+
+
                     }
-                    listAllBilty.postValue(biltyList);
+                }
+            }
 
-                });
-        return listAllBilty;
+            //Get all bilty
+            rapidLineRepository.getAllBilty().addSnapshotListener((biltySnapshots, e1) -> {
+                if (e1 != null) {
+                    return;
+                }
+                List<Bilty> biltyList=new ArrayList<>();
+                if (!biltySnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot doc : biltySnapshots) {
+                        biltyList.add(doc.toObject(Bilty.class)) ;
+                    }
+                }
+                List<List<Bilty>> dataList=new ArrayList<>();
+                dataList.add(0,bailList);
+                dataList.add(1,biltyList);
+
+                data.postValue(dataList);
+            });
+
+        });
+
+
+        return data;
+//        rapidLineRepository.getAllBilty()
+//                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+//                    if (e != null)
+//                        return;
+//
+//                    List<Bilty> biltyList = new ArrayList<>();
+//
+//                    if (!queryDocumentSnapshots.isEmpty()) {
+//                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+//                            biltyList.add(doc.toObject(Bilty.class));
+//                        }
+//                    }
+//                    listAllBilty.postValue(biltyList);
+//
+//                });
+//        return listAllBilty;
     }
 
     public LiveData<Bilty> getBiltyById(String key) {
@@ -353,5 +406,7 @@ public class RapidLineViewModel extends AndroidViewModel {
     public void deleteBilty(String key){
         rapidLineRepository.deleteBilty(key);
     }
+
+
 
 }

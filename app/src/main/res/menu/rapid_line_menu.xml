@@ -47,11 +47,12 @@
 
             <item
                 android:id="@+id/rapidline_supplier"
+                android:icon="@drawable/ic_supplier"
                 android:title="Supplier" />
         </menu>
     </item>
     <item
-        android:id="@+id/logOut"
+        android:id="@+id/logOutRapidLine"
         android:title="Log Out" />
 
 </menu>

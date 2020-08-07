@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.project.rapidline.Activities.Common.Login;
 import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Activities.RapidLine.Forms.FitnessTest;
 import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
@@ -18,6 +20,8 @@ import com.project.rapidline.Activities.SaeedSons.ViewData.ListActivities;
 import com.project.rapidline.Activities.SaeedSons.ViewData.SaeedSonsHomeActivity;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityRapidLineHomeBinding;
+import com.project.rapidline.viewmodel.RapidLine.RapidLineHomeViewModel;
+import com.project.rapidline.viewmodel.SaeedSons.HomeViewModel;
 
 public class RapidLineHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -29,11 +33,13 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
 
 
     private ActivityRapidLineHomeBinding rapidLineHomeBinding;
+    private RapidLineHomeViewModel homeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rapidLineHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_rapid_line_home);
+        homeViewModel= ViewModelProviders.of(this).get(RapidLineHomeViewModel.class);
 
         rapidLineHomeBinding.draweropenclose.setOnClickListener(view -> openDrawer());
         rapidLineHomeBinding.rapidLineNav.setNavigationItemSelectedListener(this);
@@ -42,7 +48,46 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
         rapidLineHomeBinding.addShipmentBtn.setOnClickListener(view -> {
             startActivity(new Intent(RapidLineHomeActivity.this, ShipmentMainActivity.class));
         });
+
+        setupObservers();
+
     }
+
+    private void setupObservers(){
+
+        homeViewModel.getDriverCount().observe(this,value -> {
+            rapidLineHomeBinding.drivervalue.setText(value + "");
+        });
+
+        homeViewModel.getSidekickCount().observe(this,value -> {
+            rapidLineHomeBinding.sidekickvalue.setText(value + "");
+        });
+        homeViewModel.getStaffCount().observe(this,value -> {
+            rapidLineHomeBinding.officeStaffvalue.setText(value + "");
+        });
+
+        homeViewModel.getVechileCount().observe(this,value -> {
+            rapidLineHomeBinding.vechilevalue.setText(value + "");
+        });
+
+        homeViewModel.getBiltyCount().observe(this,integerList -> {
+            int offline = integerList.get(0);
+            rapidLineHomeBinding.offlineTxt.setText(offline + "");
+            rapidLineHomeBinding.pendingVal.setText(offline + "");
+            if (offline > 0)
+                rapidLineHomeBinding.notificationTxt.setText("You have " + offline + " offline bails/");
+
+            int online = integerList.get(1);
+            //Online quantity
+            rapidLineHomeBinding.onlineTxt.setText(online + "");
+
+            //Set total
+            int total = online + offline;
+            rapidLineHomeBinding.totalVal.setText(total + "");
+        });
+
+    }
+
 
     private void openDrawer() {
         rapidLineHomeBinding.drawerRapidLine.openDrawer(GravityCompat.START);
@@ -92,6 +137,11 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
                 break;
             case R.id.regBilty:
                 startActivity(new Intent(RapidLineHomeActivity.this,ViewBiltyActivity.class));
+                break;
+            case R.id.logOutRapidLine:
+                startActivity(new Intent(RapidLineHomeActivity.this, Login.class));
+                finish();
+                break;
         }
         return false;
     }

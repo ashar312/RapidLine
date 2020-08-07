@@ -24,7 +24,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     private Context context;
     private OnItemClickListener onItemClickListener;
     private List<String> filterList;
-
+    private boolean updateOptionVisible=false;
 
     public ListAdapter( Context context,ArrayList<String> listItems, OnItemClickListener clickListener) {
         this.listItems = listItems;
@@ -45,6 +45,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
 //        holder.Count.setText(listItems.get(position).getCount());
 //        holder.StrItem.setText(listItems.get(position).getItem());
+
+        if(updateOptionVisible){
+            holder.imageEdit.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.imageEdit.setVisibility(View.INVISIBLE);
+        }
+
+
         int count=position+1;
         holder.count.setText(""+count);
         holder.strItem.setText(listItems.get(position));
@@ -73,6 +82,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
             strItem = view.findViewById(R.id.itemstr);
             imageEdit = view.findViewById(R.id.editimage);
             imageDelete = view.findViewById(R.id.deleteimage);
+
+
 //            imageEdit.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
@@ -94,6 +105,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         this.listItems = listItems;
         filterList=new ArrayList<>(this.listItems);
         notifyDataSetChanged();
+    }
+
+    public void setUpdateOptionVisible(boolean updateOptionVisible) {
+        this.updateOptionVisible = updateOptionVisible;
     }
 
     @Override

@@ -23,6 +23,7 @@ public class HomeViewModel extends AdminViewModel {
     private MutableLiveData<Integer> agentCount;
 
     private MutableLiveData<List<Integer>> bailsCountInfo;
+
     public HomeViewModel(@NonNull Application application) {
         super(application);
         saeedSonsRepository = new SaeedSonsRepository(application);

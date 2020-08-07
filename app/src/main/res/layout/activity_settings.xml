@@ -53,45 +53,20 @@
             app:layout_constraintGuide_percent="0.25" />
 
         <TextView
-            android:id="@+id/cities_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Cities"
-            android:textColor="@color/Brown"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/kinds_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
-        <View
-            android:id="@+id/cities_line"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/Brown"
-            app:layout_constraintEnd_toEndOf="@+id/cities_btn"
-            app:layout_constraintStart_toStartOf="@+id/cities_btn"
-            app:layout_constraintTop_toBottomOf="@+id/cities_btn" />
-
-        <TextView
             android:id="@+id/kinds_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:text="Kinds"
             android:textColor="@color/Brown"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/admins_btn"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cities_btn"
-            app:layout_constraintTop_toTopOf="@+id/cities_btn" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
         <View
             android:id="@+id/kinds_line"
@@ -99,7 +74,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/Brown"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/kinds_btn"
             app:layout_constraintStart_toStartOf="@+id/kinds_btn"
             app:layout_constraintTop_toBottomOf="@+id/kinds_btn" />

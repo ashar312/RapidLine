@@ -97,7 +97,7 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
 
 
         rapidLineViewModel.getAllBilty().observe(this, bilties -> {
-            ArrayList<Bilty> combinedList=new ArrayList<>(bilties.get(0));
+            ArrayList<Bilty> combinedList = new ArrayList<>(bilties.get(0));
             combinedList.addAll(bilties.get(1));
             biltyAdapter.setBiltyArrayList(combinedList);
         });
@@ -112,6 +112,11 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 //TODO delete on swipe
+
+                Bilty bilty = biltyAdapter.getBiltyArrayList().get(viewHolder.getAdapterPosition());
+                if (!bilty.getSupplierName().toLowerCase().contains("rapid line")) {
+                    rapidLineViewModel.deleteBilty(bilty.getBiltyNo());
+                }
 
             }
         }).attachToRecyclerView(activityViewBiltyBinding.biltyRv);

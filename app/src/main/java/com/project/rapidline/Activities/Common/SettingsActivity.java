@@ -44,11 +44,10 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     private SaeedSonsViewModel saeedSonsViewModel;
     private ActivitySettingsBinding settingsBinding;
     private ListAdapter listAdapter;
-    private SettingsTabs selectedTab = SettingsTabs.Cities;
+    private SettingsTabs selectedTab = SettingsTabs.Kinds;
 
     //Lists of data
     private ArrayList<String> itemList = new ArrayList<>();
-    private ArrayList<String> citiesList = new ArrayList<>();
     private ArrayList<String> adminsList = new ArrayList<>();
 
     @Override
@@ -80,19 +79,6 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
         });
 
 
-        //Initialize click listener
-        settingsBinding.citiesBtn.setOnClickListener(view -> {
-            resetOldTabDesign();
-            //then set new tab design
-            settingsBinding.citiesBtn.setTypeface(settingsBinding.citiesBtn.getTypeface(), Typeface.BOLD);
-            settingsBinding.citiesLine.setVisibility(View.VISIBLE);
-            selectedTab = SettingsTabs.Cities;
-
-            //then set data
-            listAdapter.setListItems(citiesList);
-
-        });
-
         settingsBinding.kindsBtn.setOnClickListener(view -> {
 
             resetOldTabDesign();
@@ -102,6 +88,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             selectedTab = SettingsTabs.Kinds;
 
             //then set data
+            listAdapter.setUpdateOptionVisible(false);
             listAdapter.setListItems(itemList);
 
         });
@@ -116,6 +103,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
 
 
             //then set data
+            listAdapter.setUpdateOptionVisible(true);
             listAdapter.setListItems(adminsList);
 
         });
@@ -145,18 +133,6 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
     }
 
     private void setupObservers() {
-        saeedSonsViewModel.getListAllCities().observe(this, cities -> {
-            citiesList.clear();
-            for (Cities cities1 : cities) {
-                citiesList.add(cities1.getName());
-            }
-
-            if (selectedTab == SettingsTabs.Cities) {
-                listAdapter.setListItems(citiesList);
-            }
-
-
-        });
         saeedSonsViewModel.getListAllItems().observe(this, kindOfItems -> {
             itemList.clear();
             for (KindOfItem item : kindOfItems) {
@@ -164,6 +140,7 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             }
 
             if (selectedTab == SettingsTabs.Kinds) {
+                listAdapter.setUpdateOptionVisible(false);
                 listAdapter.setListItems(itemList);
             }
         });
@@ -175,17 +152,14 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             }
 
             if (selectedTab == SettingsTabs.Admins) {
+                listAdapter.setUpdateOptionVisible(true);
                 listAdapter.setListItems(adminsList);
             }
         });
     }
 
     private void resetOldTabDesign() {
-        if (selectedTab == SettingsTabs.Cities) {
-
-            settingsBinding.citiesBtn.setTypeface(Typeface.DEFAULT);
-            settingsBinding.citiesLine.setVisibility(View.GONE);
-        } else if (selectedTab == SettingsTabs.Kinds) {
+        if (selectedTab == SettingsTabs.Kinds) {
             settingsBinding.kindsBtn.setTypeface(Typeface.DEFAULT);
             settingsBinding.kindsLine.setVisibility(View.GONE);
         } else {
@@ -198,21 +172,14 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
 
     @Override
     public void onItemClick(String itemId, String action) {
-        if (selectedTab == SettingsTabs.Cities) {
-            if (action.equals("delete")) {
-                saeedSonsViewModel.deleteCity(itemId);
-            } else {
-                //update
-                showUpdatePopup(itemId);
-            }
-
-        } else if (selectedTab == SettingsTabs.Kinds) {
+        if (selectedTab == SettingsTabs.Kinds) {
             if (action.equals("delete")) {
                 saeedSonsViewModel.deleteItem(itemId);
-            } else {
-                //update
-                showUpdatePopup(itemId);
             }
+//            else {
+//                //update
+//                showUpdatePopup(itemId);
+//            }
         } else {
             if (action.equals("delete")) {
                 saeedSonsViewModel.deleteAdminById(itemId);
@@ -240,15 +207,11 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
 
         updateBtn.setText("Update");
         //Initialize fields
-        if (selectedTab == SettingsTabs.Cities) {
-            heading.setText("Update City");
-            text.setText(itemId);
 
-        } else {
-            //items
-            heading.setText("Update items");
-            text.setText(itemId);
-        }
+        //items
+        heading.setText("Update items");
+        text.setText(itemId);
+
 
         //Initialize buttons
         alertBuilder.setCancelable(true);
@@ -263,17 +226,11 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             } else {
 
                 //update city or item
-                if (selectedTab == SettingsTabs.Cities) {
-                    //update city
-                    saeedSonsViewModel.updateCity(itemId, text.getText().toString());
-                    dialog.dismiss();
 
-                } else {
-                    //add item
+                //add item
                     saeedSonsViewModel.updateItem(itemId, text.getText().toString());
                     dialog.dismiss();
 
-                }
             }
 
         });
@@ -291,14 +248,10 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
 
         addBtn.setText("Add");
         //Initialize fields
-        if (selectedTab == SettingsTabs.Cities) {
-            heading.setText("Add City");
-            text.setHint("Enter a city");
-        } else {
-            //items
-            heading.setText("Add items");
-            text.setHint("Enter a item");
-        }
+
+        //items
+        heading.setText("Add items");
+        text.setHint("Enter a item");
 
 
         //Initialize buttons
@@ -314,24 +267,16 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
             } else {
 
                 //add city or item
-                if (selectedTab == SettingsTabs.Cities) {
-                    //add city
-                    saeedSonsViewModel.addCity(new Cities(text.getText().toString())).observe(this, response -> {
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                        if (response.equals(Responses.CITY_ADDED))
-                            dialog.dismiss();
-                    });
 
-                } else {
-                    //add item
-                    saeedSonsViewModel.addItem(new KindOfItem(text.getText().toString())).observe(this, response -> {
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                        if (response.equals(Responses.ITEM_ADDED)) {
-                            dialog.dismiss();
-                        }
-                    });
+                //add item
+                saeedSonsViewModel.addItem(new KindOfItem(text.getText().toString())).observe(this, response -> {
+                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                    if (response.equals(Responses.ITEM_ADDED)) {
+                        dialog.dismiss();
+                    }
+                });
 
-                }
+
             }
 
         });

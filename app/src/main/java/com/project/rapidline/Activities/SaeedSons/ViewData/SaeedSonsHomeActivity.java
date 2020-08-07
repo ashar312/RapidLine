@@ -107,8 +107,8 @@ public class SaeedSonsHomeActivity extends AppCompatActivity implements Navigati
             //Set total
             int total = online + offline;
             activityHomeBinding.totalVal.setText(total + "");
-
         });
+
     }
 
     @Override

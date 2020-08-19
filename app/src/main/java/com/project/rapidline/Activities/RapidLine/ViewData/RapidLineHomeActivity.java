@@ -53,7 +53,7 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
 
         setupObservers();
 
-        NavigationView navigationView = findViewById(R.id.navigationView);
+        NavigationView navigationView = findViewById(R.id.rapid_line_nav);
         //Set Navigation header
         View headerView = navigationView.getHeaderView(0);
         TextView username = headerView.findViewById(R.id.username);

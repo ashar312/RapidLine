@@ -131,6 +131,10 @@ public class MaintainanceChartForm extends AppCompatActivity {
             rapidLineViewModel.addMaintainanceChartRecord(maintainanceChartdata);
         });
 
+        maintainanceChartFormBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
+
     }
 
     private void addToCategoryChip(String chipText) {

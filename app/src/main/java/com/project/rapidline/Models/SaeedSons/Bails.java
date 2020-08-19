@@ -1,10 +1,5 @@
 package com.project.rapidline.Models.SaeedSons;
 
-import com.project.rapidline.Models.SaeedSons.Agents;
-import com.project.rapidline.Models.SaeedSons.Customers;
-import com.project.rapidline.Models.SaeedSons.KindOfItem;
-import com.project.rapidline.Models.SaeedSons.Transporters;
-
 import java.util.Date;
 import java.util.HashMap;
 
@@ -16,6 +11,7 @@ public class Bails {
 
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("bailNo",this.getBailNo());
         map.put("fromCity", this.getFromCity());
         map.put("toCity", this.getToCity());
         map.put("kindId", this.getKindId());
@@ -38,7 +34,7 @@ public class Bails {
     }
 
     @ColumnInfo(name = "bailNo")
-    public String biltyNo;
+    public String bailNo;
 
 
     @ColumnInfo(name = "fromCity")
@@ -92,8 +88,8 @@ public class Bails {
 
     }
 
-    public Bails(String biltyNo, String fromCity, String toCity, String kindId, Double quantity, String senderId, String receiverId, String transporterId, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
-        this.biltyNo = biltyNo;
+    public Bails(String bailNo, String fromCity, String toCity, String kindId, Double quantity, String senderId, String receiverId, String transporterId, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
+        this.bailNo = bailNo;
         this.fromCity = fromCity;
         this.toCity = toCity;
         this.kindId = kindId;
@@ -113,8 +109,8 @@ public class Bails {
         this.comments = comments;
     }
 
-    public Bails(String biltyNo, String senderId, String receiverId, String madeBy, Date madeDateTime,String fromCity,String toCity) {
-        this.biltyNo = biltyNo;
+    public Bails(String bailNo, String senderId, String receiverId, String madeBy, Date madeDateTime, String fromCity, String toCity) {
+        this.bailNo = bailNo;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.madeBy = madeBy;
@@ -123,8 +119,8 @@ public class Bails {
         this.toCity=toCity;
     }
 
-    public String getBiltyNo() {
-        return biltyNo;
+    public String getBailNo() {
+        return bailNo;
     }
 
     public String getFromCity() {
@@ -175,8 +171,8 @@ public class Bails {
         return madeDateTime;
     }
 
-    public void setBiltyNo(String biltyNo) {
-        this.biltyNo = biltyNo;
+    public void setBailNo(String bailNo) {
+        this.bailNo = bailNo;
     }
 
     public void setFromCity(String fromCity) {

@@ -139,7 +139,9 @@ public class StaffRegistationActivity extends AppCompatActivity implements OnIte
             }
         });
 
-
+        staffRegistationBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
     }
 
 

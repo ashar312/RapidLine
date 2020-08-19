@@ -87,6 +87,10 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
             }
         });
 
+        activityViewBiltyBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
+
     }
 
     private void setupRecyclerView() {

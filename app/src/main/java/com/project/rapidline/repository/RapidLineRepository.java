@@ -251,6 +251,7 @@ public class RapidLineRepository {
     //SHIPMENTS
 
     public void addShipment(Shipment shipment){
-        rapidLineReference.collection(ShipmentTableName).add(shipment);
+        rapidLineReference.collection(ShipmentTableName).document(shipment.getShipmentNo())
+        .set(shipment);
     }
 }

@@ -1,4 +1,4 @@
-package com.project.rapidline.Activities.Common;
+package com.project.rapidline.Activities.RapidLine.Forms;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -76,6 +76,9 @@ public class SupplierForm extends AppCompatActivity {
 
         });
 
+        supplierFormBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
     }
 
     private void loadData() {

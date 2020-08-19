@@ -69,6 +69,9 @@ public class VechilesActivity extends AppCompatActivity implements OnItemClickLi
             }
         });
 
+        vechilesBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
 
     }
 

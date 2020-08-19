@@ -38,6 +38,11 @@ public class FitnessTest extends AppCompatActivity {
             fitnessTestBinding.vechileSpinner.setAdapter(arrayAdapter);
         });
 
+        fitnessTestBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
+
+
         fitnessTestBinding.testBtn.setOnClickListener(view -> {
             if (fitnessTestBinding.vechileSpinner.getSelectedItem().toString().equals("Select a vechile")) {
                 Toast.makeText(this, "Please select a vechile", Toast.LENGTH_SHORT).show();

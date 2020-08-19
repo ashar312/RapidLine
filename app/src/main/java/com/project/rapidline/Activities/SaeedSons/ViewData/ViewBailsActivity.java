@@ -169,7 +169,7 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
                 adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(ViewBailsActivity.this, permissions -> {
                     if (permissions.isDeleteBail()) {
                         Bails bail = bailsAdapter.getBailsArrayList().get(viewHolder.getAdapterPosition());
-                        saeedSonsViewModel.deleteBail(bail.getBiltyNo());
+                        saeedSonsViewModel.deleteBail(bail.getBailNo());
                     } else
                         Toast.makeText(ViewBailsActivity.this, "You do not have permissions to delete bail", Toast.LENGTH_SHORT).show();
                 });

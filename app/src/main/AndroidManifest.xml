@@ -64,8 +64,7 @@
         <activity android:name=".Activities.SaeedSons.ViewData.ListActivities" />
         <activity android:name=".Activities.SaeedSons.ViewData.SaeedSonsHomeActivity" />
         <activity
-            android:name=".Activities.Common.Login"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".Activities.Common.Login" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -76,6 +75,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
     </application>
 
 </manifest>

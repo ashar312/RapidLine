@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.project.rapidline.Activities.Common.Login;
@@ -50,6 +52,16 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
         });
 
         setupObservers();
+
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        //Set Navigation header
+        View headerView = navigationView.getHeaderView(0);
+        TextView username = headerView.findViewById(R.id.username);
+        TextView companyName = headerView.findViewById(R.id.company_name);
+        username.setText(getAdminUsername());
+        companyName.setText(rapidLineHomeBinding.companyName.getText().toString());
+
+
 
     }
 
@@ -153,4 +165,7 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
         startActivity(intent);
     }
 
+    private String getAdminUsername() {
+        return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("username", "");
+    }
 }

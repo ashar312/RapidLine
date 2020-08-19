@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Models.SaeedSons.Cities;
 import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Models.SaeedSons.Transporters;
@@ -19,6 +20,12 @@ import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivitySenderTransporterformBinding;
 import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -49,17 +56,27 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 //        cityAdapter.setDropDownViewResource(R.layout.spinner_item);
 //        senderRecieverFormBinding.citySpinner.setAdapter(cityAdapter);
 
+        //Load cities
+        try {
+            JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
+            List<String> cityList = new ArrayList<>();
+            cityList.add(0, CITY_PLACEHOLDER);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String currCity = jsonObject.getString("city");
+                cityList.add(currCity);
+            }
 
-        saeedSonsViewModel.getListAllCities().observe(this,cities -> {
-            List<Cities> cityList = new ArrayList<>(cities);
-            cityList.add(0, new Cities(CITY_PLACEHOLDER));
 
-            ArrayAdapter<Cities> cityArrayAdapter = new ArrayAdapter<>(SenderRecieverTransporterForm.this,
+            ArrayAdapter<String> cityArrayAdapter = new ArrayAdapter<>(this,
                     R.layout.spinner_item, cityList);
             cityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
             senderRecieverFormBinding.citySpinner.setAdapter(cityArrayAdapter);
-        });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         //Used for both sender and trasporter
@@ -220,6 +237,22 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 //        });
 
         senderRecieverFormBinding.backBtn.setOnClickListener(view -> finish());
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("pk.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
     private void loadTransporterData(Transporters transporter) {

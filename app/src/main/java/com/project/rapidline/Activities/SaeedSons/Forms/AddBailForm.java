@@ -10,11 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Models.Admins;
 import com.project.rapidline.Models.SaeedSons.Agents;
 import com.project.rapidline.Models.SaeedSons.Bails;
-import com.project.rapidline.Models.SaeedSons.Cities;
 import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Models.SaeedSons.KindOfItem;
 import com.project.rapidline.Models.SaeedSons.Transporters;
@@ -32,7 +30,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class AddBailForm extends AppCompatActivity {
 
@@ -75,6 +72,7 @@ public class AddBailForm extends AppCompatActivity {
         initialize();
 
         activityAddBailFormBinding.saveBtn.setOnClickListener(view -> {
+
             if (isFieldEmpty()) {
                 Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
                 return;
@@ -112,7 +110,7 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate = new Bails();
 
                 //Genrate builty no
-                bailEditUpdate.setBiltyNo(generateBuiltyNo());
+                bailEditUpdate.setBailNo(generateBailNo());
 
 
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
@@ -272,8 +270,6 @@ public class AddBailForm extends AppCompatActivity {
         }
 
 
-
-
         //Set Listeners
         activityAddBailFormBinding.addQuanBtn.setOnClickListener(view -> {
             String quan = activityAddBailFormBinding.quanTxt.getText().toString();
@@ -360,8 +356,6 @@ public class AddBailForm extends AppCompatActivity {
         }
         activityAddBailFormBinding.commentsTxt.setText(bailEditUpdate.getComments());
 
-
-
         int senderVal=getIndex(activityAddBailFormBinding.senderSpiner,bailEditUpdate.getSenderId());
         activityAddBailFormBinding.senderSpiner.setSelection(senderVal);
 
@@ -382,9 +376,6 @@ public class AddBailForm extends AppCompatActivity {
 
         int toCityVal=getIndex(activityAddBailFormBinding.toSpinner,bailEditUpdate.getToCity());
         activityAddBailFormBinding.toSpinner.setSelection(toCityVal);
-
-
-
 
     }
 
@@ -415,27 +406,27 @@ public class AddBailForm extends AppCompatActivity {
         return false;
     }
 
-    private String generateBuiltyNo() {
-        String symbol=adminInfo.getBailSymbol();
-        int value=adminInfo.getBailCounter();
+    private String generateBailNo() {
+        String currentBailNo=adminInfo.getBailCounter();
+        AddBailNumberGenrator bailNumberGenrator=new AddBailNumberGenrator(currentBailNo.toString());
 
-        //format value
-        String formatted_value=String.format(Locale.ENGLISH, "%03d", value);
-        String bailId=formatted_value+""+symbol;
+        String newnumber= bailNumberGenrator.generateBailNumber();
+        adminViewModel.updateAdminBailInfo(newnumber,username);
 
-        //update value
-        int updated_val=value+1;
-        adminViewModel.updateAdminBailInfo(updated_val,username);
-
-
-        return bailId;
+        return currentBailNo;
     }
 
     private int getIntQuantity(String quan){
          int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
          return val;
     }
+
+
     private String getAdminName(){
         return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
     }
+
+
+
+
 }

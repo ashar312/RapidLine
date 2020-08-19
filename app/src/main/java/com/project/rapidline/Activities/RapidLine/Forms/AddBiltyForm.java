@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.project.rapidline.Models.Admins;
 import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.RapidLine.Supplier;
 import com.project.rapidline.Models.SaeedSons.Agents;
@@ -19,6 +20,7 @@ import com.project.rapidline.Models.SaeedSons.KindOfItem;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAddBiltyFormBinding;
 import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
+import com.project.rapidline.viewmodel.SaeedSons.AdminViewModel;
 import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
 import org.json.JSONArray;
@@ -30,6 +32,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AddBiltyForm extends AppCompatActivity {
 
@@ -42,6 +45,10 @@ public class AddBiltyForm extends AppCompatActivity {
     private Bilty mBilty=null;
     private Bails mBail=null;
 
+    private AdminViewModel adminViewModel;
+    private Admins adminInfo;
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +56,11 @@ public class AddBiltyForm extends AppCompatActivity {
 
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
         rapidLineViewModel = ViewModelProviders.of(this).get(RapidLineViewModel.class);
-
+        adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
+        username=getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
+        adminViewModel.getAdminInfo(username).observe(this,admins -> {
+            adminInfo=admins;
+        });
 
         Bundle bundle = getIntent().getExtras();
         action = bundle.get("action").toString();
@@ -95,7 +106,7 @@ public class AddBiltyForm extends AppCompatActivity {
                     mBail.setComments(addBiltyFormBinding.commentsTxt.getText().toString());
 
                     String id = bundle.getString("itemId");
-                    mBail.setBiltyNo(id);
+                    mBail.setBailNo(id);
 
                     saeedSonsViewModel.updateBail(mBail);
 
@@ -161,10 +172,13 @@ public class AddBiltyForm extends AppCompatActivity {
                 mBilty.setComments(addBiltyFormBinding.commentsTxt.getText().toString());
                 mBilty.setSupplierPNo(addBiltyFormBinding.supplierPnoText.getText().toString());
 
-                mBilty.setBiltyNo(addBiltyFormBinding.supplierPnoText.getText().toString());
+                mBilty.setBiltyNo(generateBiltyNo());
+                mBilty.setMadeBy(getAdminName());
 
                 rapidLineViewModel.addBilty(mBilty);
+
                 Toast.makeText(this, "Bilty added sucessfully", Toast.LENGTH_SHORT).show();
+
                 finish();
             }
 
@@ -365,7 +379,7 @@ public class AddBiltyForm extends AppCompatActivity {
         addBiltyFormBinding.quanTxt.setText("Qty: " + mBail.getQuantity());
         addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBail.getVolume()));
         addBiltyFormBinding.weightTxt.setText(String.valueOf(mBail.getWeight()));
-        addBiltyFormBinding.supplierPnoText.setText(mBail.getBiltyNo());
+        addBiltyFormBinding.supplierPnoText.setText(mBail.getBailNo());
         addBiltyFormBinding.supplierPnoText.setEnabled(false);
 
         if (!TextUtils.isEmpty(mBail.getTransport_charge())) {
@@ -492,5 +506,19 @@ public class AddBiltyForm extends AppCompatActivity {
     private int getIntQuantity(String quan) {
         int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
         return val;
+    }
+
+    private String generateBiltyNo(){
+        String currentBiltyNo= adminInfo.getBiltyCounter();
+
+        int updatedNo= Integer.parseInt(currentBiltyNo)+1;
+
+        String number = String.format(Locale.ENGLISH, "%06d", updatedNo);
+        adminViewModel.updateBiltyCounter(number,username);
+
+        return currentBiltyNo;
+    }
+    private String getAdminName(){
+        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
     }
 }

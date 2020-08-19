@@ -12,7 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import com.project.rapidline.Activities.Common.SupplierForm;
+import com.project.rapidline.Activities.RapidLine.Forms.SupplierForm;
 import com.project.rapidline.Models.RapidLine.Supplier;
 import com.project.rapidline.Models.SaeedSons.Agents;
 import com.project.rapidline.Models.SaeedSons.Customers;

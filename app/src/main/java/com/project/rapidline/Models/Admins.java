@@ -5,8 +5,6 @@ import com.google.firebase.firestore.Exclude;
 import java.util.Date;
 import java.util.HashMap;
 
-import androidx.room.ColumnInfo;
-
 public class Admins {
 
 
@@ -24,19 +22,17 @@ public class Admins {
 
     private String key;
 
-    @ColumnInfo(name = "madeBy")
     public String madeBy;
 
-    @ColumnInfo(name = "madeDateTime")
     public Date madeDateTime;
 
-    public String bailSymbol;
-    public int bailCounter;
+    public String bailCounter;
 
-    public int builtyRange;
-    public int builtyCounter;
+    public String biltyCounter;
 
-    public Admins(){
+    public String shipmentCounter;
+
+    public Admins() {
 
     }
 
@@ -51,11 +47,10 @@ public class Admins {
         this.madeDateTime = madeDateTime;
     }
 
-    public Admins(String bailSymbol, Double bailCounter, Double builtyRange, Double builtyCounter) {
-        this.bailSymbol = bailSymbol;
-        this.bailCounter = bailCounter.intValue();
-        this.builtyRange = builtyRange.intValue();
-        this.builtyCounter = builtyCounter.intValue();
+    public Admins(String bailCounter, String biltyCounter,String shipmentCounter) {
+        this.bailCounter = bailCounter;
+        this.biltyCounter = biltyCounter;
+        this.shipmentCounter=shipmentCounter;
     }
 
     public String getAdminName() {
@@ -66,22 +61,20 @@ public class Admins {
         this.adminName = adminName;
     }
 
-    public HashMap<String,Object> toHashMap(){
+    public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("username",this.getUsername());
-        map.put("adminName",this.getAdminName());
-        map.put("pass",this.getPass());
-        map.put("contactNo",this.getContactNo());
-        map.put("nic",this.getNic());
-        map.put("companyName",this.getCompanyName());
+        map.put("username", this.getUsername());
+        map.put("adminName", this.getAdminName());
+        map.put("pass", this.getPass());
+        map.put("contactNo", this.getContactNo());
+        map.put("nic", this.getNic());
+        map.put("companyName", this.getCompanyName());
         map.put("madeBy", this.getMadeBy());
         map.put("madeDateTime", this.getMadeDateTime());
 
-        map.put("bailSymbol",this.getBailSymbol());
-        map.put("bailCounter",this.getBailCounter());
-        map.put("builtyRange",this.getBuiltyRange());
-        map.put("builtyCounter",this.getBailCounter());
-
+        map.put("bailCounter", this.getBailCounter());
+        map.put("biltyCounter", this.getBiltyCounter());
+        map.put("shipmentCounter",this.getShipmentCounter());
         return map;
     }
 
@@ -141,36 +134,29 @@ public class Admins {
         this.madeDateTime = madeDateTime;
     }
 
-    public String getBailSymbol() {
-        return bailSymbol;
-    }
-
-    public void setBailSymbol(String bailSymbol) {
-        this.bailSymbol = bailSymbol;
-    }
-
-    public int getBailCounter() {
+    public String getBailCounter() {
         return bailCounter;
     }
 
-    public void setBailCounter(int bailCounter) {
+    public void setBailCounter(String bailCounter) {
         this.bailCounter = bailCounter;
     }
 
-    public int getBuiltyRange() {
-        return builtyRange;
+
+    public String getBiltyCounter() {
+        return biltyCounter;
     }
 
-    public void setBuiltyRange(int builtyRange) {
-        this.builtyRange = builtyRange;
+    public void setBiltyCounter(String biltyCounter) {
+        this.biltyCounter = biltyCounter;
     }
 
-    public int getBuiltyCounter() {
-        return builtyCounter;
+    public String getShipmentCounter() {
+        return shipmentCounter;
     }
 
-    public void setBuiltyCounter(int builtyCounter) {
-        this.builtyCounter = builtyCounter;
+    public void setShipmentCounter(String shipmentCounter) {
+        this.shipmentCounter = shipmentCounter;
     }
 
     @Exclude

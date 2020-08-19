@@ -79,6 +79,9 @@ public class OfficeStaffForm extends AppCompatActivity {
 
         });
 
+        officeStaffFormBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
 
     }
 

@@ -396,14 +396,14 @@ public class SaeedSonsRepository {
 
     public void addBail(final Bails bail) {
         saeedSonReference.collection(BailTableName)
-                .document(bail.getBiltyNo()).set(bail.toHashMap());
+                .document(bail.getBailNo()).set(bail.toHashMap());
 
 
     }
 
     public void updateBail(final Bails bail) {
         saeedSonReference.collection(BailTableName)
-                .document(bail.getBiltyNo()).update(bail.toHashMap());
+                .document(bail.getBailNo()).update(bail.toHashMap());
     }
 
     public void deleteBail(String bailid) {

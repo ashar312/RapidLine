@@ -65,6 +65,10 @@ public class DriverSideKickForm extends AppCompatActivity {
             }
         }
 
+        formBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
+
         formBinding.addDsBtn.setOnClickListener(view -> {
             if (isDataFieldsEmpty()) {
                 Toast.makeText(this, "Please fill all field to continue",

@@ -16,10 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
+import com.project.rapidline.Models.Admins;
 import com.project.rapidline.Models.RapidLine.Shipment;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.FragmentShipementSummaryBinding;
 import com.project.rapidline.viewmodel.RapidLine.ShipmentViewModel;
+import com.project.rapidline.viewmodel.SaeedSons.AdminViewModel;
+
+import java.util.Locale;
 
 
 public class ShipmentSummaryFragment extends Fragment {
@@ -29,6 +33,10 @@ public class ShipmentSummaryFragment extends Fragment {
     private ShipmentViewModel shipmentViewModel;
 
     private FragmentShipementSummaryBinding shipmentSummaryBinding;
+
+    private AdminViewModel adminViewModel;
+    private Admins adminInfo;
+    private String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,10 +62,15 @@ public class ShipmentSummaryFragment extends Fragment {
         }
 
         shipmentViewModel = ViewModelProviders.of(this).get(ShipmentViewModel.class);
+        adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
+        username=getActivity().getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
+        adminViewModel.getAdminInfo(username).observe(this,admins -> {
+            adminInfo=admins;
+        });
 
         //Set data
         //TODO set shipment number
-        shipmentSummaryBinding.shipmentNoTxt.setText("000XYZ");
+        shipmentSummaryBinding.shipmentNoTxt.setText(generateShipmentNo());
         shipmentSummaryBinding.biltyNoTxt.setText(String.valueOf(shipment.getTotalBiltys()) );
         shipmentSummaryBinding.shipmentWeightTxt.setText(String.valueOf(shipment.getTotalWeight()));
         shipmentSummaryBinding.shipmentDriverTxt.setText(shipment.getDriverName());
@@ -78,4 +91,16 @@ public class ShipmentSummaryFragment extends Fragment {
         });
 
     }
+
+    private String generateShipmentNo(){
+        String currentshipmentNo= adminInfo.getBiltyCounter();
+
+        int updatedNo= Integer.parseInt(currentshipmentNo)+1;
+
+        String number = String.format(Locale.ENGLISH, "%06d", updatedNo);
+        adminViewModel.updateShipmentCounter(number,username);
+
+        return currentshipmentNo;
+    }
+
 }

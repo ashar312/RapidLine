@@ -13,7 +13,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -62,6 +64,13 @@ public class SaeedSonsHomeActivity extends AppCompatActivity implements Navigati
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         imageView.setOnClickListener(v -> OpenDrawer());
+
+        //Set Navigation header
+        View headerView = navigationView.getHeaderView(0);
+        TextView username = headerView.findViewById(R.id.username);
+        TextView companyName = headerView.findViewById(R.id.company_name);
+        username.setText(getAdminUsername());
+        companyName.setText(activityHomeBinding.companyName.getText().toString());
 
         //Intialize viewmodel
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -199,7 +208,7 @@ public class SaeedSonsHomeActivity extends AppCompatActivity implements Navigati
     private void SendDataToListActivities(String ListItem) {
         Intent intent = new Intent(SaeedSonsHomeActivity.this, ListActivities.class);
         intent.putExtra("ListItem", ListItem);
-        intent.putExtra("activityName","SaeedSons");
+        intent.putExtra("activityName", "SaeedSons");
         startActivity(intent);
     }
 

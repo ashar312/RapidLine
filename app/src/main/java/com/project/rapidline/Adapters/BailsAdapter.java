@@ -48,7 +48,7 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
 
     @Override
     public void onBindViewHolder(@NonNull EnterieViewHolder holder, int position) {
-        holder.builty_no.setText(bailsArrayList.get(position).getBiltyNo());
+        holder.builty_no.setText(bailsArrayList.get(position).getBailNo());
         holder.sender_txt.setText(bailsArrayList.get(position).getSenderId());
         holder.receiver_txt.setText(bailsArrayList.get(position).getReceiverId());
         holder.name_txt.setText(bailsArrayList.get(position).getMadeBy());
@@ -95,7 +95,7 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
 
         @Override
         public void onClick(View view) {
-            onNoteListener.onBailClick(bailsArrayList.get(getAdapterPosition()).getBiltyNo());
+            onNoteListener.onBailClick(bailsArrayList.get(getAdapterPosition()).getBailNo());
         }
     }
 
@@ -130,7 +130,7 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for (Bails bailList : bailCopyList) {
-                    if (bailList.getBiltyNo().toLowerCase().contains(filterPattern)) {
+                    if (bailList.getBailNo().toLowerCase().contains(filterPattern)) {
                         filtredList.add(bailList);
                     }
                 }

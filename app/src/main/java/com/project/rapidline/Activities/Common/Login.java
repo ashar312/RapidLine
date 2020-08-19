@@ -56,7 +56,6 @@ public class Login extends AppCompatActivity {
             }
             else {
                 //Rapid Line Work
-                Toast.makeText(this,"Rapid Line is under Development",Toast.LENGTH_SHORT).show();
                 adminViewModel.checkAdmin(activityLoginBinding.usernameTxt.getText().toString(),
                         activityLoginBinding.passTxt.getText().toString())
                         .observe(this, response -> {

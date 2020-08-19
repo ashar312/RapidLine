@@ -24,7 +24,6 @@ public class AdminForm extends AppCompatActivity {
 
     private ActivityAdminFormBinding adminFormBinding;
     private AdminViewModel adminViewModel;
-    private BailCounters counterData;
     private String action;
     private Admins adminUpdateData;
     private String adminId;
@@ -52,9 +51,7 @@ public class AdminForm extends AppCompatActivity {
         }
 
 
-        adminViewModel.getBailCounterData().observe(this, bailCounters -> {
-            counterData = bailCounters;
-        });
+
 
         adminFormBinding.saveBtn.setOnClickListener(view -> {
             if (isFieldEmpty()) {
@@ -87,40 +84,15 @@ public class AdminForm extends AppCompatActivity {
                 admins.setNic(adminFormBinding.nicTxt.getText().toString());
 
                 //Set the counters for new user
-                //max limit of users 20
-
-                //Bail work
-                admins.setBailSymbol(counterData.getBailSymbol());
-                admins.setBailCounter(0);
-
-                //Builty work
-                int curr_range = counterData.getBuiltyCounter();
-                admins.setBuiltyRange(curr_range);
-
-                if (curr_range == 49999)
-                    admins.setBuiltyCounter(0);
-                else {
-                    int startCounter = (curr_range - 49999) + 1;
-                    admins.setBuiltyCounter(startCounter);
-                }
+                admins.setBailCounter("000A");
+                admins.setBiltyCounter("000000");
+                admins.setShipmentCounter("000000");
 
                 adminViewModel.addAdmin(admins).observe(this, response -> {
                     Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
                     if (response.equals(Responses.ADMIN_ADDED)) {
 
-                        //Now update the value
-                        int nextvalue = counterData.getBuiltyCounter() + 49999;
-                        char nextSymbol = (char) (counterData.getBailSymbol().charAt(0) + 1);
-
-                        //set updated value
-
-                        counterData.setBailSymbol(String.valueOf(nextSymbol));
-                        counterData.setBuiltyCounter(nextvalue);
-                        adminViewModel.updateBailCounter(counterData);
-
-
                         //set permissions
-
                         Permissions adminPerm = new Permissions();
                         adminPerm.setAddBail(true);
                         adminPerm.setDeleteBail(false);

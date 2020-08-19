@@ -3,7 +3,7 @@
     <item
         android:id="@+id/add_bail"
         android:icon="@drawable/icons8_add_rule_60px"
-        android:title="Add Bilty" />
+        android:title="Add Bail" />
 
     <item
         android:id="@+id/regEntries"
@@ -38,6 +38,7 @@
 
     <item
         android:id="@+id/logOut"
+        android:icon="@drawable/ic_logout"
         android:title="Log Out" />
 
 </menu>

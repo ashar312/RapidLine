@@ -29,10 +29,9 @@ public class AdminViewModel extends AndroidViewModel {
         saeedSonsRepository.getAdmins().whereEqualTo("username", username)
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(queryDocumentSnapshots.isEmpty()){
+                    if (queryDocumentSnapshots.isEmpty()) {
                         response.setValue("Either password or username is incorrect");
-                    }
-                    else {
+                    } else {
                         for (QueryDocumentSnapshot users : queryDocumentSnapshots) {
                             //Check pass
                             if (password.equals(users.getString("pass"))) {
@@ -55,13 +54,13 @@ public class AdminViewModel extends AndroidViewModel {
         return saeedSonsRepository.addAdmin(admin);
     }
 
-    public LiveData<Admins> getAdminById(String key){
+    public LiveData<Admins> getAdminById(String key) {
         MutableLiveData<Admins> data = new MutableLiveData<>();
         saeedSonsRepository.getAdmins().document(key)
                 .get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
-                    if(documentSnapshot.exists()){
-                        Admins admins=documentSnapshot.toObject(Admins.class);
+                    if (documentSnapshot.exists()) {
+                        Admins admins = documentSnapshot.toObject(Admins.class);
                         admins.setKey(key);
                         data.postValue(admins);
                     }
@@ -76,27 +75,28 @@ public class AdminViewModel extends AndroidViewModel {
     public LiveData<Admins> getAdminInfo(String username) {
         MutableLiveData<Admins> data = new MutableLiveData<>();
         saeedSonsRepository.getAdmins().document(username)
-                .get(Source.DEFAULT)
-                .addOnSuccessListener(documentSnapshot -> {
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if (e != null) {
+                        return;
+                    }
                     if (documentSnapshot.exists()) {
-
-                        Admins admins = new Admins(documentSnapshot.getString("bailSymbol"),
-                                documentSnapshot.getDouble("bailCounter"),
-                                documentSnapshot.getDouble("builtyRange"),
-                                documentSnapshot.getDouble("builtyCounter"));
+                        Admins admins = new Admins(
+                                documentSnapshot.getString("bailCounter"),
+                                documentSnapshot.getString("biltyCounter"),
+                                documentSnapshot.getString("shipmentCounter")
+                        );
 
                         data.postValue(admins);
                     }
-
                 });
         return data;
     }
 
-    public void updateAdmin(Admins admins){
+    public void updateAdmin(Admins admins) {
         saeedSonsRepository.updateAdminById(admins);
     }
 
-    public void updateAdminBailInfo(int bailCounter, String username) {
+    public void updateAdminBailInfo(String bailCounter, String username) {
         saeedSonsRepository.getAdmins().document(username)
                 .update("bailCounter", bailCounter);
     }
@@ -106,7 +106,7 @@ public class AdminViewModel extends AndroidViewModel {
         MutableLiveData<BailCounters> data = new MutableLiveData<>();
         saeedSonsRepository.getBailCounter().get(Source.DEFAULT)
                 .addOnSuccessListener(documentSnapshot -> {
-                    if(documentSnapshot.exists()){
+                    if (documentSnapshot.exists()) {
                         BailCounters counters = documentSnapshot.toObject(BailCounters.class);
                         data.postValue(counters);
                     }
@@ -114,30 +114,35 @@ public class AdminViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void updateBailCounter(BailCounters bailCounters) {
-        saeedSonsRepository.updateBailCounter(bailCounters);
+    public void updateBiltyCounter(String biltyCounter, String username) {
+        saeedSonsRepository.getAdmins().document(username)
+                .update("biltyCounter", biltyCounter);
     }
 
+    public void updateShipmentCounter(String no, String username) {
+        saeedSonsRepository.getAdmins().document(username)
+                .update("shipmentCounter", no);
+    }
 
     //Admin Rights
-    public LiveData<Permissions> getAdminPermissionsById(String key){
-        MutableLiveData<Permissions> data=new MutableLiveData<>();
+    public LiveData<Permissions> getAdminPermissionsById(String key) {
+        MutableLiveData<Permissions> data = new MutableLiveData<>();
 
         saeedSonsRepository.getAllPermissions().document(key)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    if(documentSnapshot.exists())
+                    if (documentSnapshot.exists())
                         data.postValue(documentSnapshot.toObject(Permissions.class));
                 });
         return data;
     }
 
-    public void addAdminPermissions(String key, Permissions permission){
-        saeedSonsRepository.addAdminPermissions(key,permission);
+    public void addAdminPermissions(String key, Permissions permission) {
+        saeedSonsRepository.addAdminPermissions(key, permission);
     }
 
-    public void updateAdminPerm(String adminId,String permName,boolean value){
-        saeedSonsRepository.updateAdminPermission(adminId,permName,value);
+    public void updateAdminPerm(String adminId, String permName, boolean value) {
+        saeedSonsRepository.updateAdminPermission(adminId, permName, value);
     }
 
 

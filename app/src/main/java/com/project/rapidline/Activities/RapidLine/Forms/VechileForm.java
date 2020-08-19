@@ -97,6 +97,9 @@ public class VechileForm extends AppCompatActivity {
 
         });
 
+        vechilesBinding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
 
     }
 

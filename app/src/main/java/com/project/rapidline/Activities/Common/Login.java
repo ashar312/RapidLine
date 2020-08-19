@@ -22,8 +22,7 @@ public class Login extends AppCompatActivity {
     private ActivityLoginBinding activityLoginBinding;
     private AdminViewModel adminViewModel;
 
-    //rapidlineapp@gmail.com
-    //Rline1234
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

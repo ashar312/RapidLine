@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
 //                startActivity(new Intent(SplashActivity.this, SaeedSonsHomeActivity.class));
 //                finish();
 //            } else {
-                startActivity(new Intent(SplashActivity.this, SaeedSonsHomeActivity.class));
+                startActivity(new Intent(SplashActivity.this, Login.class));
                 finish();
 //            }
         }, SPLASH_TIMEOUT);

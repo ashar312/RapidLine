@@ -6,49 +6,65 @@
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Activities.RapidLine.Forms.Shipment.ShipmentMainActivity"
+            android:theme="@style/MaintainanceActivityTheme"/>
+        <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"
+            android:theme="@style/RapidLineTheme"/>
+        <activity android:name=".Activities.Common.SupplierForm" />
+        <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm"
+            android:theme="@style/RapidLineTheme"/>
+        <activity android:name=".Activities.Common.SettingsActivity" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.OfficeStaffForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.MaintainanceChartForm"
+            android:theme="@style/MaintainanceActivityTheme" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.FitnessTest"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.DriverSideKickForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.Forms.VechileForm"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.ViewData.VechilesActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.ViewData.StaffRegistationActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity
+            android:name=".Activities.RapidLine.ViewData.RapidLineHomeActivity"
+            android:theme="@style/RapidLineTheme" />
+        <activity android:name=".Activities.Common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminRights" />
-        <activity android:name=".Form.AdminForm" />
+        <activity android:name=".Activities.Common.AdminRightsActivity" />
+        <activity android:name=".Activities.Common.AdminForm" />
         <activity
-            android:name=".PrintOut.PrintOutActivity"
+            android:name=".Activities.Common.PrintOutActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Activities.SaeedSons.ViewData.ViewBailsActivity" />
+        <activity android:name=".Activities.SaeedSons.Forms.AddBailForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.LabourPatriForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.AgentForm" />
+        <activity android:name=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm" />
+        <activity android:name=".Activities.SaeedSons.ViewData.ListActivities" />
+        <activity android:name=".Activities.SaeedSons.ViewData.SaeedSonsHomeActivity" />
         <activity
-            android:name=".Register_Entries"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Form.AddBailForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Form.LabourPatriForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Form.AgentForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Form.SenderRecieverTransporterForm"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".HomeScreens.AddActivities.ListActivities"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".HomeScreens.Home"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".Login"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+            android:name=".Activities.Common.Login" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -59,6 +75,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
     </application>
 
 </manifest>

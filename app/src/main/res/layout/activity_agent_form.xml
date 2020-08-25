@@ -11,7 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/normalbackground"
-        tools:context=".Form.AgentForm">
+        tools:context=".Activities.SaeedSons.Forms.AgentForm">
+
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_goback" />
+
+        <TextView
+            android:id="@+id/backText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/backBtn"
+            app:layout_constraintStart_toEndOf="@+id/backBtn"
+            app:layout_constraintTop_toTopOf="@+id/backBtn" />
 
         <TextView
             android:id="@+id/headerText"
@@ -117,7 +139,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
             android:shadowColor="@color/black"
-            android:hint="___"
             android:inputType="number"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -128,8 +149,8 @@
             android:id="@+id/quan_txt"
             android:layout_width="0dp"
             android:inputType="number"
+            android:enabled="false"
             android:layout_height="wrap_content"
-            android:hint="___"
             android:shadowColor="@color/black"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/weight_txt"

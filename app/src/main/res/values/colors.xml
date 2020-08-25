@@ -9,4 +9,6 @@
     <color name="Light_gray">#d3d3d3</color>
     <color name="Dark_gray">#a9a9a9</color>
     <color name="edittextborder">#E2E6EA</color>
+
+    <color name="rapidLine">#515150</color>
 </resources>

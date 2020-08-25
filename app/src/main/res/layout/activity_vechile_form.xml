@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rapid_line_bg"
+        tools:context=".Activities.RapidLine.Forms.VechileForm">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_goback" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/backBtn"
+            app:layout_constraintTop_toTopOf="@+id/backBtn" />
+
+        <TextView
+            android:id="@+id/textView9"
+            style="@style/HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vechiles"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <EditText
+            android:id="@+id/reg_no_txt"
+            style="@style/FormInputTextFields"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="Registration No."
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+        <EditText
+            android:id="@+id/chasis_no_txt"
+            style="@style/FormInputTextFields"
+            android:ems="10"
+            android:hint="Chasis No."
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/reg_no_txt"
+            app:layout_constraintStart_toStartOf="@+id/reg_no_txt"
+            app:layout_constraintTop_toBottomOf="@+id/reg_no_txt" />
+
+        <EditText
+            android:id="@+id/vech_company_txt"
+            style="@style/FormInputTextFields"
+            android:ems="10"
+            android:hint="Vechile Company"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/chasis_no_txt"
+            app:layout_constraintStart_toStartOf="@+id/chasis_no_txt"
+            app:layout_constraintTop_toBottomOf="@+id/chasis_no_txt" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/vech_category_spinner"
+            style="@style/SpinnerField"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="@+id/vech_company_txt"
+            app:layout_constraintStart_toStartOf="@+id/vech_company_txt"
+            app:layout_constraintTop_toBottomOf="@+id/vech_company_txt" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/model_spinner"
+            style="@style/SpinnerField"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toStartOf="@+id/vech_capacity_txt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/vech_category_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/vech_category_spinner" />
+
+        <EditText
+            android:id="@+id/vech_capacity_txt"
+            style="@style/FormInputTextFields"
+            android:layout_marginTop="0dp"
+            android:inputType="number"
+            android:hint="Capacity"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/vech_category_spinner"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/model_spinner"
+            app:layout_constraintTop_toTopOf="@+id/model_spinner" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <Button
+            android:id="@+id/save_vech_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/buttonshaperapidline"
+            android:text="Save Vechile"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_bilty"
+        android:icon="@drawable/icons8_add_rule_60px"
+        android:title="Add Bilty" />
+
+    <item
+        android:id="@+id/regBilty"
+        android:icon="@drawable/icons8_order_history_60px"
+        android:title="Register Entries" />
+    <item
+        android:id="@+id/staffReg"
+        android:icon="@drawable/ic_sidekick"
+        android:title="Staff Registration" />
+    <item
+        android:id="@+id/vechReg"
+        android:icon="@drawable/ic_truck"
+        android:title="Vechile Registration" />
+
+    <item
+        android:id="@+id/vechFit"
+        android:icon="@drawable/ic_vechfitness"
+        android:title="Vechile Fitness Test" />
+
+    <item
+        android:id="@+id/maintainChart"
+        android:icon="@drawable/ic_maintainance"
+        android:title="Maintainance Chart" />
+
+    <item
+        android:id="@+id/adminSettings"
+        android:icon="@drawable/icons8_settings_filled_100px"
+        android:title="Admin Settings" />
+
+    <item android:title="Add">
+        <menu>
+            <item
+                android:id="@+id/rapidline_sender_receiver"
+                android:icon="@drawable/ic_people_share"
+                android:title="Sender/Receiver" />
+            <item
+                android:id="@+id/rapidline_agents"
+                android:icon="@drawable/ic_key_exchange"
+                android:title="Agents" />
+
+            <item
+                android:id="@+id/rapidline_supplier"
+                android:icon="@drawable/ic_supplier"
+                android:title="Supplier" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/logOutRapidLine"
+        android:icon="@drawable/ic_logout"
+        android:title="Log Out" />
+
+</menu>

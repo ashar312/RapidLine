@@ -2,4 +2,8 @@
     <string name="app_name">RapidLine</string>
     <string name="drawerOpen">drawerOpen</string>
     <string name="drawerClose">drawerClose</string>
+    <string name="total">Total</string>
+    <string name="office_staff">Office Staff</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

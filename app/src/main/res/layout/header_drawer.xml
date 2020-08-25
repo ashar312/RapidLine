@@ -19,18 +19,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email Address"
+            android:id="@+id/username"
+            android:text="Username"
+            android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/Username_Drawer"
-            android:layout_width="match_parent"
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="User Name"
+            android:text="Company Name"
             android:textColor="@color/white"
             android:textSize="14dp"
             android:textStyle="bold" />

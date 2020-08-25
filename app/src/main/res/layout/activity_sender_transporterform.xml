@@ -7,99 +7,123 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/normalbackground"
-        tools:context=".Form.SenderRecieverTransporterForm">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/normalbackground"
+            tools:context=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.25" />
 
-        <TextView
-            android:id="@+id/headerText"
-            style="@style/HeaderText"
-            android:text="Sender/Receiver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_goback" />
 
-        <EditText
-            android:id="@+id/comanyNameTxt"
-            style="@style/FormInputTextFields"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:hint="Company Name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.513"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guideline3" />
+            <TextView
+                android:id="@+id/backText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:text="Back"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/backBtn"
+                app:layout_constraintStart_toEndOf="@+id/backBtn"
+                app:layout_constraintTop_toTopOf="@+id/backBtn" />
 
-        <EditText
-            android:id="@+id/companyNum"
-            style="@style/FormInputTextFields"
-            android:hint="Company No."
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/comanyNameTxt"
-            app:layout_constraintStart_toStartOf="@+id/comanyNameTxt"
-            app:layout_constraintTop_toBottomOf="@+id/comanyNameTxt" />
+            <TextView
+                android:id="@+id/headerText"
+                style="@style/HeaderText"
+                android:text="Sender/Receiver"
+                android:textSize="30sp"
+                android:layout_marginTop="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/citySpinner"
-            style="@style/SpinnerField"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="@+id/companyNum"
-            app:layout_constraintStart_toStartOf="@+id/companyNum"
-            app:layout_constraintTop_toBottomOf="@+id/companyNum" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.25" />
 
-        <EditText
-            android:id="@+id/addressTxt"
-            style="@style/FormInputTextFields"
-            android:hint="Address"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="@+id/citySpinner"
-            app:layout_constraintStart_toStartOf="@+id/citySpinner"
-            app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
+            <EditText
+                android:id="@+id/comanyNameTxt"
+                style="@style/FormInputTextFields"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Company Name"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline3" />
 
-        <EditText
-            android:id="@+id/pointOfname"
-            style="@style/FormInputTextFields"
-            android:hint="Point of Contact Name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="@+id/citySpinner"
-            app:layout_constraintStart_toStartOf="@+id/citySpinner"
-            app:layout_constraintTop_toBottomOf="@+id/addressTxt" />
+            <EditText
+                android:id="@+id/companyNum"
+                style="@style/FormInputTextFields"
+                android:hint="Company No."
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/comanyNameTxt"
+                app:layout_constraintStart_toStartOf="@+id/comanyNameTxt"
+                app:layout_constraintTop_toBottomOf="@+id/comanyNameTxt" />
 
-        <EditText
-            android:id="@+id/pointOfContactNo"
-            style="@style/FormInputTextFields"
-            android:hint="Point of Contact No."
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/pointOfname"
-            app:layout_constraintStart_toStartOf="@+id/pointOfname"
-            app:layout_constraintTop_toBottomOf="@+id/pointOfname" />
+            <Spinner
+                android:id="@+id/citySpinner"
+                style="@style/SpinnerField"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="@+id/companyNum"
+                app:layout_constraintStart_toStartOf="@+id/companyNum"
+                app:layout_constraintTop_toBottomOf="@+id/companyNum" />
 
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/buttonshape"
-            android:text="Save"
-            android:textSize="12dp"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/pointOfContactNo"
-            app:layout_constraintStart_toStartOf="@+id/pointOfContactNo"
-            app:layout_constraintTop_toBottomOf="@+id/pointOfContactNo" />
+            <EditText
+                android:id="@+id/addressTxt"
+                style="@style/FormInputTextFields"
+                android:hint="Address"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/citySpinner"
+                app:layout_constraintStart_toStartOf="@+id/citySpinner"
+                app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/pointOfname"
+                style="@style/FormInputTextFields"
+                android:hint="Point of Contact Name"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/citySpinner"
+                app:layout_constraintStart_toStartOf="@+id/citySpinner"
+                app:layout_constraintTop_toBottomOf="@+id/addressTxt" />
+
+            <EditText
+                android:id="@+id/pointOfContactNo"
+                style="@style/FormInputTextFields"
+                android:hint="Point of Contact No."
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/pointOfname"
+                app:layout_constraintStart_toStartOf="@+id/pointOfname"
+                app:layout_constraintTop_toBottomOf="@+id/pointOfname" />
+
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buttonshape"
+                android:gravity="center"
+                android:text="Save"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/pointOfContactNo"
+                app:layout_constraintStart_toStartOf="@+id/pointOfContactNo"
+                app:layout_constraintTop_toBottomOf="@+id/pointOfContactNo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

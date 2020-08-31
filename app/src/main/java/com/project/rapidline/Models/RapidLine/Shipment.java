@@ -35,7 +35,7 @@ public class Shipment implements Parcelable {
         biltys=in.createStringArrayList();
         totalBiltys=in.readInt();
         totalWeight=in.readDouble();
-
+        shipmentNo=in.readString();
     }
 
     public static final Creator<Shipment> CREATOR = new Creator<Shipment>() {
@@ -157,5 +157,6 @@ public class Shipment implements Parcelable {
         parcel.writeStringList(biltys);
         parcel.writeInt(totalBiltys);
         parcel.writeDouble(totalWeight);
+        parcel.writeString(shipmentNo);
     }
 }

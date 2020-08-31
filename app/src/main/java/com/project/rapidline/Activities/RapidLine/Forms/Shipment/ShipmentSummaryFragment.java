@@ -58,7 +58,7 @@ public class ShipmentSummaryFragment extends Fragment {
         Bundle bundle=getArguments();
         if(bundle!=null){
             shipment=getArguments().getParcelable("shipmentData");
-            Toast.makeText(getContext(),shipment.getDriverName(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(),shipment.getDriverName(),Toast.LENGTH_SHORT).show();
         }
 
         shipmentViewModel = ViewModelProviders.of(this).get(ShipmentViewModel.class);
@@ -66,11 +66,14 @@ public class ShipmentSummaryFragment extends Fragment {
         username=getActivity().getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
         adminViewModel.getAdminInfo(username).observe(this,admins -> {
             adminInfo=admins;
+            String shipmentNo=generateShipmentNo();
+            shipmentSummaryBinding.shipmentNoTxt.setText(shipmentNo);
+            shipment.setShipmentNo(shipmentNo);
         });
 
         //Set data
         //TODO set shipment number
-        shipmentSummaryBinding.shipmentNoTxt.setText(generateShipmentNo());
+
         shipmentSummaryBinding.biltyNoTxt.setText(String.valueOf(shipment.getTotalBiltys()) );
         shipmentSummaryBinding.shipmentWeightTxt.setText(String.valueOf(shipment.getTotalWeight()));
         shipmentSummaryBinding.shipmentDriverTxt.setText(shipment.getDriverName());

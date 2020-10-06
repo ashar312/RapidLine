@@ -153,7 +153,7 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
         entriesBinding.enteriesRv.setAdapter(bailsAdapter);
         entriesBinding.enteriesRv.setItemAnimator(new DefaultItemAnimator());
 
-        saeedSonsViewModel.getBailDataRv().observe(this, bails -> {
+        saeedSonsViewModel.getBailDataRvByDate().observe(this, bails -> {
             bailsAdapter.setBailsArrayList((ArrayList<Bails>) bails);
         });
 

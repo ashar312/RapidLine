@@ -2,6 +2,7 @@ package com.project.rapidline.viewmodel.RapidLine;
 
 import android.app.Application;
 
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.RapidLine.MaintainanceChart;
@@ -308,7 +309,7 @@ public class RapidLineViewModel extends AndroidViewModel {
         MutableLiveData<List<List<Bilty>>> data=new MutableLiveData<>();
 
         //Get all bails
-        saeedSonsRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING).addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
                 return;
             }
@@ -345,7 +346,7 @@ public class RapidLineViewModel extends AndroidViewModel {
             }
 
             //Get all bilty
-            rapidLineRepository.getAllBilty().addSnapshotListener((biltySnapshots, e1) -> {
+            rapidLineRepository.getAllBilty().orderBy("madeDateTime", Query.Direction.DESCENDING).addSnapshotListener((biltySnapshots, e1) -> {
                 if (e1 != null) {
                     return;
                 }

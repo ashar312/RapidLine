@@ -79,7 +79,7 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
         });
 
         homeViewModel.getVechileCount().observe(this,value -> {
-            rapidLineHomeBinding.vechilevalue.setText(value + "");
+            rapidLineHomeBinding.vechilevalue.setText((value-1) + "");
         });
 
         homeViewModel.getBiltyCount().observe(this,integerList -> {
@@ -134,9 +134,6 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
                 break;
             case R.id.vechFit:
                 startActivity(new Intent(RapidLineHomeActivity.this, FitnessTest.class));
-                break;
-            case R.id.maintainChart:
-                startActivity(new Intent(RapidLineHomeActivity.this, MaintainanceChartForm.class));
                 break;
             case R.id.rapidline_sender_receiver:
                 SendDataToListActivities(String.valueOf(SaeedSonActivities.SenderReceiver));

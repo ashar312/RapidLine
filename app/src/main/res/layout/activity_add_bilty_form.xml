@@ -110,7 +110,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="Qty: 1"
+                        android:hint="Qty"
                         android:textSize="14sp" />
 
                     <ImageView

@@ -320,22 +320,32 @@ public class AddBiltyForm extends AppCompatActivity {
 
         //Set Listeners
         addBiltyFormBinding.addQuanBtn.setOnClickListener(view -> {
-            String quan = addBiltyFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(quan.substring(quan.length() - 1));
-            val++;
-            addBiltyFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
+            if(TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())){
+                addBiltyFormBinding.quanTxt.setText("1");
+            }
+            else {
+                String quan = addBiltyFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                val++;
+                addBiltyFormBinding.quanTxt.setText(""+val);
+            }
         });
 
         addBiltyFormBinding.subractQuanBtn.setOnClickListener(view -> {
-            String quan = addBiltyFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
-            if (val == 1) {
-                Toast.makeText(this, "Min quantity reached",
-                        Toast.LENGTH_SHORT).show();
-                return;
+            if(TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())){
+                addBiltyFormBinding.quanTxt.setText("1");
             }
-            val = val - 1;
-            addBiltyFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
+            else {
+                String quan = addBiltyFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                if (val == 1) {
+                    Toast.makeText(this, "Min quantity reached",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                val = val - 1;
+                addBiltyFormBinding.quanTxt.setText(""+val);
+            }
         });
 
         addBiltyFormBinding.transportChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
@@ -504,7 +514,7 @@ public class AddBiltyForm extends AppCompatActivity {
     }
 
     private int getIntQuantity(String quan) {
-        int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
+        int val = Integer.parseInt(quan);
         return val;
     }
 

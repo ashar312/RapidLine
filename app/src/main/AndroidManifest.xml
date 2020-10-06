@@ -16,7 +16,7 @@
             android:theme="@style/MaintainanceActivityTheme"/>
         <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"
             android:theme="@style/RapidLineTheme"/>
-        <activity android:name=".Activities.Common.SupplierForm" />
+        <activity android:name=".Activities.RapidLine.Forms.SupplierForm" />
         <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm"
             android:theme="@style/RapidLineTheme"/>
         <activity android:name=".Activities.Common.SettingsActivity" />

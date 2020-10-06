@@ -80,8 +80,8 @@ public class AddBailForm extends AppCompatActivity {
 
             if (action.equals("edit")) {
 
-                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
-                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItem().toString());
+                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
+                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
                 bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
                 bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -113,8 +113,8 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setBailNo(generateBailNo());
 
 
-                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
-                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItem().toString());
+                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
+                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
                 bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
                 bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -272,22 +272,32 @@ public class AddBailForm extends AppCompatActivity {
 
         //Set Listeners
         activityAddBailFormBinding.addQuanBtn.setOnClickListener(view -> {
-            String quan = activityAddBailFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(quan.substring(quan.length() - 1));
-            val++;
-            activityAddBailFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
+            if(TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())){
+                activityAddBailFormBinding.quanTxt.setText("1");
+            }
+            else {
+                String quan = activityAddBailFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                val++;
+                activityAddBailFormBinding.quanTxt.setText(""+val);
+            }
         });
 
         activityAddBailFormBinding.subractQuanBtn.setOnClickListener(view -> {
-            String quan = activityAddBailFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
-            if (val == 1) {
-                Toast.makeText(this, "Min quantity reached",
-                        Toast.LENGTH_SHORT).show();
-                return;
+            if(TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())){
+                activityAddBailFormBinding.quanTxt.setText("1");
             }
-            val = val - 1;
-            activityAddBailFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
+            else {
+                String quan = activityAddBailFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                if (val == 1) {
+                    Toast.makeText(this, "Min quantity reached",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                val = val - 1;
+                activityAddBailFormBinding.quanTxt.setText(""+val);
+            }
         });
 
         activityAddBailFormBinding.transportChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
@@ -391,8 +401,8 @@ public class AddBailForm extends AppCompatActivity {
 
 
     private boolean isFieldEmpty() {
-        if (activityAddBailFormBinding.fromSpinner.getSelectedItem().toString().equals("From")
-                || activityAddBailFormBinding.toSpinner.getSelectedItem().toString().equals("To")
+        if (activityAddBailFormBinding.fromSpinner.getText().toString().equals("From")
+                || activityAddBailFormBinding.toSpinner.getText().toString().equals("To")
                 || activityAddBailFormBinding.kindSpinner.getSelectedItem().toString().equals("Select a kind")
                 || activityAddBailFormBinding.senderSpiner.getSelectedItem().toString().equals("Select a Sender")
                 || activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString().equals("Select a Receiver")
@@ -417,7 +427,7 @@ public class AddBailForm extends AppCompatActivity {
     }
 
     private int getIntQuantity(String quan){
-         int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
+         int val = Integer.parseInt(quan);
          return val;
     }
 

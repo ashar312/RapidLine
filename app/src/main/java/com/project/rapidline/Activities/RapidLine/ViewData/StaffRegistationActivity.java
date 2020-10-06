@@ -147,6 +147,7 @@ public class StaffRegistationActivity extends AppCompatActivity implements OnIte
 
     private void setupRecyclerView() {
         listAdapter = new ListAdapter(this, new ArrayList<>(), this);
+        listAdapter.setUpdateOptionVisible(true);
         staffRegistationBinding.staffRecycler.setLayoutManager(new LinearLayoutManager(this));
         staffRegistationBinding.staffRecycler.setAdapter(listAdapter);
         staffRegistationBinding.staffRecycler.setItemAnimator(new DefaultItemAnimator());

@@ -51,7 +51,7 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
         holder.builty_no.setText(bailsArrayList.get(position).getBailNo());
         holder.sender_txt.setText(bailsArrayList.get(position).getSenderId());
         holder.receiver_txt.setText(bailsArrayList.get(position).getReceiverId());
-        holder.name_txt.setText(bailsArrayList.get(position).getMadeBy());
+//        holder.name_txt.setText(bailsArrayList.get(position).getMadeBy());
         holder.date_txt.setText(formattedDate(bailsArrayList.get(position).getMadeDateTime()));
         holder.fromCity.setText(bailsArrayList.get(position).getFromCity());
         holder.toCity.setText(bailsArrayList.get(position).getToCity());

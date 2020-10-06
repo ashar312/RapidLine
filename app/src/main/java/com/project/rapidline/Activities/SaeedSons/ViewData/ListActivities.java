@@ -171,9 +171,11 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
 
     private void setupRecyclerView() {
         listAdapter = new ListAdapter(this, new ArrayList<>(), this);
+        listAdapter.setUpdateOptionVisible(true);
         activityListBinding.listRecycler.setLayoutManager(new LinearLayoutManager(this));
         activityListBinding.listRecycler.setAdapter(listAdapter);
         activityListBinding.listRecycler.setItemAnimator(new DefaultItemAnimator());
+
     }
 
     //When a item from recycler view is clicked
@@ -295,15 +297,14 @@ public class ListActivities extends AppCompatActivity implements OnItemClickList
                 intent.putExtra("action", "add");
                 startActivity(intent);
                 break;
-            default:
-                break;
             case "Supplier":
                 intent = new Intent(ListActivities.this, SupplierForm.class);
                 intent.putExtra("ListItem", listitem);
                 intent.putExtra("action", "add");
                 startActivity(intent);
                 break;
-
+            default:
+                break;
         }
 
     }

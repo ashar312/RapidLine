@@ -12,13 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.RapidLine.Forms.Shipment.ShipmentMainActivity"
+        <activity android:name=".Activities.Common.SettingRapidLineActivity"
             android:theme="@style/MaintainanceActivityTheme"/>
-        <activity android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"
-            android:theme="@style/RapidLineTheme"/>
+        <activity
+            android:name=".Activities.RapidLine.Forms.Shipment.ShipmentMainActivity"
+            android:theme="@style/MaintainanceActivityTheme" />
+        <activity
+            android:name=".Activities.RapidLine.ViewData.ViewBiltyActivity"
+            android:theme="@style/RapidLineTheme" />
         <activity android:name=".Activities.RapidLine.Forms.SupplierForm" />
-        <activity android:name=".Activities.RapidLine.Forms.AddBiltyForm"
-            android:theme="@style/RapidLineTheme"/>
+        <activity
+            android:name=".Activities.RapidLine.Forms.AddBiltyForm"
+            android:theme="@style/MaintainanceActivityTheme" />
         <activity android:name=".Activities.Common.SettingsActivity" />
         <activity
             android:name=".Activities.RapidLine.Forms.OfficeStaffForm"
@@ -57,14 +62,17 @@
             android:name=".Activities.Common.PrintOutActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Activities.SaeedSons.ViewData.ViewBailsActivity" />
-        <activity android:name=".Activities.SaeedSons.Forms.AddBailForm" />
+        <activity
+            android:name=".Activities.SaeedSons.Forms.AddBailForm"
+            android:theme="@style/MaintainanceActivityTheme" />
         <activity android:name=".Activities.SaeedSons.Forms.LabourPatriForm" />
         <activity android:name=".Activities.SaeedSons.Forms.AgentForm" />
-        <activity android:name=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm" />
+        <activity
+            android:name=".Activities.SaeedSons.Forms.SenderRecieverTransporterForm"
+            android:theme="@style/MaintainanceActivityTheme" />
         <activity android:name=".Activities.SaeedSons.ViewData.ListActivities" />
         <activity android:name=".Activities.SaeedSons.ViewData.SaeedSonsHomeActivity" />
-        <activity
-            android:name=".Activities.Common.Login" />
+        <activity android:name=".Activities.Common.Login" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -75,7 +83,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

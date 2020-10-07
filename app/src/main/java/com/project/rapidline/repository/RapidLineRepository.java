@@ -209,6 +209,7 @@ public class RapidLineRepository {
     }
 
 
+
     public void addVechileFitness(String vechileNo, int fitnessPercentage, Date lastTestTaken) {
         rapidLineReference.collection(VechileTableName).document(vechileNo)
                 .update("fitnessPercentage",fitnessPercentage,"lastTestTaken",lastTestTaken);

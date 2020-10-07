@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.project.rapidline.Activities.Common.Login;
+import com.project.rapidline.Activities.Common.SettingRapidLineActivity;
 import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Activities.RapidLine.Forms.FitnessTest;
 import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
@@ -150,6 +151,9 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
             case R.id.logOutRapidLine:
                 startActivity(new Intent(RapidLineHomeActivity.this, Login.class));
                 finish();
+                break;
+            case R.id.adminSettingsRapid:
+                startActivity(new Intent(RapidLineHomeActivity.this, SettingRapidLineActivity.class));
                 break;
         }
         return false;

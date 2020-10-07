@@ -42,12 +42,14 @@ public class AddBiltyForm extends AppCompatActivity {
 
 
     private String action;
-    private Bilty mBilty=null;
-    private Bails mBail=null;
+    private Bilty mBilty = null;
+    private Bails mBail = null;
 
     private AdminViewModel adminViewModel;
     private Admins adminInfo;
     private String username;
+
+    private List<String> cityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,10 @@ public class AddBiltyForm extends AppCompatActivity {
 
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
         rapidLineViewModel = ViewModelProviders.of(this).get(RapidLineViewModel.class);
-        adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
-        username=getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
-        adminViewModel.getAdminInfo(username).observe(this,admins -> {
-            adminInfo=admins;
+        adminViewModel = ViewModelProviders.of(this).get(AdminViewModel.class);
+        username = getApplicationContext().getSharedPreferences("LoginPref", 0).getString("username", "");
+        adminViewModel.getAdminInfo(username).observe(this, admins -> {
+            adminInfo = admins;
         });
 
         Bundle bundle = getIntent().getExtras();
@@ -94,7 +96,7 @@ public class AddBiltyForm extends AppCompatActivity {
             //TODO generate builty no work
             if (action.equals("edit")) {
 
-                if(mBail!=null){
+                if (mBail != null) {
                     mBail.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
                     mBail.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
 
@@ -110,10 +112,9 @@ public class AddBiltyForm extends AppCompatActivity {
 
                     saeedSonsViewModel.updateBail(mBail);
 
-                }
-                else {
-                    mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getSelectedItem().toString());
-                    mBilty.setToCity(addBiltyFormBinding.toSpinner.getSelectedItem().toString());
+                } else {
+                    mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getText().toString());
+                    mBilty.setToCity(addBiltyFormBinding.toSpinner.getText().toString());
                     mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
                     mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
                     mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -147,8 +148,8 @@ public class AddBiltyForm extends AppCompatActivity {
             } else {
                 mBilty = new Bilty();
 
-                mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getSelectedItem().toString());
-                mBilty.setToCity(addBiltyFormBinding.toSpinner.getSelectedItem().toString());
+                mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getText().toString());
+                mBilty.setToCity(addBiltyFormBinding.toSpinner.getText().toString());
                 mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
                 mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
                 mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -231,7 +232,7 @@ public class AddBiltyForm extends AppCompatActivity {
         //Load cities
         try {
             JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
-            List<String> cityList = new ArrayList<>();
+            cityList = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String currCity = jsonObject.getString("city");
@@ -239,22 +240,15 @@ public class AddBiltyForm extends AppCompatActivity {
             }
 
             List<String> fromCityList = new ArrayList<>(cityList);
-            fromCityList.add(0, "From");
+
 
             ArrayAdapter<String> fromCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, fromCityList);
             fromCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
-            List<String> toCityList = new ArrayList<>(cityList);
-            toCityList.add(0, "To");
-
-            ArrayAdapter<String> toCityArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
-                    R.layout.spinner_item, toCityList);
-            toCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
-
 
             addBiltyFormBinding.fromSpinner.setAdapter(fromCityArrayAdapter);
-            addBiltyFormBinding.toSpinner.setAdapter(toCityArrayAdapter);
+            addBiltyFormBinding.toSpinner.setAdapter(fromCityArrayAdapter);
 
 
         } catch (JSONException e) {
@@ -305,7 +299,7 @@ public class AddBiltyForm extends AppCompatActivity {
         });
 
         //TODO fix spinners when no data is present to show in bail also
-        if(mBail==null){
+        if (mBail == null) {
             saeedSonsViewModel.getListAllSuppliers().observe(this, suppliers -> {
                 List<Supplier> supplierList = new ArrayList<>(suppliers);
                 supplierList.add(0, new Supplier("Select a supplier"));
@@ -320,22 +314,20 @@ public class AddBiltyForm extends AppCompatActivity {
 
         //Set Listeners
         addBiltyFormBinding.addQuanBtn.setOnClickListener(view -> {
-            if(TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())){
+            if (TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())) {
                 addBiltyFormBinding.quanTxt.setText("1");
-            }
-            else {
+            } else {
                 String quan = addBiltyFormBinding.quanTxt.getText().toString();
                 int val = Integer.parseInt(quan);
                 val++;
-                addBiltyFormBinding.quanTxt.setText(""+val);
+                addBiltyFormBinding.quanTxt.setText("" + val);
             }
         });
 
         addBiltyFormBinding.subractQuanBtn.setOnClickListener(view -> {
-            if(TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())){
+            if (TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())) {
                 addBiltyFormBinding.quanTxt.setText("1");
-            }
-            else {
+            } else {
                 String quan = addBiltyFormBinding.quanTxt.getText().toString();
                 int val = Integer.parseInt(quan);
                 if (val == 1) {
@@ -344,7 +336,7 @@ public class AddBiltyForm extends AppCompatActivity {
                     return;
                 }
                 val = val - 1;
-                addBiltyFormBinding.quanTxt.setText(""+val);
+                addBiltyFormBinding.quanTxt.setText("" + val);
             }
         });
 
@@ -423,13 +415,12 @@ public class AddBiltyForm extends AppCompatActivity {
         int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBail.getKindId());
         addBiltyFormBinding.kindSpinner.setSelection(itemVal);
 
-        int fromCityVal = getIndex(addBiltyFormBinding.fromSpinner, mBail.getFromCity());
-        addBiltyFormBinding.fromSpinner.setSelection(fromCityVal);
 
-        int toCityVal = getIndex(addBiltyFormBinding.toSpinner, mBail.getToCity());
-        addBiltyFormBinding.toSpinner.setSelection(toCityVal);
+        addBiltyFormBinding.fromSpinner.setText(mBail.getFromCity());
 
-        List<String> supplierList=new ArrayList<>();
+        addBiltyFormBinding.toSpinner.setText(mBail.getToCity());
+
+        List<String> supplierList = new ArrayList<>();
         supplierList.add(mBail.getTransporterId());
         ArrayAdapter<String> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                 R.layout.spinner_item, supplierList);
@@ -475,11 +466,9 @@ public class AddBiltyForm extends AppCompatActivity {
         int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBilty.getKindId());
         addBiltyFormBinding.kindSpinner.setSelection(itemVal);
 
-        int fromCityVal = getIndex(addBiltyFormBinding.fromSpinner, mBilty.getFromCity());
-        addBiltyFormBinding.fromSpinner.setSelection(fromCityVal);
+        addBiltyFormBinding.fromSpinner.setText(mBilty.getFromCity());
 
-        int toCityVal = getIndex(addBiltyFormBinding.toSpinner, mBilty.getToCity());
-        addBiltyFormBinding.toSpinner.setSelection(toCityVal);
+        addBiltyFormBinding.toSpinner.setText(mBilty.getToCity());
 
         int supplierVal = getIndex(addBiltyFormBinding.supplierSpinner, mBilty.getSupplierName());
         addBiltyFormBinding.supplierSpinner.setSelection(supplierVal);
@@ -488,8 +477,8 @@ public class AddBiltyForm extends AppCompatActivity {
     }
 
     private boolean isFieldEmpty() {
-        if (addBiltyFormBinding.fromSpinner.getSelectedItem().toString().equals("From")
-                || addBiltyFormBinding.toSpinner.getSelectedItem().toString().equals("To")
+        if (TextUtils.isEmpty(addBiltyFormBinding.fromSpinner.getText())
+                || TextUtils.isEmpty(addBiltyFormBinding.toSpinner.getText())
                 || addBiltyFormBinding.kindSpinner.getSelectedItem().toString().equals("Select a kind")
                 || addBiltyFormBinding.senderSpiner.getSelectedItem().toString().equals("Select a Sender")
                 || addBiltyFormBinding.receiverSpinner.getSelectedItem().toString().equals("Select a Receiver")
@@ -497,7 +486,8 @@ public class AddBiltyForm extends AppCompatActivity {
                 || addBiltyFormBinding.agentSpinner.getSelectedItem().toString().equals("Select a agent")
                 || TextUtils.isEmpty(addBiltyFormBinding.volumeTxt.getText())
                 || TextUtils.isEmpty(addBiltyFormBinding.weightTxt.getText())
-                || TextUtils.isEmpty(addBiltyFormBinding.supplierPnoText.getText())) {
+                || TextUtils.isEmpty(addBiltyFormBinding.supplierPnoText.getText())
+                || TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())) {
             return true;
         }
         return false;
@@ -518,17 +508,20 @@ public class AddBiltyForm extends AppCompatActivity {
         return val;
     }
 
-    private String generateBiltyNo(){
-        String currentBiltyNo= adminInfo.getBiltyCounter();
+    private String generateBiltyNo() {
+        String currentBiltyNo = adminInfo.getBiltyCounter();
 
-        int updatedNo= Integer.parseInt(currentBiltyNo)+1;
+        int updatedNo = Integer.parseInt(currentBiltyNo) + 1;
 
         String number = String.format(Locale.ENGLISH, "%06d", updatedNo);
-        adminViewModel.updateBiltyCounter(number,username);
+        adminViewModel.updateBiltyCounter(number, username);
 
         return currentBiltyNo;
     }
-    private String getAdminName(){
-        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
+
+    private String getAdminName() {
+        return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
+
+
 }

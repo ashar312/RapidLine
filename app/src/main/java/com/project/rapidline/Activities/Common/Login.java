@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,14 +32,23 @@ public class Login extends AppCompatActivity {
 
         activityLoginBinding.loginBtn.setOnClickListener(view -> {
 
+
             if(isFieldEmpty()){
                 return;
             }
+
+            ProgressDialog progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle("Wait");
+            progressDialog.setMessage("Loading");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
 
             if(activityLoginBinding.radioSaeed.isChecked()){
                 adminViewModel.checkAdmin(activityLoginBinding.usernameTxt.getText().toString(),
                         activityLoginBinding.passTxt.getText().toString())
                         .observe(this, response -> {
+
+                            progressDialog.dismiss();
 
                             if(response.equals("Login Sucessfull")){
                                 Toast.makeText(Login.this,response,Toast.LENGTH_SHORT).show();
@@ -58,6 +68,8 @@ public class Login extends AppCompatActivity {
                 adminViewModel.checkAdmin(activityLoginBinding.usernameTxt.getText().toString(),
                         activityLoginBinding.passTxt.getText().toString())
                         .observe(this, response -> {
+
+                            progressDialog.dismiss();
 
                             if(response.equals("Login Sucessfull")){
                                 Toast.makeText(Login.this,response,Toast.LENGTH_SHORT).show();

@@ -72,7 +72,8 @@
             android:theme="@style/MaintainanceActivityTheme" />
         <activity android:name=".Activities.SaeedSons.ViewData.ListActivities" />
         <activity android:name=".Activities.SaeedSons.ViewData.SaeedSonsHomeActivity" />
-        <activity android:name=".Activities.Common.Login" />
+        <activity android:name=".Activities.Common.Login"
+            android:theme="@style/MaintainanceActivityTheme"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -40,6 +40,8 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
     private Transporters transporterEditUpdate;
     private final String CITY_PLACEHOLDER = "Select a city";
 
+    private List<String> cityList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         //Load cities
         try {
             JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
-            List<String> cityList = new ArrayList<>();
+            cityList = new ArrayList<>();
             cityList.add(0, CITY_PLACEHOLDER);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -139,13 +141,13 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 
                     //add city
                     customerEditUpdate.setCity(senderRecieverFormBinding.citySpinner.
-                            getSelectedItem().toString());
+                            getText().toString());
 
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                     customerEditUpdate.setMadeBy(getAdminName());
 
                     saeedSonsViewModel.updateCustomer(customerEditUpdate);
-                    Toast.makeText(this,"Customer updated sucessfully",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Customer updated sucessfully", Toast.LENGTH_SHORT).show();
                     finish();
 
                 } else {
@@ -158,15 +160,15 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 
                     //add city
                     customerEditUpdate.setCity(senderRecieverFormBinding.citySpinner.
-                            getSelectedItem().toString());
+                            getText().toString());
 
                     //TODO Save admin and date time
                     customerEditUpdate.setMadeBy(getAdminName());
                     customerEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
-                    saeedSonsViewModel.addCustomer(customerEditUpdate).observe(this,response -> {
-                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
-                        if(response.equals(Responses.CUSTOMER_ADDED))
+                    saeedSonsViewModel.addCustomer(customerEditUpdate).observe(this, response -> {
+                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                        if (response.equals(Responses.CUSTOMER_ADDED))
                             finish();
                     });
 
@@ -186,14 +188,14 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     transporterEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     transporterEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
                     transporterEditUpdate.setCity(senderRecieverFormBinding.citySpinner.
-                            getSelectedItem().toString());
+                            getText().toString());
                     //Save admin and date time
 
                     transporterEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
                     transporterEditUpdate.setMadeBy(getAdminName());
 
                     saeedSonsViewModel.updateTransporter(transporterEditUpdate);
-                    Toast.makeText(this,"Transporter updated sucessfully",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Transporter updated sucessfully", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     transporterEditUpdate = new Transporters();
@@ -202,15 +204,15 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                     transporterEditUpdate.setPocName(senderRecieverFormBinding.pointOfname.getText().toString());
                     transporterEditUpdate.setPocNo(senderRecieverFormBinding.pointOfContactNo.getText().toString());
                     transporterEditUpdate.setCity(senderRecieverFormBinding.citySpinner.
-                            getSelectedItem().toString());
+                            getText().toString());
 
                     //Save admin and date time
                     transporterEditUpdate.setMadeBy(getAdminName());
                     transporterEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
 
-                    saeedSonsViewModel.addTransporter(transporterEditUpdate).observe(this,response -> {
-                        Toast.makeText(this,response,Toast.LENGTH_SHORT).show();
-                        if(response.equals(Responses.TRANSPORTER_ADDED))
+                    saeedSonsViewModel.addTransporter(transporterEditUpdate).observe(this, response -> {
+                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                        if (response.equals(Responses.TRANSPORTER_ADDED))
                             finish();
                     });
 
@@ -265,8 +267,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 //        int city=StaticClasses.cities.indexOf(transporter.getCity())+1;
 //        senderRecieverFormBinding.citySpinner.setSelection(city);
 
-        int city=getIndex(senderRecieverFormBinding.citySpinner,transporter.getCity());
-        senderRecieverFormBinding.citySpinner.setSelection(city);
+        senderRecieverFormBinding.citySpinner.setText(transporter.getCity());
 
     }
 
@@ -277,9 +278,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         senderRecieverFormBinding.pointOfname.setText(customer.getPocName());
         senderRecieverFormBinding.pointOfContactNo.setText(customer.getPocNo());
 
-
-        int city=getIndex(senderRecieverFormBinding.citySpinner,customer.getCity());
-        senderRecieverFormBinding.citySpinner.setSelection(city);
+        senderRecieverFormBinding.citySpinner.setText(customer.getCity());
     }
 
     private Boolean isCustomerDataFieldsEmpty() {
@@ -288,7 +287,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                 || TextUtils.isEmpty(senderRecieverFormBinding.addressTxt.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.pointOfname.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())
-                || senderRecieverFormBinding.citySpinner.getSelectedItem().toString().equals(CITY_PLACEHOLDER)) {
+                || TextUtils.isEmpty(senderRecieverFormBinding.citySpinner.getText())) {
             return true;
         }
         return false;
@@ -299,25 +298,16 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
                 || TextUtils.isEmpty(senderRecieverFormBinding.companyNum.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.pointOfname.getText())
                 || TextUtils.isEmpty(senderRecieverFormBinding.pointOfContactNo.getText())
-                || senderRecieverFormBinding.citySpinner.getSelectedItem().toString().equals(CITY_PLACEHOLDER)) {
+                || TextUtils.isEmpty(senderRecieverFormBinding.citySpinner.getText())) {
             return true;
         }
         return false;
     }
 
-    private String getAdminName(){
-        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
+    private String getAdminName() {
+        return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
 
-    private int getIndex(Spinner spinner, String myString){
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
-                return i;
-            }
-        }
-
-        return 0;
-    }
 
 
 }

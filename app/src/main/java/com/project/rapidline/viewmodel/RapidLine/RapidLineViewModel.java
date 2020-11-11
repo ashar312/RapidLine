@@ -2,6 +2,8 @@ package com.project.rapidline.viewmodel.RapidLine;
 
 import android.app.Application;
 
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.RapidLine.MaintainanceChart;
@@ -45,7 +47,7 @@ public class RapidLineViewModel extends AndroidViewModel {
         listAllStaff = new MutableLiveData<>();
         listAllSideKick = new MutableLiveData<>();
         listAllVechile = new MutableLiveData<>();
-        listAllBilty=new MutableLiveData<>();
+        listAllBilty = new MutableLiveData<>();
     }
 
 
@@ -254,16 +256,31 @@ public class RapidLineViewModel extends AndroidViewModel {
     public LiveData<List<String>> getAllVechileCategory() {
         MutableLiveData<List<String>> data = new MutableLiveData<>();
 
-        rapidLineRepository.getAllVechileData().get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+        rapidLineRepository.getAllVechileData()
+                .addSnapshotListener((documentSnapshot, e) -> {
+
+                    if(e!=null){
+                        return;
+                    }
+
+                    if(documentSnapshot!=null && documentSnapshot.exists()) {
                         VechileData category = documentSnapshot.toObject(VechileData.class);
                         data.postValue(category.getVechileCategory());
                     }
                 });
-
         return data;
     }
+
+    public void addVechileCategory(String vechCategory) {
+        rapidLineRepository.getAllVechileData()
+                .update("vechileCategory", FieldValue.arrayUnion(vechCategory));
+    }
+
+    public void removeVechileCategory(String vechCategory) {
+        rapidLineRepository.getAllVechileData()
+                .update("vechileCategory", FieldValue.arrayRemove(vechCategory));
+    }
+
 
     public LiveData<List<String>> getAllVechileModels() {
         MutableLiveData<List<String>> data = new MutableLiveData<>();
@@ -283,7 +300,7 @@ public class RapidLineViewModel extends AndroidViewModel {
 
 
     public void addVechileFitness(String vechileNo, int fitnessPercentage, Date lastTestTaken) {
-        rapidLineRepository.addVechileFitness(vechileNo,fitnessPercentage,lastTestTaken);
+        rapidLineRepository.addVechileFitness(vechileNo, fitnessPercentage, lastTestTaken);
     }
 
     public LiveData<MaintainanceData> getAllMaintainanceData() {
@@ -305,10 +322,10 @@ public class RapidLineViewModel extends AndroidViewModel {
 
     public LiveData<List<List<Bilty>>> getAllBilty() {
 
-        MutableLiveData<List<List<Bilty>>> data=new MutableLiveData<>();
+        MutableLiveData<List<List<Bilty>>> data = new MutableLiveData<>();
 
         //Get all bails
-        saeedSonsRepository.getAllBails().addSnapshotListener((queryDocumentSnapshots, e) -> {
+        saeedSonsRepository.getAllBails().orderBy("madeDateTime", Query.Direction.DESCENDING).addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
                 return;
             }
@@ -345,19 +362,19 @@ public class RapidLineViewModel extends AndroidViewModel {
             }
 
             //Get all bilty
-            rapidLineRepository.getAllBilty().addSnapshotListener((biltySnapshots, e1) -> {
+            rapidLineRepository.getAllBilty().orderBy("madeDateTime", Query.Direction.DESCENDING).addSnapshotListener((biltySnapshots, e1) -> {
                 if (e1 != null) {
                     return;
                 }
-                List<Bilty> biltyList=new ArrayList<>();
+                List<Bilty> biltyList = new ArrayList<>();
                 if (!biltySnapshots.isEmpty()) {
                     for (QueryDocumentSnapshot doc : biltySnapshots) {
-                        biltyList.add(doc.toObject(Bilty.class)) ;
+                        biltyList.add(doc.toObject(Bilty.class));
                     }
                 }
-                List<List<Bilty>> dataList=new ArrayList<>();
-                dataList.add(0,bailList);
-                dataList.add(1,biltyList);
+                List<List<Bilty>> dataList = new ArrayList<>();
+                dataList.add(0, bailList);
+                dataList.add(1, biltyList);
 
                 data.postValue(dataList);
             });
@@ -397,16 +414,17 @@ public class RapidLineViewModel extends AndroidViewModel {
         return data;
     }
 
-    public void addBilty(Bilty bilty){
+    public void addBilty(Bilty bilty) {
         rapidLineRepository.addBilty(bilty);
     }
-    public void updateBilty(Bilty bilty){
+
+    public void updateBilty(Bilty bilty) {
         rapidLineRepository.updateBilty(bilty);
     }
-    public void deleteBilty(String key){
+
+    public void deleteBilty(String key) {
         rapidLineRepository.deleteBilty(key);
     }
-
 
 
 }

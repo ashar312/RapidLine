@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/normalbackground"
-        tools:context=".Activities.SaeedSons.ViewData.ViewBailsActivity">
-
+        tools:context=".Activities.Common.SettingRapidLineActivity">
 
         <ImageView
             android:id="@+id/backBtn"
@@ -31,70 +30,70 @@
             android:text="Back"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/backBtn"
             app:layout_constraintStart_toEndOf="@+id/backBtn"
             app:layout_constraintTop_toTopOf="@+id/backBtn" />
 
-
         <TextView
-            android:id="@+id/textView_order"
+            android:id="@+id/textView9"
+            style="@style/HeaderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Register Entries"
-            android:textColor="@color/white"
-            android:textSize="24sp"
+            android:text="Settings"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
+            android:id="@+id/guideline10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.2" />
+            app:layout_constraintGuide_percent="0.25" />
 
-        <EditText
-            android:id="@+id/search_txt"
-            style="@style/FormInputTextFields"
-            android:layout_width="0dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/spinnerbck"
-            android:hint="Search .."
-            app:layout_constraintDimensionRatio="w,5:1"
-            app:layout_constraintEnd_toStartOf="@+id/sort_spinner"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline8" />
-
-        <Spinner
-            android:id="@+id/sort_spinner"
-            style="@style/SpinnerField"
-            android:layout_height="43dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:hint="Search .."
-            app:layout_constraintDimensionRatio="w,3:1"
+        <TextView
+            android:id="@+id/category_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Vechile Category"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/Brown"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/search_txt"
-            app:layout_constraintTop_toTopOf="@+id/search_txt" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_common_Btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="ADD"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:backgroundTint="@color/Brown"
+            app:cornerRadius="9dp"
+            app:layout_constraintDimensionRatio="h,4:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_btn" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/enteries_rv"
+            android:id="@+id/vechCategoryRv"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/sort_spinner"
-            app:layout_constraintStart_toStartOf="@+id/search_txt"
-            app:layout_constraintTop_toBottomOf="@+id/search_txt"
-            tools:listitem="@layout/layout_cell_register" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_common_Btn" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

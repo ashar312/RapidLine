@@ -25,12 +25,7 @@
         android:title="Vechile Fitness Test" />
 
     <item
-        android:id="@+id/maintainChart"
-        android:icon="@drawable/ic_maintainance"
-        android:title="Maintainance Chart" />
-
-    <item
-        android:id="@+id/adminSettings"
+        android:id="@+id/adminSettingsRapid"
         android:icon="@drawable/icons8_settings_filled_100px"
         android:title="Admin Settings" />
 

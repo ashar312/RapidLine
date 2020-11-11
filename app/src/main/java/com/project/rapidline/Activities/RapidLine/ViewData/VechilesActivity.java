@@ -77,6 +77,7 @@ public class VechilesActivity extends AppCompatActivity implements OnItemClickLi
 
     private void setupRecyclerView() {
         listAdapter = new ListAdapter(this, new ArrayList<>(), this);
+        listAdapter.setUpdateOptionVisible(true);
         vechilesBinding.vechileRecycler.setLayoutManager(new LinearLayoutManager(this));
         vechilesBinding.vechileRecycler.setAdapter(listAdapter);
         vechilesBinding.vechileRecycler.setItemAnimator(new DefaultItemAnimator());

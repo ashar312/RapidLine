@@ -63,18 +63,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatSpinner
+                <AutoCompleteTextView
                     android:id="@+id/from_spinner"
-                    style="@style/SpinnerField"
+                    android:hint="From City"
+                    style="@style/AutocompleteFields"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toStartOf="@+id/to_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
+                <AutoCompleteTextView
                     android:id="@+id/to_spinner"
-                    style="@style/SpinnerField"
+                    android:hint="To City"
+                    style="@style/AutocompleteFields"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="32dp"
@@ -110,7 +112,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="Qty: 1"
+                        android:hint="Qty"
                         android:textSize="14sp" />
 
                     <ImageView

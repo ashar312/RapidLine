@@ -75,9 +75,10 @@
                 app:layout_constraintStart_toStartOf="@+id/comanyNameTxt"
                 app:layout_constraintTop_toBottomOf="@+id/comanyNameTxt" />
 
-            <Spinner
+            <AutoCompleteTextView
                 android:id="@+id/citySpinner"
-                style="@style/SpinnerField"
+                android:hint="Select City"
+                style="@style/AutocompleteFields"
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="@+id/companyNum"
                 app:layout_constraintStart_toStartOf="@+id/companyNum"

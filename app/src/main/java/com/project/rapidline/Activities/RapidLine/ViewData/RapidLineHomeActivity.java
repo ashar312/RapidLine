@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.project.rapidline.Activities.Common.Login;
+import com.project.rapidline.Activities.Common.SettingRapidLineActivity;
 import com.project.rapidline.Activities.RapidLine.Forms.AddBiltyForm;
 import com.project.rapidline.Activities.RapidLine.Forms.FitnessTest;
 import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
@@ -79,7 +80,7 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
         });
 
         homeViewModel.getVechileCount().observe(this,value -> {
-            rapidLineHomeBinding.vechilevalue.setText(value + "");
+            rapidLineHomeBinding.vechilevalue.setText((value-1) + "");
         });
 
         homeViewModel.getBiltyCount().observe(this,integerList -> {
@@ -135,9 +136,6 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
             case R.id.vechFit:
                 startActivity(new Intent(RapidLineHomeActivity.this, FitnessTest.class));
                 break;
-            case R.id.maintainChart:
-                startActivity(new Intent(RapidLineHomeActivity.this, MaintainanceChartForm.class));
-                break;
             case R.id.rapidline_sender_receiver:
                 SendDataToListActivities(String.valueOf(SaeedSonActivities.SenderReceiver));
                 break;
@@ -153,6 +151,9 @@ public class RapidLineHomeActivity extends AppCompatActivity implements Navigati
             case R.id.logOutRapidLine:
                 startActivity(new Intent(RapidLineHomeActivity.this, Login.class));
                 finish();
+                break;
+            case R.id.adminSettingsRapid:
+                startActivity(new Intent(RapidLineHomeActivity.this, SettingRapidLineActivity.class));
                 break;
         }
         return false;

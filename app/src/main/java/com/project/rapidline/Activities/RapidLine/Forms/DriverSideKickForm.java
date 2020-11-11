@@ -49,7 +49,7 @@ public class DriverSideKickForm extends AppCompatActivity {
 
 
         } else if (activityName.equals("SideKick")) {
-            formBinding.imagesLayout.setVisibility(View.GONE);
+//            formBinding.imagesLayout.setVisibility(View.GONE);
             formBinding.headingTxt.setText(activityName);
 
 

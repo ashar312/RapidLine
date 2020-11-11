@@ -49,7 +49,7 @@ public class BiltyAdapter extends RecyclerView.Adapter<BiltyAdapter.EnterieViewH
         holder.builty_no.setText(biltyArrayList.get(position).getBiltyNo());
         holder.sender_txt.setText(biltyArrayList.get(position).getSenderId());
         holder.receiver_txt.setText(biltyArrayList.get(position).getReceiverId());
-        holder.name_txt.setText(biltyArrayList.get(position).getMadeBy());
+//        holder.name_txt.setText(biltyArrayList.get(position).getMadeBy());
         holder.date_txt.setText(formattedDate(biltyArrayList.get(position).getMadeDateTime()));
         holder.fromCity.setText(biltyArrayList.get(position).getFromCity());
         holder.toCity.setText(biltyArrayList.get(position).getToCity());

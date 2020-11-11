@@ -41,6 +41,7 @@ public class AddBailForm extends AppCompatActivity {
     private AdminViewModel adminViewModel;
     private Admins adminInfo;
     private String username;
+    private List<String> cityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,10 @@ public class AddBailForm extends AppCompatActivity {
         saeedSonsViewModel = ViewModelProviders.of(this).get(SaeedSonsViewModel.class);
 
 
-        adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
-        username=getApplicationContext().getSharedPreferences("LoginPref",0).getString("username","");
-        adminViewModel.getAdminInfo(username).observe(this,admins -> {
-            adminInfo=admins;
+        adminViewModel = ViewModelProviders.of(this).get(AdminViewModel.class);
+        username = getApplicationContext().getSharedPreferences("LoginPref", 0).getString("username", "");
+        adminViewModel.getAdminInfo(username).observe(this, admins -> {
+            adminInfo = admins;
         });
 
 
@@ -80,8 +81,8 @@ public class AddBailForm extends AppCompatActivity {
 
             if (action.equals("edit")) {
 
-                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
-                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItem().toString());
+                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
+                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
                 bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
                 bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -103,7 +104,7 @@ public class AddBailForm extends AppCompatActivity {
 
                 //TODO add admin field
                 saeedSonsViewModel.updateBail(bailEditUpdate);
-                Toast.makeText(this,"Bail updated sucessfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bail updated sucessfully", Toast.LENGTH_SHORT).show();
                 finish();
 
             } else {
@@ -113,8 +114,8 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setBailNo(generateBailNo());
 
 
-                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getSelectedItem().toString());
-                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getSelectedItem().toString());
+                bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
+                bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
                 bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
                 bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
@@ -137,7 +138,7 @@ public class AddBailForm extends AppCompatActivity {
 
                 saeedSonsViewModel.addBail(bailEditUpdate);
 
-                Toast.makeText(this,"Bail added sucessfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bail added sucessfully", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -188,7 +189,7 @@ public class AddBailForm extends AppCompatActivity {
             //Sender List
             List<Customers> senderList = new ArrayList<>(customers);
             senderList.add(0, new Customers("Select a Sender"));
-            senderAdap= new ArrayAdapter<>(AddBailForm.this,
+            senderAdap = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, senderList);
             activityAddBailFormBinding.senderSpiner.setAdapter(senderAdap);
 
@@ -239,7 +240,7 @@ public class AddBailForm extends AppCompatActivity {
         //Load cities
         try {
             JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
-            List<String> cityList = new ArrayList<>();
+            cityList = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String currCity = jsonObject.getString("city");
@@ -247,14 +248,14 @@ public class AddBailForm extends AppCompatActivity {
             }
 
             List<String> fromCityList = new ArrayList<>(cityList);
-            fromCityList.add(0, "From");
+
 
             ArrayAdapter<String> fromCityArrayAdapter = new ArrayAdapter<>(this,
                     R.layout.spinner_item, fromCityList);
             fromCityArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
             List<String> toCityList = new ArrayList<>(cityList);
-            toCityList.add(0, "To");
+
 
             ArrayAdapter<String> toCityArrayAdapter = new ArrayAdapter<>(this,
                     R.layout.spinner_item, toCityList);
@@ -272,60 +273,64 @@ public class AddBailForm extends AppCompatActivity {
 
         //Set Listeners
         activityAddBailFormBinding.addQuanBtn.setOnClickListener(view -> {
-            String quan = activityAddBailFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(quan.substring(quan.length() - 1));
-            val++;
-            activityAddBailFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
+            if (TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())) {
+                activityAddBailFormBinding.quanTxt.setText("1");
+            } else {
+                String quan = activityAddBailFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                val++;
+                activityAddBailFormBinding.quanTxt.setText("" + val);
+            }
         });
 
         activityAddBailFormBinding.subractQuanBtn.setOnClickListener(view -> {
-            String quan = activityAddBailFormBinding.quanTxt.getText().toString();
-            int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
-            if (val == 1) {
-                Toast.makeText(this, "Min quantity reached",
-                        Toast.LENGTH_SHORT).show();
-                return;
+            if (TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())) {
+                activityAddBailFormBinding.quanTxt.setText("1");
+            } else {
+                String quan = activityAddBailFormBinding.quanTxt.getText().toString();
+                int val = Integer.parseInt(quan);
+                if (val == 1) {
+                    Toast.makeText(this, "Min quantity reached",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                val = val - 1;
+                activityAddBailFormBinding.quanTxt.setText("" + val);
             }
-            val = val - 1;
-            activityAddBailFormBinding.quanTxt.setText("Qty: " + String.valueOf(val));
         });
 
         activityAddBailFormBinding.transportChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 activityAddBailFormBinding.transportTxt.setEnabled(true);
                 activityAddBailFormBinding.transportTxt.requestFocus();
-            }
-            else {
+            } else {
                 activityAddBailFormBinding.transportTxt.setEnabled(false);
             }
         });
 
         activityAddBailFormBinding.labourChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 activityAddBailFormBinding.laboutTxt.setEnabled(true);
                 activityAddBailFormBinding.laboutTxt.requestFocus();
-            }
-            else {
+            } else {
                 activityAddBailFormBinding.laboutTxt.setEnabled(false);
             }
         });
 
         activityAddBailFormBinding.electricityChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 activityAddBailFormBinding.electricityTxt.setEnabled(true);
                 activityAddBailFormBinding.electricityTxt.requestFocus();
-            }
-            else {
+            } else {
                 activityAddBailFormBinding.electricityTxt.setEnabled(false);
             }
         });
 
         activityAddBailFormBinding.packingChk.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked){
+            if (isChecked) {
                 activityAddBailFormBinding.packingTxt.setEnabled(true);
                 activityAddBailFormBinding.packingTxt.requestFocus();
-            }
-            else {
+            } else {
                 activityAddBailFormBinding.packingTxt.setEnabled(false);
             }
         });
@@ -338,50 +343,48 @@ public class AddBailForm extends AppCompatActivity {
         activityAddBailFormBinding.volumeTxt.setText(String.valueOf(bailEditUpdate.getVolume()));
         activityAddBailFormBinding.weightTxt.setText(String.valueOf(bailEditUpdate.getWeight()));
 
-        if(!TextUtils.isEmpty(bailEditUpdate.getTransport_charge())){
+        if (!TextUtils.isEmpty(bailEditUpdate.getTransport_charge())) {
             activityAddBailFormBinding.transportChk.setChecked(true);
             activityAddBailFormBinding.transportTxt.setText(bailEditUpdate.getTransport_charge());
         }
-        if(!TextUtils.isEmpty(bailEditUpdate.getLabour_charge())){
+        if (!TextUtils.isEmpty(bailEditUpdate.getLabour_charge())) {
             activityAddBailFormBinding.labourChk.setChecked(true);
             activityAddBailFormBinding.laboutTxt.setText(bailEditUpdate.getLabour_charge());
         }
-        if(!TextUtils.isEmpty(bailEditUpdate.getElectricity_charge())){
+        if (!TextUtils.isEmpty(bailEditUpdate.getElectricity_charge())) {
             activityAddBailFormBinding.electricityChk.setChecked(true);
             activityAddBailFormBinding.electricityTxt.setText(bailEditUpdate.getElectricity_charge());
         }
-        if(!TextUtils.isEmpty(bailEditUpdate.getPacking_charge())){
+        if (!TextUtils.isEmpty(bailEditUpdate.getPacking_charge())) {
             activityAddBailFormBinding.packingChk.setChecked(true);
             activityAddBailFormBinding.packingTxt.setText(bailEditUpdate.getPacking_charge());
         }
         activityAddBailFormBinding.commentsTxt.setText(bailEditUpdate.getComments());
 
-        int senderVal=getIndex(activityAddBailFormBinding.senderSpiner,bailEditUpdate.getSenderId());
+        int senderVal = getIndex(activityAddBailFormBinding.senderSpiner, bailEditUpdate.getSenderId());
         activityAddBailFormBinding.senderSpiner.setSelection(senderVal);
 
-        int receiverVal=getIndex(activityAddBailFormBinding.receiverSpinner,bailEditUpdate.getReceiverId());
+        int receiverVal = getIndex(activityAddBailFormBinding.receiverSpinner, bailEditUpdate.getReceiverId());
         activityAddBailFormBinding.receiverSpinner.setSelection(receiverVal);
 
-        int transVal=getIndex(activityAddBailFormBinding.transporterSpinner,bailEditUpdate.getTransporterId());
+        int transVal = getIndex(activityAddBailFormBinding.transporterSpinner, bailEditUpdate.getTransporterId());
         activityAddBailFormBinding.transporterSpinner.setSelection(transVal);
 
-        int agentVal=getIndex(activityAddBailFormBinding.agentSpinner,bailEditUpdate.getAgentId());
+        int agentVal = getIndex(activityAddBailFormBinding.agentSpinner, bailEditUpdate.getAgentId());
         activityAddBailFormBinding.agentSpinner.setSelection(agentVal);
 
-        int itemVal=getIndex(activityAddBailFormBinding.kindSpinner,bailEditUpdate.getKindId());
+        int itemVal = getIndex(activityAddBailFormBinding.kindSpinner, bailEditUpdate.getKindId());
         activityAddBailFormBinding.kindSpinner.setSelection(itemVal);
 
-        int fromCityVal=getIndex(activityAddBailFormBinding.fromSpinner,bailEditUpdate.getFromCity());
-        activityAddBailFormBinding.fromSpinner.setSelection(fromCityVal);
+        activityAddBailFormBinding.fromSpinner.setText(bailEditUpdate.getFromCity());
 
-        int toCityVal=getIndex(activityAddBailFormBinding.toSpinner,bailEditUpdate.getToCity());
-        activityAddBailFormBinding.toSpinner.setSelection(toCityVal);
+        activityAddBailFormBinding.toSpinner.setText(bailEditUpdate.getToCity());
 
     }
 
-    private int getIndex(Spinner spinner, String myString){
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+    private int getIndex(Spinner spinner, String myString) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
                 return i;
             }
         }
@@ -391,8 +394,8 @@ public class AddBailForm extends AppCompatActivity {
 
 
     private boolean isFieldEmpty() {
-        if (activityAddBailFormBinding.fromSpinner.getSelectedItem().toString().equals("From")
-                || activityAddBailFormBinding.toSpinner.getSelectedItem().toString().equals("To")
+        if (TextUtils.isEmpty(activityAddBailFormBinding.fromSpinner.getText())
+                || TextUtils.isEmpty(activityAddBailFormBinding.toSpinner.getText())
                 || activityAddBailFormBinding.kindSpinner.getSelectedItem().toString().equals("Select a kind")
                 || activityAddBailFormBinding.senderSpiner.getSelectedItem().toString().equals("Select a Sender")
                 || activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString().equals("Select a Receiver")
@@ -400,6 +403,7 @@ public class AddBailForm extends AppCompatActivity {
                 || activityAddBailFormBinding.agentSpinner.getSelectedItem().toString().equals("Select a agent")
                 || TextUtils.isEmpty(activityAddBailFormBinding.volumeTxt.getText())
                 || TextUtils.isEmpty(activityAddBailFormBinding.weightTxt.getText())
+                || TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())
         ) {
             return true;
         }
@@ -407,26 +411,33 @@ public class AddBailForm extends AppCompatActivity {
     }
 
     private String generateBailNo() {
-        String currentBailNo=adminInfo.getBailCounter();
-        AddBailNumberGenrator bailNumberGenrator=new AddBailNumberGenrator(currentBailNo.toString());
+        String currentBailNo = adminInfo.getBailCounter();
+        AddBailNumberGenrator bailNumberGenrator = new AddBailNumberGenrator(currentBailNo.toString());
 
-        String newnumber= bailNumberGenrator.generateBailNumber();
-        adminViewModel.updateAdminBailInfo(newnumber,username);
+        String newnumber = bailNumberGenrator.generateBailNumber();
+        adminViewModel.updateAdminBailInfo(newnumber, username);
 
         return currentBailNo;
     }
 
-    private int getIntQuantity(String quan){
-         int val = Integer.parseInt(String.valueOf(quan.charAt(quan.length() - 1)));
-         return val;
+    private int getIntQuantity(String quan) {
+        int val = Integer.parseInt(quan);
+        return val;
     }
 
 
-    private String getAdminName(){
-        return getApplicationContext().getSharedPreferences("LoginPref",0).getString("adminName","");
+    private String getAdminName() {
+        return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
 
-
+    private int getCityIndex(String city) {
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityList.get(i).equals(city)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
 
 }

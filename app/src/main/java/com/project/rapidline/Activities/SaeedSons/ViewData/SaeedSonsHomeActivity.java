@@ -137,18 +137,23 @@ public class SaeedSonsHomeActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.add_bail:
-                adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(this, permissions -> {
-                    if (permissions.isAddBail()) {
-                        Intent intent = new Intent(SaeedSonsHomeActivity.this, AddBailForm.class);
-                        intent.putExtra("action", "add");
-                        startActivity(intent);
-                    } else
-                        Toast.makeText(this, "You do not have permissions to add a bail", Toast.LENGTH_SHORT).show();
-                });
+//                adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(this, permissions -> {
+//                    if (permissions.isAddBail()) {
+//                        Intent intent = new Intent(SaeedSonsHomeActivity.this, AddBailForm.class);
+//                        intent.putExtra("action", "add");
+//                        startActivity(intent);
+//                    } else
+//                        Toast.makeText(this, "You do not have permissions to add a bail", Toast.LENGTH_SHORT).show();
+//                });
+                Intent intent = new Intent(SaeedSonsHomeActivity.this, AddBailForm.class);
+                intent.putExtra("action", "add");
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.regEntries:
                 startActivity(new Intent(this, ViewBailsActivity.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.sender_receiver:

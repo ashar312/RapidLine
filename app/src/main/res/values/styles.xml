@@ -1,14 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Brown</item>
         <item name="colorPrimaryDark">@color/Brown</item>
         <item name="colorAccent">@color/Brown</item>
     </style>
 
-    <style name="RapidLineTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="RapidLineTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Dark_gray</item>
         <item name="colorPrimaryDark">@color/Dark_gray</item>
@@ -17,7 +17,7 @@
 
     <style name="MaintainanceActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/Dark_gray</item>
+        <item name="colorPrimary">@color/Brown</item>
         <item name="colorPrimaryDark">@color/Brown</item>
         <item name="colorAccent">@color/Brown</item>
     </style>

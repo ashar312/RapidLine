@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Saeed Sons"
+                android:text="Bin Saeed"
                 app:layout_constraintEnd_toStartOf="@+id/guideline11"
                 app:layout_constraintStart_toStartOf="@+id/start_guidline"
                 app:layout_constraintTop_toTopOf="parent" />

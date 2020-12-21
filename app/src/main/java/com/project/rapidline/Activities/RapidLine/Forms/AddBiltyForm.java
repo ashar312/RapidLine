@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -75,7 +78,10 @@ public class AddBiltyForm extends AppCompatActivity {
             if (itemType.equals("Bail")) {
                 saeedSonsViewModel.getBailById(id).observe(this, bails -> {
                     mBail = bails;
+                    addBiltyFormBinding.volumeTxt.setVisibility(View.GONE);
+                    addBiltyFormBinding.weightTxt.setVisibility(View.GONE);
                     loadBailData();
+
                 });
             } else {
                 rapidLineViewModel.getBiltyById(id).observe(this, bilty -> {
@@ -93,13 +99,19 @@ public class AddBiltyForm extends AppCompatActivity {
                 return;
             }
 
+            if(getCityIndex(addBiltyFormBinding.fromSpinner.getText().toString()) == -1
+                    || getCityIndex(addBiltyFormBinding.toSpinner.getText().toString()) == -1){
+                Toast.makeText(this, "Please select city from list only", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             //TODO generate builty no work
             if (action.equals("edit")) {
 
                 if (mBail != null) {
-                    mBail.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
-                    mBail.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
-
+//                    mBail.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
+//                    mBail.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
 
                     mBail.setTransport_charge(addBiltyFormBinding.transportTxt.getText().toString());
                     mBail.setLabour_charge(addBiltyFormBinding.laboutTxt.getText().toString());
@@ -250,6 +262,16 @@ public class AddBiltyForm extends AppCompatActivity {
             addBiltyFormBinding.fromSpinner.setAdapter(fromCityArrayAdapter);
             addBiltyFormBinding.toSpinner.setAdapter(fromCityArrayAdapter);
 
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            addBiltyFormBinding.fromSpinner.setOnItemClickListener((adapterView, view, i, l) -> {
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            });
+
+            addBiltyFormBinding.toSpinner.setOnItemClickListener((adapterView, view, i, l) -> {
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            });
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -379,8 +401,8 @@ public class AddBiltyForm extends AppCompatActivity {
 
     private void loadBailData() {
         addBiltyFormBinding.quanTxt.setText("Qty: " + mBail.getQuantity());
-        addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBail.getVolume()));
-        addBiltyFormBinding.weightTxt.setText(String.valueOf(mBail.getWeight()));
+//        addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBail.getVolume()));
+//        addBiltyFormBinding.weightTxt.setText(String.valueOf(mBail.getWeight()));
         addBiltyFormBinding.supplierPnoText.setText(mBail.getBailNo());
         addBiltyFormBinding.supplierPnoText.setEnabled(false);
 
@@ -523,5 +545,13 @@ public class AddBiltyForm extends AppCompatActivity {
         return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
 
+    private int getCityIndex(String city) {
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityList.get(i).equals(city)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
 }

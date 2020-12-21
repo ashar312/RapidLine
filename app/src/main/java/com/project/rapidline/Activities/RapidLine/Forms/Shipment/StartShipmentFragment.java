@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -44,11 +45,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class StartShipmentFragment extends Fragment implements DestinationStopsAdapter.OnDeliveryDateClickListener {
@@ -61,6 +65,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
     //Stops adapter
     private SimpleDateFormat mSimpleDateFormat;
     private Calendar mCalendar;
+    private Calendar mStopsCalendar;
     private DestinationStopsAdapter destinationStopsAdapter;
 
 
@@ -85,7 +90,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.getDefault());
+        mSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         rapidLineViewModel = ViewModelProviders.of(this).get(RapidLineViewModel.class);
 
         initializeSpinnerData();
@@ -99,9 +104,15 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
         //Move to next screen
         fragmentStartShipmentBinding.startShipmentNextBtn.setOnClickListener(view1 -> {
             if (!isFieldEmpty()) {
-                Vechile selectedVechile= (Vechile) fragmentStartShipmentBinding.shipmentVechileSpinner.getSelectedItem();
-                if(selectedVechile.getFitnessPercentage()<80){
-                    Toast.makeText(getContext(),"Vechile not fit\n Please select another vechile",Toast.LENGTH_SHORT).show();
+
+                Vechile selectedVechile = (Vechile) fragmentStartShipmentBinding.shipmentVechileSpinner.getSelectedItem();
+                if (selectedVechile.getFitnessPercentage() < 80) {
+                    Toast.makeText(getContext(), "Vechile not fit\n Please select another vechile", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(destinationStopsAdapter.getStopArrayList().isEmpty() || destinationStopsAdapter.getArrivalDateArrayList().isEmpty()){
+                    Toast.makeText(getContext(), "No stop is selected", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -234,7 +245,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
         //Initialize spinner data
 
         rapidLineViewModel.getAllVechiles().observe(getViewLifecycleOwner(), vechiles -> {
-            if(!vechiles.isEmpty()) {
+            if (!vechiles.isEmpty()) {
                 ArrayAdapter<Vechile> vechileAdapter = new ArrayAdapter<>(getContext(),
                         R.layout.spinner_item, vechiles);
                 fragmentStartShipmentBinding.shipmentVechileSpinner.setAdapter(vechileAdapter);
@@ -244,7 +255,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
                 fragmentStartShipmentBinding.vechileMessageTxt.setVisibility(View.VISIBLE);
                 fragmentStartShipmentBinding.vehileMaintainanceTestBtn.setVisibility(View.VISIBLE);
 
-                if (initialVechile.getFitnessPercentage()< 80) {
+                if (initialVechile.getFitnessPercentage() < 80) {
                     fragmentStartShipmentBinding.vechileMessageTxt.setText("Vechile is not fit");
 
                 } else {
@@ -255,7 +266,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         Vechile vechile = (Vechile) fragmentStartShipmentBinding.shipmentVechileSpinner.getSelectedItem();
-                        if (vechile.getFitnessPercentage()< 80) {
+                        if (vechile.getFitnessPercentage() < 80) {
                             fragmentStartShipmentBinding.vechileMessageTxt.setText("Vechile is not fit");
 
                         } else {
@@ -308,29 +319,27 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
         });
 
         //Select session expiry date
+        DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, dayOfMonth) -> {
+            mCalendar.set(Calendar.YEAR, year);
+            mCalendar.set(Calendar.MONTH, month);
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            fragmentStartShipmentBinding.sessionExpiryDateTxt.setText(
+                    mSimpleDateFormat.format(mCalendar.getTime())
+            );
+        };
+
         fragmentStartShipmentBinding.sessionExpiryDateTxt.setInputType(InputType.TYPE_NULL);
         fragmentStartShipmentBinding.sessionExpiryDateTxt.setOnClickListener(view -> {
             mCalendar = Calendar.getInstance();
-
-            TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hourOfDay, minute) -> {
-                mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                mCalendar.set(Calendar.MINUTE, minute);
-                fragmentStartShipmentBinding.sessionExpiryDateTxt.setText(
-                        mSimpleDateFormat.format(mCalendar.getTime())
-                );
-            };
-
-
-            DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, dayOfMonth) -> {
-                mCalendar.set(Calendar.YEAR, year);
-                mCalendar.set(Calendar.MONTH, month);
-                mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                new TimePickerDialog(getContext(), timeSetListener,
-                        mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
-            };
-
+//            TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hourOfDay, minute) -> {
+//                mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//                mCalendar.set(Calendar.MINUTE, minute);
+//                fragmentStartShipmentBinding.sessionExpiryDateTxt.setText(
+//                        mSimpleDateFormat.format(mCalendar.getTime())
+//                );
+//            };
             new DatePickerDialog(getContext(), dateSetListener,
-                    mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH))
+                    mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH) + 1)
                     .show();
         });
 
@@ -344,7 +353,7 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
         alertBuilder.setView(view);
 
         TextView heading = view.findViewById(R.id.popup_heading);
-        Spinner citySpinner = view.findViewById(R.id.popup_city_text);
+        AutoCompleteTextView citySpinner = view.findViewById(R.id.popup_city_text);
         Button addBtn = view.findViewById(R.id.popup_btn);
 
         heading.setText("Choose City");
@@ -358,35 +367,70 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
         dialog.show();
 
         addBtn.setOnClickListener(view1 -> {
-            destinationStopsAdapter.addStop(citySpinner.getSelectedItem().toString());
-            dialog.dismiss();
+            if (getCityIndex(citySpinner.getText().toString()) == -1) {
+                Toast.makeText(getContext(), "Please select a city from list", Toast.LENGTH_SHORT).show();
+            } else {
+                destinationStopsAdapter.addStop(citySpinner.getText().toString());
+                dialog.dismiss();
+            }
         });
 
     }
 
+
     //To select delivery date
     @Override
     public void onDateClick(int position) {
+//        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hourOfDay, minute) -> {
+//            mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//            mCalendar.set(Calendar.MINUTE, minute);
+//            destinationStopsAdapter.addDate(mSimpleDateFormat.format(mCalendar.getTime()), position);
+//        };
 
-        mCalendar = Calendar.getInstance();
-
-        TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hourOfDay, minute) -> {
-            mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mCalendar.set(Calendar.MINUTE, minute);
-            destinationStopsAdapter.addDate(mSimpleDateFormat.format(mCalendar.getTime()), position);
-        };
-
+        mStopsCalendar=Calendar.getInstance();
 
         DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, dayOfMonth) -> {
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            new TimePickerDialog(getContext(), timeSetListener,
-                    mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
+            String previousDate = destinationStopsAdapter.getPreviousDate(position);
+
+            if (!previousDate.equals("")) {
+                //date,month,year 22/12/2020
+                try {
+                    String newDate = "" + dayOfMonth + "/" + (month+1) + "/" + year;
+                    Date mPreviousDate = mSimpleDateFormat.parse(previousDate);
+
+                    //NOW check new date should be greater than previous
+                    if (Objects.requireNonNull(mSimpleDateFormat.parse(newDate)).after(mPreviousDate) ||
+                            Objects.requireNonNull(mSimpleDateFormat.parse(newDate)).compareTo(mPreviousDate) == 0) {
+                        //new date is ok
+                        mStopsCalendar.set(Calendar.YEAR, year);
+                        mStopsCalendar.set(Calendar.MONTH, month);
+                        mStopsCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        destinationStopsAdapter.addDate(mSimpleDateFormat.format(mStopsCalendar.getTime()), position);
+                    } else {
+                        //new date is not ok
+                        Toast.makeText(getContext(), "Please select new shipment date", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                mStopsCalendar.set(Calendar.YEAR, year);
+                mStopsCalendar.set(Calendar.MONTH, month);
+                mStopsCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                destinationStopsAdapter.addDate(mSimpleDateFormat.format(mStopsCalendar.getTime()), position);
+            }
+
+
+//            new TimePickerDialog(getContext(), timeSetListener,
+//                    mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
         };
 
+
         new DatePickerDialog(getContext(), dateSetListener,
-                mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH))
+                mStopsCalendar.get(Calendar.YEAR), mStopsCalendar.get(Calendar.MONTH), mStopsCalendar.get(Calendar.DAY_OF_MONTH) + 1)
                 .show();
 
     }
@@ -407,5 +451,14 @@ public class StartShipmentFragment extends Fragment implements DestinationStopsA
 
 
         return false;
+    }
+
+    private int getCityIndex(String city) {
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityList.get(i).equals(city)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

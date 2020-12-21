@@ -397,8 +397,6 @@ public class SaeedSonsRepository {
     public void addBail(final Bails bail) {
         saeedSonReference.collection(BailTableName)
                 .document(bail.getBailNo()).set(bail.toHashMap());
-
-
     }
 
     public void updateBail(final Bails bail) {
@@ -542,6 +540,13 @@ public class SaeedSonsRepository {
     public void deleteSupplierById(String supplierId) {
         saeedSonReference.collection(SupplierTableName).
                 document(supplierId).delete();
+    }
+
+    public void updateBailsShipmentStatus(List<String> bailList){
+        for(String bail:bailList){
+            saeedSonReference.collection(BailTableName).document(bail)
+                    .update("shipped",true);
+        }
     }
 
 }

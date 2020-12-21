@@ -105,7 +105,7 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
 
         } else {
             //for transporter
-            senderRecieverFormBinding.headerText.setText(activityValue);
+            senderRecieverFormBinding.headerText.setText("Transporter");
             senderRecieverFormBinding.addressTxt.setVisibility(View.GONE);
 
             if (action.equals("edit")) {
@@ -127,6 +127,12 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
             if (activityValue.equals("SenderReceiver")) {
                 if (isCustomerDataFieldsEmpty()) {
                     Toast.makeText(SenderRecieverTransporterForm.this, "Please fill all field to continue",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(getCityIndex(senderRecieverFormBinding.citySpinner.getText().toString())==-1){
+                    Toast.makeText(SenderRecieverTransporterForm.this, "Please select city from list only",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -177,6 +183,12 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
             } else {
                 if (isTranporterDataFieldsEmpty()) {
                     Toast.makeText(SenderRecieverTransporterForm.this, "Please fill all field to continue",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(getCityIndex(senderRecieverFormBinding.citySpinner.getText().toString())==-1){
+                    Toast.makeText(SenderRecieverTransporterForm.this, "Please select city from list only",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -308,6 +320,14 @@ public class SenderRecieverTransporterForm extends AppCompatActivity {
         return getApplicationContext().getSharedPreferences("LoginPref", 0).getString("adminName", "");
     }
 
+    private int getCityIndex(String city) {
+        for (int i = 0; i < cityList.size(); i++) {
+            if (cityList.get(i).equals(city)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
 
 }

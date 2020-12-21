@@ -4,7 +4,10 @@ import android.app.Application;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 import com.project.rapidline.Activities.RapidLine.Forms.MaintainanceChartForm;
 import com.project.rapidline.Models.RapidLine.Bilty;
@@ -22,7 +25,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RapidLineRepository {
 
@@ -249,10 +254,20 @@ public class RapidLineRepository {
                 .delete();
     }
 
+    public void updateBiltyShipmentStatus(List<String> biltyList){
+       for(String bilty:biltyList){
+            rapidLineReference.collection(BiltyTableName).document(bilty)
+            .update("shipped",true);
+       }
+    }
+
+
+
     //SHIPMENTS
 
     public void addShipment(Shipment shipment){
         rapidLineReference.collection(ShipmentTableName).document(shipment.getShipmentNo())
         .set(shipment);
     }
+
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.rapidline.Models.SaeedSons.Bails;
@@ -74,9 +75,9 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
     }
 
 
-    public class EnterieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EnterieViewHolder extends RecyclerView.ViewHolder{
         TextView sender_txt, receiver_txt, date_txt, builty_no, name_txt,fromCity,toCity;
-        Button print_btn;
+        ImageView edit_btn;
         OnNoteListener onNoteListener;
 
         public EnterieViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
@@ -87,15 +88,14 @@ public class BailsAdapter extends RecyclerView.Adapter<BailsAdapter.EnterieViewH
             builty_no = itemView.findViewById(R.id.builty_no);
             date_txt = itemView.findViewById(R.id.date_txt);
             name_txt = itemView.findViewById(R.id.name_txt);
-//            print_btn = itemView.findViewById(R.id.print_btn);
+            edit_btn = itemView.findViewById(R.id.editBailBiltyBtn);
             fromCity=itemView.findViewById(R.id.senderCity);
             toCity=itemView.findViewById(R.id.receiverCity);
-            itemView.setOnClickListener(this::onClick);
-        }
 
-        @Override
-        public void onClick(View view) {
-            onNoteListener.onBailClick(bailsArrayList.get(getAdapterPosition()).getBailNo());
+            edit_btn.setOnClickListener(view -> {
+                onNoteListener.onBailClick(bailsArrayList.get(getAdapterPosition()).getBailNo());
+            });
+
         }
     }
 

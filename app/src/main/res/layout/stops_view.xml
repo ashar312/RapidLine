@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Delivery Date and time"
+        android:hint="Delivery Date"
         app:layout_constraintEnd_toStartOf="@+id/stop_remove_btn"
         app:layout_constraintTop_toTopOf="@+id/stop_city_name" />
 

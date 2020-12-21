@@ -63,7 +63,8 @@ public class ShipmentViewModel extends AndroidViewModel {
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")
                         ));
 
 
@@ -93,6 +94,11 @@ public class ShipmentViewModel extends AndroidViewModel {
 
     public void addShipment(Shipment shipment){
         rapidLineRepository.addShipment(shipment);
+    }
+
+    public void updateShipmentBiltyAndBailsStatus(List<String> bailList,List<String> biltyList){
+        saeedSonsRepository.updateBailsShipmentStatus(bailList);
+        rapidLineRepository.updateBiltyShipmentStatus(biltyList);
     }
 
 }

@@ -404,15 +404,14 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                 doc.getString("receiverId"),
                                 doc.getString("transporterId"),
                                 doc.getString("agentId"),
-                                doc.getDouble("volume"),
-                                doc.getDouble("weight"),
                                 doc.getString("madeBy"),
                                 doc.getDate("madeDateTime"),
                                 doc.getString("transportCharge"),
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")));
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")));
                     }
                 }
             }
@@ -437,15 +436,14 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                 doc.getString("receiverId"),
                                 doc.getString("transporterId"),
                                 doc.getString("agentId"),
-                                doc.getDouble("volume"),
-                                doc.getDouble("weight"),
                                 doc.getString("madeBy"),
                                 doc.getDate("madeDateTime"),
                                 doc.getString("transportCharge"),
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")));
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")));
                 });
         return data;
     }

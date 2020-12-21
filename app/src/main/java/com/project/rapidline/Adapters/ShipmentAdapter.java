@@ -45,6 +45,15 @@ public class ShipmentAdapter extends RecyclerView.Adapter<ShipmentAdapter.Shipme
         holder.senderCity.setText(biltyArrayList.get(position).getFromCity());
         holder.receiverCity.setText(biltyArrayList.get(position).getToCity());
 
+        if(biltyArrayList.get(position).shipped){
+            holder.shipmentSelected.setVisibility(View.GONE);
+            holder.shipmentHint.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.shipmentSelected.setVisibility(View.VISIBLE);
+            holder.shipmentHint.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private String formattedDate(Date mydate) {
@@ -58,7 +67,7 @@ public class ShipmentAdapter extends RecyclerView.Adapter<ShipmentAdapter.Shipme
     }
 
     public class ShipmentViewHolder extends RecyclerView.ViewHolder{
-        TextView sender_txt, receiver_txt, date_txt, builty_no,senderCity,receiverCity;
+        TextView sender_txt, receiver_txt, date_txt, builty_no,senderCity,receiverCity,shipmentHint;
         CheckBox shipmentSelected;
         public ShipmentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +78,7 @@ public class ShipmentAdapter extends RecyclerView.Adapter<ShipmentAdapter.Shipme
             senderCity=itemView.findViewById(R.id.senderCity);
             receiverCity=itemView.findViewById(R.id.receiverCity);
             shipmentSelected=itemView.findViewById(R.id.selectShipment);
+            shipmentHint=itemView.findViewById(R.id.shipmentHint);
 
             shipmentSelected.setOnCheckedChangeListener((compoundButton, isChecked) -> {
                 if(isChecked){

@@ -1,11 +1,18 @@
 package com.project.rapidline.Activities.SaeedSons.Forms;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -79,6 +86,12 @@ public class AddBailForm extends AppCompatActivity {
                 return;
             }
 
+            if(getCityIndex(activityAddBailFormBinding.fromSpinner.getText().toString()) == -1
+                    || getCityIndex(activityAddBailFormBinding.toSpinner.getText().toString()) == -1){
+                Toast.makeText(this, "Please select city from list only", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (action.equals("edit")) {
 
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
@@ -89,8 +102,8 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString());
                 bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItem().toString());
 
-                bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
-                bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
+//                bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
+//                bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
                 bailEditUpdate.setQuantity(getIntQuantity(activityAddBailFormBinding.quanTxt.getText().toString()));
 
                 bailEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
@@ -122,8 +135,8 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString());
                 bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItem().toString());
 
-                bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
-                bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
+//                bailEditUpdate.setVolume(Double.valueOf(activityAddBailFormBinding.volumeTxt.getText().toString()));
+//                bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
                 bailEditUpdate.setQuantity(getIntQuantity(activityAddBailFormBinding.quanTxt.getText().toString()));
 
                 bailEditUpdate.setMadeBy(getAdminName());
@@ -234,7 +247,6 @@ public class AddBailForm extends AppCompatActivity {
                     R.layout.spinner_item, itemList);
             itemArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             activityAddBailFormBinding.kindSpinner.setAdapter(itemArrayAdapter);
-
         });
 
         //Load cities
@@ -265,6 +277,30 @@ public class AddBailForm extends AppCompatActivity {
             activityAddBailFormBinding.fromSpinner.setAdapter(fromCityArrayAdapter);
             activityAddBailFormBinding.toSpinner.setAdapter(toCityArrayAdapter);
 
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            activityAddBailFormBinding.fromSpinner.setOnItemClickListener((adapterView, view, i, l) -> {
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            });
+
+            activityAddBailFormBinding.toSpinner.setOnItemClickListener((adapterView, view, i, l) -> {
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            });
+
+
+//            activityAddBailFormBinding.fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                    Toast.makeText(AddBailForm.this,"Selected",Toast.LENGTH_SHORT).show();
+//                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> adapterView) {
+//                    Toast.makeText(AddBailForm.this,"Select from list",Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -339,9 +375,9 @@ public class AddBailForm extends AppCompatActivity {
     }
 
     private void loadData() {
-        activityAddBailFormBinding.quanTxt.setText("Qty: " + bailEditUpdate.getQuantity());
-        activityAddBailFormBinding.volumeTxt.setText(String.valueOf(bailEditUpdate.getVolume()));
-        activityAddBailFormBinding.weightTxt.setText(String.valueOf(bailEditUpdate.getWeight()));
+        activityAddBailFormBinding.quanTxt.setText("" + bailEditUpdate.getQuantity());
+//        activityAddBailFormBinding.volumeTxt.setText(String.valueOf(bailEditUpdate.getVolume()));
+//        activityAddBailFormBinding.weightTxt.setText(String.valueOf(bailEditUpdate.getWeight()));
 
         if (!TextUtils.isEmpty(bailEditUpdate.getTransport_charge())) {
             activityAddBailFormBinding.transportChk.setChecked(true);
@@ -401,8 +437,6 @@ public class AddBailForm extends AppCompatActivity {
                 || activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString().equals("Select a Receiver")
                 || activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString().equals("Select a Transporter")
                 || activityAddBailFormBinding.agentSpinner.getSelectedItem().toString().equals("Select a agent")
-                || TextUtils.isEmpty(activityAddBailFormBinding.volumeTxt.getText())
-                || TextUtils.isEmpty(activityAddBailFormBinding.weightTxt.getText())
                 || TextUtils.isEmpty(activityAddBailFormBinding.quanTxt.getText())
         ) {
             return true;

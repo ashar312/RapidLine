@@ -42,7 +42,7 @@ public class PrepareShipmentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        prepareShipmentBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_prepare_shipment, container, false);
+        prepareShipmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_prepare_shipment, container, false);
         return prepareShipmentBinding.getRoot();
     }
 
@@ -50,47 +50,53 @@ public class PrepareShipmentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       navController= Navigation.findNavController(view);
+        navController = Navigation.findNavController(view);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Bundle bundle=getArguments();
-        if(bundle!=null){
-            shipment=getArguments().getParcelable("shipmentData");
-            Toast.makeText(getContext(),shipment.getDriverName(),Toast.LENGTH_SHORT).show();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            shipment = getArguments().getParcelable("shipmentData");
         }
 
         shipmentViewModel = ViewModelProviders.of(this).get(ShipmentViewModel.class);
 
-        shipmentViewModel.getListAllBiltyByCity(shipment.getStops()).observe(getViewLifecycleOwner(),bilties -> {
-            shipmentAdapter.setBiltyArrayList((ArrayList<Bilty>) bilties);
+        shipmentViewModel.getListAllBiltyByCity(shipment.getStops()).observe(getViewLifecycleOwner(), bilties -> {
+            if(bilties.isEmpty()){
+                prepareShipmentBinding.shipmentHint.setVisibility(View.VISIBLE);
+            }
+            else {
+                prepareShipmentBinding.shipmentHint.setVisibility(View.INVISIBLE);
+                shipmentAdapter.setBiltyArrayList((ArrayList<Bilty>) bilties);
+            }
+
         });
 
-        shipmentAdapter=new ShipmentAdapter(getContext(),new ArrayList<>());
+        shipmentAdapter = new ShipmentAdapter(getContext(), new ArrayList<>());
         prepareShipmentBinding.prepareShipmentRv.setLayoutManager(new LinearLayoutManager(getContext()));
         prepareShipmentBinding.prepareShipmentRv.setAdapter(shipmentAdapter);
 
         prepareShipmentBinding.prepareShipmentNextBtn.setOnClickListener(view1 -> {
 
-            if(shipmentAdapter.getSelectedBiltyList().isEmpty()){
-                Toast.makeText(getContext(),"Select at least one bilty",Toast.LENGTH_SHORT).show();
+            if (shipmentAdapter.getSelectedBiltyList().isEmpty()) {
+                Toast.makeText(getContext(), "Select at least one bilty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             //Separate bails and biltys
-            List<String> bailsList=new ArrayList<>();
-            List<String> biltyList=new ArrayList<>();
-            double totalWeight=0;
-            for(Bilty currBilty:shipmentAdapter.getSelectedBiltyList()){
-                totalWeight+=currBilty.getWeight();
-                if(currBilty.getSupplierName().equals("rapid line")){
+            List<String> bailsList = new ArrayList<>();
+            List<String> biltyList = new ArrayList<>();
+            double totalWeight = 0;
+            for (Bilty currBilty : shipmentAdapter.getSelectedBiltyList()) {
+
+                if (currBilty.getSupplierName().toLowerCase().equals("rapid line")) {
                     bailsList.add(currBilty.getBiltyNo());
-                }
-                else {
+                } else {
                     biltyList.add(currBilty.getBiltyNo());
+                    totalWeight += currBilty.getWeight();
                 }
             }
 
@@ -99,12 +105,10 @@ public class PrepareShipmentFragment extends Fragment {
             shipment.setTotalBiltys(shipmentAdapter.getSelectedBiltyList().size());
             shipment.setTotalWeight(totalWeight);
 
-
-
             Bundle shipmentBundle = new Bundle();
             shipmentBundle.putParcelable("shipmentData", shipment);
 
-            navController.navigate(R.id.action_prepareShipmentFragment_to_shipementSummaryFragment,shipmentBundle);
+            navController.navigate(R.id.action_prepareShipmentFragment_to_shipementSummaryFragment, shipmentBundle);
         });
 
     }

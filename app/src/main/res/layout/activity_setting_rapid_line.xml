@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/normalbackground"
+        android:background="@drawable/rapid_line_bg"
         tools:context=".Activities.Common.SettingRapidLineActivity">
 
         <ImageView
@@ -62,7 +62,7 @@
             android:text="Vechile Category"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/Brown"
+            android:textColor="@color/Dark_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline10" />
@@ -76,7 +76,7 @@
             android:text="ADD"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:backgroundTint="@color/Brown"
+            app:backgroundTint="@color/rapidLine"
             app:cornerRadius="9dp"
             app:layout_constraintDimensionRatio="h,4:1"
             app:layout_constraintEnd_toEndOf="parent"

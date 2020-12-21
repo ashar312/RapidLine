@@ -37,13 +37,14 @@ public class Bilty {
     public String electricity_charge;
     public String packing_charge;
     public String comments;
+    public boolean shipped = false;
 
     @Ignore
     public Bilty() {
 
     }
 
-    public Bilty(String biltyNo, String fromCity, String toCity, String kindId, Double qty, String senderId, String receiverId, String supplierName, String supplierPNo, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
+    public Bilty(String biltyNo, String fromCity, String toCity, String kindId, Double qty, String senderId, String receiverId, String supplierName, String supplierPNo, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments,boolean shipped) {
         this.biltyNo = biltyNo;
         this.fromCity = fromCity;
         this.toCity = toCity;
@@ -63,6 +64,7 @@ public class Bilty {
         this.electricity_charge = electricity_charge;
         this.packing_charge = packing_charge;
         this.comments = comments;
+        this.shipped=shipped;
     }
 
     public Bilty(String biltyNo, String fromCity, String toCity, String kindId, int qty, String senderId, String receiverId, String supplierName, String supplierPNo, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
@@ -239,4 +241,11 @@ public class Bilty {
         this.comments = comments;
     }
 
+    public boolean isShipped() {
+        return shipped;
+    }
+
+    public void setShipped(boolean shipped) {
+        this.shipped = shipped;
+    }
 }

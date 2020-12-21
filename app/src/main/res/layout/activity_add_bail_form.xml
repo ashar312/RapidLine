@@ -62,21 +62,25 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/from_spinner"
-                    android:hint="From City"
                     style="@style/AutocompleteFields"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
+                    android:hint="From City"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toStartOf="@+id/to_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <AutoCompleteTextView
                     android:id="@+id/to_spinner"
-                    android:hint="To City"
                     style="@style/AutocompleteFields"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="32dp"
+                    android:hint="To City"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/from_spinner"
@@ -110,6 +114,9 @@
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
                         android:hint="Qty"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:singleLine="true"
                         android:textSize="14sp" />
 
                     <ImageView
@@ -165,40 +172,14 @@
                     app:layout_constraintStart_toStartOf="@+id/transporter_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/transporter_spinner" />
 
-                <EditText
-                    android:id="@+id/volume_txt"
-                    style="@style/FormInputTextFields"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="Volume"
-                    android:inputType="numberDecimal"
-                    app:layout_constraintEnd_toStartOf="@+id/weight_txt"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="@+id/agent_spinner"
-                    app:layout_constraintTop_toBottomOf="@+id/agent_spinner" />
-
-                <EditText
-                    android:id="@+id/weight_txt"
-                    style="@style/FormInputTextFields"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:hint="Weight"
-                    android:inputType="numberDecimal"
-                    app:layout_constraintEnd_toEndOf="@+id/agent_spinner"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/volume_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/agent_spinner" />
 
                 <CheckBox
                     android:id="@+id/transport_chk"
                     style="@style/Checkbox"
                     android:layout_marginTop="24dp"
                     android:text="Transport Charges"
-                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
-                    app:layout_constraintTop_toBottomOf="@+id/volume_txt" />
+                    app:layout_constraintStart_toStartOf="@+id/agent_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/agent_spinner" />
 
                 <EditText
                     android:id="@+id/transport_txt"
@@ -213,11 +194,10 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
                     android:text="/PKR"
                     android:textColor="@color/Dark_gray"
                     app:layout_constraintBaseline_toBaselineOf="@+id/transport_txt"
-                    app:layout_constraintEnd_toEndOf="@+id/weight_txt" />
+                    app:layout_constraintEnd_toEndOf="@+id/agent_spinner" />
 
                 <CheckBox
                     android:id="@+id/labour_chk"
@@ -307,8 +287,8 @@
                     android:hint="Comments ..."
                     android:inputType="textMultiLine"
                     android:scrollbars="vertical"
-                    app:layout_constraintEnd_toEndOf="@+id/weight_txt"
-                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/textView23"
+                    app:layout_constraintStart_toStartOf="@+id/packing_chk"
                     app:layout_constraintTop_toBottomOf="@+id/packing_chk" />
 
                 <Button

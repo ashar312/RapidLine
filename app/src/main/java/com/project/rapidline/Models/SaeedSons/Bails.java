@@ -11,7 +11,7 @@ public class Bails {
 
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("bailNo",this.getBailNo());
+        map.put("bailNo", this.getBailNo());
         map.put("fromCity", this.getFromCity());
         map.put("toCity", this.getToCity());
         map.put("kindId", this.getKindId());
@@ -20,16 +20,17 @@ public class Bails {
         map.put("receiverId", this.getReceiverId());
 
         map.put("transporterId", this.getTransporterId());
-        map.put("agentId", this.getReceiverId());
-        map.put("volume", this.getVolume());
-        map.put("weight", this.getWeight());
+        map.put("agentId", this.getAgentId());
+//        map.put("volume", this.getVolume());
+//        map.put("weight", this.getWeight());
         map.put("madeBy", this.getMadeBy());
         map.put("madeDateTime", this.getMadeDateTime());
-        map.put("transportCharge",this.getTransport_charge());
-        map.put("labourCharge",this.getLabour_charge());
-        map.put("electric_charge",this.getElectricity_charge());
-        map.put("packingCharge",this.getPacking_charge());
-        map.put("comments",this.getComments());
+        map.put("transportCharge", this.getTransport_charge());
+        map.put("labourCharge", this.getLabour_charge());
+        map.put("electric_charge", this.getElectricity_charge());
+        map.put("packingCharge", this.getPacking_charge());
+        map.put("comments", this.getComments());
+        map.put("shipped", this.isShipped());
         return map;
     }
 
@@ -66,11 +67,6 @@ public class Bails {
     @ColumnInfo(name = "agentId", index = true)
     public String agentId;
 
-    @ColumnInfo(name = "volume")
-    public Double volume;
-
-    @ColumnInfo(name = "weight")
-    public Double weight;
 
     public String madeBy;
 
@@ -83,12 +79,14 @@ public class Bails {
     public String packing_charge;
     public String comments;
 
+    public boolean shipped = false;
+
     @Ignore
     public Bails() {
 
     }
 
-    public Bails(String bailNo, String fromCity, String toCity, String kindId, Double quantity, String senderId, String receiverId, String transporterId, String agentId, Double volume, Double weight, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments) {
+    public Bails(String bailNo, String fromCity, String toCity, String kindId, Double quantity, String senderId, String receiverId, String transporterId, String agentId, String madeBy, Date madeDateTime, String transport_charge, String labour_charge, String electricity_charge, String packing_charge, String comments, boolean shipped) {
         this.bailNo = bailNo;
         this.fromCity = fromCity;
         this.toCity = toCity;
@@ -98,8 +96,6 @@ public class Bails {
         this.receiverId = receiverId;
         this.transporterId = transporterId;
         this.agentId = agentId;
-        this.volume = volume;
-        this.weight = weight;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
         this.transport_charge = transport_charge;
@@ -107,6 +103,7 @@ public class Bails {
         this.electricity_charge = electricity_charge;
         this.packing_charge = packing_charge;
         this.comments = comments;
+        this.shipped = shipped;
     }
 
     public Bails(String bailNo, String senderId, String receiverId, String madeBy, Date madeDateTime, String fromCity, String toCity) {
@@ -115,8 +112,8 @@ public class Bails {
         this.receiverId = receiverId;
         this.madeBy = madeBy;
         this.madeDateTime = madeDateTime;
-        this.fromCity=fromCity;
-        this.toCity=toCity;
+        this.fromCity = fromCity;
+        this.toCity = toCity;
     }
 
     public String getBailNo() {
@@ -153,14 +150,6 @@ public class Bails {
 
     public String getAgentId() {
         return agentId;
-    }
-
-    public Double getVolume() {
-        return volume;
-    }
-
-    public Double getWeight() {
-        return weight;
     }
 
     public String getMadeBy() {
@@ -207,13 +196,6 @@ public class Bails {
         this.agentId = agentId;
     }
 
-    public void setVolume(Double volume) {
-        this.volume = volume;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
 
     public void setMadeBy(String madeBy) {
         this.madeBy = madeBy;
@@ -261,5 +243,13 @@ public class Bails {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public boolean isShipped() {
+        return shipped;
+    }
+
+    public void setShipped(boolean shipped) {
+        this.shipped = shipped;
     }
 }

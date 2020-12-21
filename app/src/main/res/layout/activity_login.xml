@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Saeed Sons"
+                android:text="Bin Saeed"
                 android:textColor="@color/black" />
 
             <RadioButton

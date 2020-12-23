@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class AddBailForm extends AppCompatActivity {
 
@@ -44,11 +45,19 @@ public class AddBailForm extends AppCompatActivity {
     private SaeedSonsViewModel saeedSonsViewModel;
     private Bails bailEditUpdate;
     private String action;
+
     private ArrayAdapter<Customers> senderAdap;
+    private ArrayAdapter<Customers> receiverArrayAdapter;
+    private ArrayAdapter<Transporters> transportersArrayAdapter;
+    private ArrayAdapter<Agents> agentsArrayAdapter;
+    private ArrayAdapter<KindOfItem> itemArrayAdapter;
+
+
     private AdminViewModel adminViewModel;
     private Admins adminInfo;
     private String username;
     private List<String> cityList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,8 @@ public class AddBailForm extends AppCompatActivity {
 
 
         adminViewModel = ViewModelProviders.of(this).get(AdminViewModel.class);
+
+
         username = getApplicationContext().getSharedPreferences("LoginPref", 0).getString("username", "");
         adminViewModel.getAdminInfo(username).observe(this, admins -> {
             adminInfo = admins;
@@ -69,15 +80,19 @@ public class AddBailForm extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         action = bundle.get("action").toString();
 
+
         if (action.equals("edit")) {
             //Load data
             String id = bundle.getString("itemId");
             saeedSonsViewModel.getBailById(id).observe(this, bail -> {
                 bailEditUpdate = bail;
+                initialize();
                 loadData();
             });
+        } else {
+            initialize();
         }
-        initialize();
+
 
         activityAddBailFormBinding.saveBtn.setOnClickListener(view -> {
 
@@ -86,8 +101,8 @@ public class AddBailForm extends AppCompatActivity {
                 return;
             }
 
-            if(getCityIndex(activityAddBailFormBinding.fromSpinner.getText().toString()) == -1
-                    || getCityIndex(activityAddBailFormBinding.toSpinner.getText().toString()) == -1){
+            if (getCityIndex(activityAddBailFormBinding.fromSpinner.getText().toString()) == -1
+                    || getCityIndex(activityAddBailFormBinding.toSpinner.getText().toString()) == -1) {
                 Toast.makeText(this, "Please select city from list only", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -106,7 +121,7 @@ public class AddBailForm extends AppCompatActivity {
 //                bailEditUpdate.setWeight(Double.valueOf(activityAddBailFormBinding.weightTxt.getText().toString()));
                 bailEditUpdate.setQuantity(getIntQuantity(activityAddBailFormBinding.quanTxt.getText().toString()));
 
-                bailEditUpdate.setMadeDateTime(Calendar.getInstance().getTime());
+
                 bailEditUpdate.setMadeBy(getAdminName());
 
                 bailEditUpdate.setTransport_charge(activityAddBailFormBinding.transportTxt.getText().toString());
@@ -210,20 +225,27 @@ public class AddBailForm extends AppCompatActivity {
             //Receiver List
             List<Customers> receiverList = new ArrayList<>(customers);
             receiverList.add(0, new Customers("Select a Receiver"));
-            ArrayAdapter<Customers> receiverArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
+            receiverArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, receiverList);
             activityAddBailFormBinding.receiverSpinner.setAdapter(receiverArrayAdapter);
 
+            if (action.equals("edit")) {
+                loadSenderVal();
+                loadReceiverVal();
+            }
         });
 
         saeedSonsViewModel.getListAllTransporters().observe(this, transporters -> {
             List<Transporters> transportersList = new ArrayList<>(transporters);
             transportersList.add(0, new Transporters("Select a Transporter"));
 
-            ArrayAdapter<Transporters> arrayAdapter = new ArrayAdapter<>(AddBailForm.this,
+            transportersArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, transportersList);
-            activityAddBailFormBinding.transporterSpinner.setAdapter(arrayAdapter);
+            activityAddBailFormBinding.transporterSpinner.setAdapter(transportersArrayAdapter);
 
+            if (action.equals("edit")) {
+                loadTransportVal();
+            }
 
         });
 
@@ -231,11 +253,14 @@ public class AddBailForm extends AppCompatActivity {
             List<Agents> agentsList = new ArrayList<>(agents);
             agentsList.add(0, new Agents("Select a agent"));
 
-            ArrayAdapter<Agents> agentsArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
+            agentsArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, agentsList);
             agentsArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             activityAddBailFormBinding.agentSpinner.setAdapter(agentsArrayAdapter);
 
+            if (action.equals("edit")) {
+                loadAgentVal();
+            }
         });
 
         //Load kind of data
@@ -243,10 +268,14 @@ public class AddBailForm extends AppCompatActivity {
             List<KindOfItem> itemList = new ArrayList<>(kindOfItems);
             itemList.add(0, new KindOfItem("Select a kind"));
 
-            ArrayAdapter<KindOfItem> itemArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
+            itemArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, itemList);
             itemArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             activityAddBailFormBinding.kindSpinner.setAdapter(itemArrayAdapter);
+
+            if (action.equals("edit")) {
+                loadKindVal();
+            }
         });
 
         //Load cities
@@ -278,7 +307,6 @@ public class AddBailForm extends AppCompatActivity {
             activityAddBailFormBinding.toSpinner.setAdapter(toCityArrayAdapter);
 
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
             activityAddBailFormBinding.fromSpinner.setOnItemClickListener((adapterView, view, i, l) -> {
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             });
@@ -397,24 +425,61 @@ public class AddBailForm extends AppCompatActivity {
         }
         activityAddBailFormBinding.commentsTxt.setText(bailEditUpdate.getComments());
 
-        int senderVal = getIndex(activityAddBailFormBinding.senderSpiner, bailEditUpdate.getSenderId());
-        activityAddBailFormBinding.senderSpiner.setSelection(senderVal);
-
-        int receiverVal = getIndex(activityAddBailFormBinding.receiverSpinner, bailEditUpdate.getReceiverId());
-        activityAddBailFormBinding.receiverSpinner.setSelection(receiverVal);
-
-        int transVal = getIndex(activityAddBailFormBinding.transporterSpinner, bailEditUpdate.getTransporterId());
-        activityAddBailFormBinding.transporterSpinner.setSelection(transVal);
-
-        int agentVal = getIndex(activityAddBailFormBinding.agentSpinner, bailEditUpdate.getAgentId());
-        activityAddBailFormBinding.agentSpinner.setSelection(agentVal);
-
-        int itemVal = getIndex(activityAddBailFormBinding.kindSpinner, bailEditUpdate.getKindId());
-        activityAddBailFormBinding.kindSpinner.setSelection(itemVal);
-
         activityAddBailFormBinding.fromSpinner.setText(bailEditUpdate.getFromCity());
 
         activityAddBailFormBinding.toSpinner.setText(bailEditUpdate.getToCity());
+
+    }
+
+    private void loadSenderVal() {
+        int senderVal = getIndex(activityAddBailFormBinding.senderSpiner, bailEditUpdate.getSenderId());
+        if (senderVal == -1) {
+            senderAdap.add(new Customers(bailEditUpdate.getSenderId()));
+            activityAddBailFormBinding.senderSpiner.setSelection(senderAdap.getCount() - 1);
+        } else {
+            activityAddBailFormBinding.senderSpiner.setSelection(senderVal);
+        }
+    }
+
+    private void loadReceiverVal() {
+        int receiverVal = getIndex(activityAddBailFormBinding.receiverSpinner, bailEditUpdate.getReceiverId());
+        if (receiverVal == -1) {
+            receiverArrayAdapter.add(new Customers(bailEditUpdate.getReceiverId()));
+            activityAddBailFormBinding.receiverSpinner.setSelection(receiverArrayAdapter.getCount() - 1);
+        } else {
+            activityAddBailFormBinding.receiverSpinner.setSelection(receiverVal);
+        }
+    }
+
+    private void loadTransportVal() {
+        int transVal = getIndex(activityAddBailFormBinding.transporterSpinner, bailEditUpdate.getTransporterId());
+        if (transVal == -1) {
+            transportersArrayAdapter.add(new Transporters(bailEditUpdate.getTransporterId()));
+            activityAddBailFormBinding.transporterSpinner.setSelection(transportersArrayAdapter.getCount() - 1);
+        } else {
+            activityAddBailFormBinding.transporterSpinner.setSelection(transVal);
+        }
+
+    }
+
+    private void loadAgentVal() {
+        int agentVal = getIndex(activityAddBailFormBinding.agentSpinner, bailEditUpdate.getAgentId());
+        if (agentVal == -1) {
+            agentsArrayAdapter.add(new Agents(bailEditUpdate.getAgentId()));
+            activityAddBailFormBinding.agentSpinner.setSelection(agentsArrayAdapter.getCount() - 1);
+        } else {
+            activityAddBailFormBinding.agentSpinner.setSelection(agentVal);
+        }
+    }
+
+    private void loadKindVal() {
+        int itemVal = getIndex(activityAddBailFormBinding.kindSpinner, bailEditUpdate.getKindId());
+        if (itemVal == -1) {
+            itemArrayAdapter.add(new KindOfItem(bailEditUpdate.getKindId()));
+            activityAddBailFormBinding.kindSpinner.setSelection(itemArrayAdapter.getCount() - 1);
+        } else {
+            activityAddBailFormBinding.kindSpinner.setSelection(itemVal);
+        }
 
     }
 
@@ -425,7 +490,7 @@ public class AddBailForm extends AppCompatActivity {
             }
         }
 
-        return 0;
+        return -1;
     }
 
 

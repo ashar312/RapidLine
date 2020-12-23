@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.rapidline.Models.RapidLine.Bilty;
@@ -72,10 +73,11 @@ public class BiltyAdapter extends RecyclerView.Adapter<BiltyAdapter.EnterieViewH
     }
 
 
-    public class EnterieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EnterieViewHolder extends RecyclerView.ViewHolder{
         TextView sender_txt, receiver_txt, date_txt, builty_no, name_txt,fromCity,toCity;
         Button print_btn;
         OnNoteListener onNoteListener;
+        ImageView edit_btn;
 
         public EnterieViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
@@ -86,15 +88,16 @@ public class BiltyAdapter extends RecyclerView.Adapter<BiltyAdapter.EnterieViewH
             date_txt = itemView.findViewById(R.id.date_txt);
             name_txt = itemView.findViewById(R.id.name_txt);
 //            print_btn = itemView.findViewById(R.id.print_btn);
+            edit_btn = itemView.findViewById(R.id.editBailBiltyBtn);
             fromCity=itemView.findViewById(R.id.senderCity);
             toCity=itemView.findViewById(R.id.receiverCity);
-            itemView.setOnClickListener(this::onClick);
+
+            edit_btn.setOnClickListener(view -> {
+                onNoteListener.onBiltyClick(biltyArrayList.get(getAdapterPosition()));
+            });
+
         }
 
-        @Override
-        public void onClick(View view) {
-            onNoteListener.onBiltyClick(biltyArrayList.get(getAdapterPosition()));
-        }
     }
 
     public interface OnNoteListener {

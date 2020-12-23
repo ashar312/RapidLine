@@ -143,24 +143,27 @@
                     app:layout_constraintStart_toStartOf="@+id/from_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/from_spinner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/sender_spiner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
                     app:layout_constraintStart_toStartOf="@+id/kind_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/kind_spinner" />
 
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/receiver_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/sender_spiner"
                     app:layout_constraintStart_toStartOf="@+id/sender_spiner"
                     app:layout_constraintTop_toBottomOf="@+id/sender_spiner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/supplier_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/receiver_spinner"
                     app:layout_constraintStart_toStartOf="@+id/receiver_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/receiver_spinner" />
@@ -177,9 +180,10 @@
                     app:layout_constraintStart_toStartOf="@+id/supplier_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/supplier_spinner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/agent_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/supplier_pno_text"
                     app:layout_constraintStart_toStartOf="@+id/supplier_pno_text"
                     app:layout_constraintTop_toBottomOf="@+id/supplier_pno_text" />

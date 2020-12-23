@@ -25,6 +25,7 @@ public class VechileForm extends AppCompatActivity {
     private RapidLineViewModel rapidLineViewModel;
     private String action;
     private Vechile vechileEdit;
+    private ArrayAdapter<String> vechAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,6 @@ public class VechileForm extends AppCompatActivity {
         action = bundle.get("action").toString();
 
 
-
-
         //initialize UI
         if (action.equals("edit")) {
 
@@ -47,11 +46,12 @@ public class VechileForm extends AppCompatActivity {
             String id = bundle.getString("itemId");
             rapidLineViewModel.getVechilesById(id).observe(this, vechile -> {
                 vechileEdit = vechile;
+                initializeSpinners();
                 loadData();
             });
+        } else {
+            initializeSpinners();
         }
-
-        initializeSpinners();
 
 
         vechilesBinding.saveVechBtn.setOnClickListener(view -> {
@@ -109,9 +109,14 @@ public class VechileForm extends AppCompatActivity {
         rapidLineViewModel.getAllVechileCategory().observe(this, strings -> {
             List<String> categoryList = new ArrayList<>(strings);
             categoryList.add(0, "Select a category");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+            vechAdapter = new ArrayAdapter<>(this,
                     R.layout.spinner_item, categoryList);
-            vechilesBinding.vechCategorySpinner.setAdapter(arrayAdapter);
+            vechilesBinding.vechCategorySpinner.setAdapter(vechAdapter);
+
+            if (action.equals("edit")) {
+                loadCategoryData();
+            }
+
         });
 
         //Load models
@@ -123,6 +128,7 @@ public class VechileForm extends AppCompatActivity {
             vechilesBinding.modelSpinner.setAdapter(arrayAdapter);
 
         });
+
     }
 
 
@@ -149,8 +155,17 @@ public class VechileForm extends AppCompatActivity {
         int modelPos = getIndex(vechilesBinding.modelSpinner, vechileEdit.getModel());
         vechilesBinding.modelSpinner.setSelection(modelPos);
 
+    }
+
+    private void loadCategoryData(){
         int categoryPos = getIndex(vechilesBinding.vechCategorySpinner, vechileEdit.getVechileCategory());
-        vechilesBinding.vechCategorySpinner.setSelection(categoryPos);
+        if (categoryPos == -1) {
+            vechAdapter.add(vechileEdit.getVechileCategory());
+            vechilesBinding.vechCategorySpinner.setSelection(vechAdapter.getCount()-1);
+        }
+        else {
+            vechilesBinding.vechCategorySpinner.setSelection(categoryPos);
+        }
 
     }
 
@@ -161,7 +176,7 @@ public class VechileForm extends AppCompatActivity {
             }
         }
 
-        return 0;
+        return -1;
     }
 
 }

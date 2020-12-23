@@ -166,13 +166,17 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(ViewBailsActivity.this, permissions -> {
-                    if (permissions.isDeleteBail()) {
-                        Bails bail = bailsAdapter.getBailsArrayList().get(viewHolder.getAdapterPosition());
-                        saeedSonsViewModel.deleteBail(bail.getBailNo());
-                    } else
-                        Toast.makeText(ViewBailsActivity.this, "You do not have permissions to delete bail", Toast.LENGTH_SHORT).show();
-                });
+
+                Bails bail = bailsAdapter.getBailsArrayList().get(viewHolder.getAdapterPosition());
+                saeedSonsViewModel.deleteBail(bail.getBailNo());
+
+//                adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(ViewBailsActivity.this, permissions -> {
+//                    if (permissions.isDeleteBail()) {
+//                        Bails bail = bailsAdapter.getBailsArrayList().get(viewHolder.getAdapterPosition());
+//                        saeedSonsViewModel.deleteBail(bail.getBailNo());
+//                    } else
+//                        Toast.makeText(ViewBailsActivity.this, "You do not have permissions to delete bail", Toast.LENGTH_SHORT).show();
+//                });
 
             }
         }).attachToRecyclerView(entriesBinding.enteriesRv);
@@ -211,15 +215,20 @@ public class ViewBailsActivity extends AppCompatActivity implements OnItemClickL
     @Override
     public void onBailClick(String itemId) {
 
-        adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(this, permissions -> {
-            if (permissions.isUpdateBail()) {
-                Intent intent = new Intent(ViewBailsActivity.this, AddBailForm.class);
-                intent.putExtra("action", "edit");
-                intent.putExtra("itemId", itemId);
-                startActivity(intent);
-            } else
-                Toast.makeText(this, "You don not have permissions to update bail", Toast.LENGTH_SHORT).show();
-        });
+        Intent intent = new Intent(ViewBailsActivity.this, AddBailForm.class);
+        intent.putExtra("action", "edit");
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
+
+//        adminViewModel.getAdminPermissionsById(getAdminUsername()).observe(this, permissions -> {
+//            if (permissions.isUpdateBail()) {
+//                Intent intent = new Intent(ViewBailsActivity.this, AddBailForm.class);
+//                intent.putExtra("action", "edit");
+//                intent.putExtra("itemId", itemId);
+//                startActivity(intent);
+//            } else
+//                Toast.makeText(this, "You don not have permissions to update bail", Toast.LENGTH_SHORT).show();
+//        });
     }
 
     private String getAdminUsername() {

@@ -20,6 +20,7 @@ import com.project.rapidline.Models.SaeedSons.Agents;
 import com.project.rapidline.Models.SaeedSons.Bails;
 import com.project.rapidline.Models.SaeedSons.Customers;
 import com.project.rapidline.Models.SaeedSons.KindOfItem;
+import com.project.rapidline.Models.SaeedSons.Transporters;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAddBiltyFormBinding;
 import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
@@ -45,6 +46,7 @@ public class AddBiltyForm extends AppCompatActivity {
 
 
     private String action;
+    private String itemType;
     private Bilty mBilty = null;
     private Bails mBail = null;
 
@@ -53,6 +55,13 @@ public class AddBiltyForm extends AppCompatActivity {
     private String username;
 
     private List<String> cityList;
+
+    private ArrayAdapter<Customers> senderArrayAdapter;
+    private ArrayAdapter<Customers> receiverArrayAdapter;
+    private ArrayAdapter<Supplier> supplierArrayAdapter;
+    private ArrayAdapter<Agents> agentsArrayAdapter;
+    private ArrayAdapter<KindOfItem> itemArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +81,7 @@ public class AddBiltyForm extends AppCompatActivity {
 
         if (action.equals("edit")) {
             //Load data
-            String itemType = bundle.getString("itemType");
+            itemType = bundle.getString("itemType");
             String id = bundle.getString("itemId");
 
             if (itemType.equals("Bail")) {
@@ -80,27 +89,27 @@ public class AddBiltyForm extends AppCompatActivity {
                     mBail = bails;
                     addBiltyFormBinding.volumeTxt.setVisibility(View.GONE);
                     addBiltyFormBinding.weightTxt.setVisibility(View.GONE);
+                    initialize();
                     loadBailData();
 
                 });
             } else {
                 rapidLineViewModel.getBiltyById(id).observe(this, bilty -> {
                     mBilty = bilty;
+                    initialize();
                     loadBiltyData();
                 });
             }
 
+        } else {
+            initialize();
         }
-        initialize();
+
 
         addBiltyFormBinding.saveBtn.setOnClickListener(view -> {
-            if (isFieldEmpty()) {
-                Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            if(getCityIndex(addBiltyFormBinding.fromSpinner.getText().toString()) == -1
-                    || getCityIndex(addBiltyFormBinding.toSpinner.getText().toString()) == -1){
+            if (getCityIndex(addBiltyFormBinding.fromSpinner.getText().toString()) == -1
+                    || getCityIndex(addBiltyFormBinding.toSpinner.getText().toString()) == -1) {
                 Toast.makeText(this, "Please select city from list only", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -110,6 +119,10 @@ public class AddBiltyForm extends AppCompatActivity {
             if (action.equals("edit")) {
 
                 if (mBail != null) {
+                    if (isBailFieldEmpty()) {
+                        Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 //                    mBail.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
 //                    mBail.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
 
@@ -125,6 +138,13 @@ public class AddBiltyForm extends AppCompatActivity {
                     saeedSonsViewModel.updateBail(mBail);
 
                 } else {
+
+                    if (isFieldEmpty()) {
+                        Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+
                     mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getText().toString());
                     mBilty.setToCity(addBiltyFormBinding.toSpinner.getText().toString());
                     mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
@@ -139,8 +159,6 @@ public class AddBiltyForm extends AppCompatActivity {
                     mBilty.setVolume(Double.valueOf(addBiltyFormBinding.volumeTxt.getText().toString()));
                     mBilty.setWeight(Double.valueOf(addBiltyFormBinding.weightTxt.getText().toString()));
                     mBilty.setQty(getIntQuantity(addBiltyFormBinding.quanTxt.getText().toString()));
-
-                    mBilty.setMadeDateTime(Calendar.getInstance().getTime());
 
 
                     mBilty.setTransport_charge(addBiltyFormBinding.transportTxt.getText().toString());
@@ -158,6 +176,13 @@ public class AddBiltyForm extends AppCompatActivity {
                 Toast.makeText(this, "Bilty updated sucessfully", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
+
+                if (isFieldEmpty()) {
+                    Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 mBilty = new Bilty();
 
                 mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getText().toString());
@@ -194,8 +219,6 @@ public class AddBiltyForm extends AppCompatActivity {
 
                 finish();
             }
-
-
         });
 
         addBiltyFormBinding.backBtn.setOnClickListener(view -> finish());
@@ -282,10 +305,20 @@ public class AddBiltyForm extends AppCompatActivity {
             List<KindOfItem> itemList = new ArrayList<>(kindOfItems);
             itemList.add(0, new KindOfItem("Select a kind"));
 
-            ArrayAdapter<KindOfItem> itemArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+            itemArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, itemList);
             itemArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             addBiltyFormBinding.kindSpinner.setAdapter(itemArrayAdapter);
+
+            if (action.equals("edit")) {
+                if (itemType.equals("Bail")) {
+                    loadKindBailVal();
+
+                } else {
+                    loadKindBiltyVal();
+                }
+            }
+
 
         });
 
@@ -293,18 +326,28 @@ public class AddBiltyForm extends AppCompatActivity {
             //Sender List
             List<Customers> senderList = new ArrayList<>(customers);
             senderList.add(0, new Customers("Select a Sender"));
-            ArrayAdapter<Customers> senderAdap = new ArrayAdapter<>(AddBiltyForm.this,
+            senderArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, senderList);
-            addBiltyFormBinding.senderSpiner.setAdapter(senderAdap);
+            addBiltyFormBinding.senderSpiner.setAdapter(senderArrayAdapter);
 
 
             //Receiver List
             List<Customers> receiverList = new ArrayList<>(customers);
             receiverList.add(0, new Customers("Select a Receiver"));
-            ArrayAdapter<Customers> receiverArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+            receiverArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, receiverList);
             addBiltyFormBinding.receiverSpinner.setAdapter(receiverArrayAdapter);
 
+            if (action.equals("edit")) {
+                if (itemType.equals("Bail")) {
+                    loadSenderBailVal();
+                    loadReceiverBailVal();
+
+                } else {
+                    loadSenderBiltyVal();
+                    loadReceiverBiltyVal();
+                }
+            }
 
         });
 
@@ -313,26 +356,43 @@ public class AddBiltyForm extends AppCompatActivity {
             List<Agents> agentsList = new ArrayList<>(agents);
             agentsList.add(0, new Agents("Select a agent"));
 
-            ArrayAdapter<Agents> agentsArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+            agentsArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, agentsList);
             agentsArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
             addBiltyFormBinding.agentSpinner.setAdapter(agentsArrayAdapter);
 
+            if (action.equals("edit")) {
+                if (itemType.equals("Bail")) {
+                    loadAgentBailVal();
+
+                } else {
+                    loadAgentBiltyVal();
+                }
+            }
+
         });
 
-        //TODO fix spinners when no data is present to show in bail also
-        if (mBail == null) {
-            saeedSonsViewModel.getListAllSuppliers().observe(this, suppliers -> {
-                List<Supplier> supplierList = new ArrayList<>(suppliers);
-                supplierList.add(0, new Supplier("Select a supplier"));
 
-                ArrayAdapter<Supplier> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
-                        R.layout.spinner_item, supplierList);
+        saeedSonsViewModel.getListAllSuppliers().observe(this, suppliers -> {
+            List<Supplier> supplierList = new ArrayList<>(suppliers);
+            supplierList.add(0, new Supplier("Select a supplier"));
 
-                addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
-            });
+            supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+                    R.layout.spinner_item, supplierList);
 
-        }
+            addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
+
+
+            if (action.equals("edit")) {
+                if (itemType.equals("Bail")) {
+                    loadSupplierBailVal();
+
+                } else {
+                    loadTransporterBiltyVal();
+                }
+            }
+        });
+
 
         //Set Listeners
         addBiltyFormBinding.addQuanBtn.setOnClickListener(view -> {
@@ -400,7 +460,7 @@ public class AddBiltyForm extends AppCompatActivity {
     }
 
     private void loadBailData() {
-        addBiltyFormBinding.quanTxt.setText("Qty: " + mBail.getQuantity());
+        addBiltyFormBinding.quanTxt.setText("" + mBail.getQuantity());
 //        addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBail.getVolume()));
 //        addBiltyFormBinding.weightTxt.setText(String.valueOf(mBail.getWeight()));
         addBiltyFormBinding.supplierPnoText.setText(mBail.getBailNo());
@@ -424,35 +484,73 @@ public class AddBiltyForm extends AppCompatActivity {
         }
         addBiltyFormBinding.commentsTxt.setText(mBail.getComments());
 
-
-        int senderVal = getIndex(addBiltyFormBinding.senderSpiner, mBail.getSenderId());
-        addBiltyFormBinding.senderSpiner.setSelection(senderVal);
-
-        int receiverVal = getIndex(addBiltyFormBinding.receiverSpinner, mBail.getReceiverId());
-        addBiltyFormBinding.receiverSpinner.setSelection(receiverVal);
-
-        int agentVal = getIndex(addBiltyFormBinding.agentSpinner, mBail.getAgentId());
-        addBiltyFormBinding.agentSpinner.setSelection(agentVal);
-
-        int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBail.getKindId());
-        addBiltyFormBinding.kindSpinner.setSelection(itemVal);
-
-
         addBiltyFormBinding.fromSpinner.setText(mBail.getFromCity());
 
         addBiltyFormBinding.toSpinner.setText(mBail.getToCity());
 
-        List<String> supplierList = new ArrayList<>();
-        supplierList.add(mBail.getTransporterId());
-        ArrayAdapter<String> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
-                R.layout.spinner_item, supplierList);
-        addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
-        addBiltyFormBinding.supplierSpinner.setSelection(0);
+
+//        List<String> supplierList = new ArrayList<>();
+//        supplierList.add(mBail.getTransporterId());
+//        ArrayAdapter<String> supplierArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
+//                R.layout.spinner_item, supplierList);
+//        addBiltyFormBinding.supplierSpinner.setAdapter(supplierArrayAdapter);
+//        addBiltyFormBinding.supplierSpinner.setSelection(0);
 
     }
 
+    private void loadSenderBailVal() {
+        int senderVal = getIndex(addBiltyFormBinding.senderSpiner, mBail.getSenderId());
+        if (senderVal == -1) {
+            senderArrayAdapter.add(new Customers(mBail.getSenderId()));
+            addBiltyFormBinding.senderSpiner.setSelection(senderArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.senderSpiner.setSelection(senderVal);
+        }
+
+    }
+
+    private void loadReceiverBailVal() {
+        int receiverVal = getIndex(addBiltyFormBinding.receiverSpinner, mBail.getReceiverId());
+        if (receiverVal == -1) {
+            receiverArrayAdapter.add(new Customers(mBail.getReceiverId()));
+            addBiltyFormBinding.receiverSpinner.setSelection(receiverArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.receiverSpinner.setSelection(receiverVal);
+        }
+
+    }
+
+    private void loadAgentBailVal() {
+        int agentVal = getIndex(addBiltyFormBinding.agentSpinner, mBail.getAgentId());
+        if (agentVal == -1) {
+            agentsArrayAdapter.add(new Agents(mBail.getAgentId()));
+            addBiltyFormBinding.agentSpinner.setSelection(agentsArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.agentSpinner.setSelection(agentVal);
+        }
+
+    }
+
+    private void loadKindBailVal() {
+        int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBail.getKindId());
+        if (itemVal == -1) {
+            itemArrayAdapter.add(new KindOfItem(mBail.getKindId()));
+            addBiltyFormBinding.kindSpinner.setSelection(itemArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.kindSpinner.setSelection(itemVal);
+        }
+
+    }
+
+    private void loadSupplierBailVal() {
+        supplierArrayAdapter.clear();
+        supplierArrayAdapter.add(new Supplier(mBail.getTransporterId()));
+        addBiltyFormBinding.supplierSpinner.setSelection(0);
+    }
+
+
     private void loadBiltyData() {
-        addBiltyFormBinding.quanTxt.setText("Qty: " + mBilty.getQty());
+        addBiltyFormBinding.quanTxt.setText("" + mBilty.getQty());
         addBiltyFormBinding.volumeTxt.setText(String.valueOf(mBilty.getVolume()));
         addBiltyFormBinding.weightTxt.setText(String.valueOf(mBilty.getWeight()));
         addBiltyFormBinding.supplierPnoText.setText(mBilty.getSupplierPNo());
@@ -475,27 +573,62 @@ public class AddBiltyForm extends AppCompatActivity {
         }
         addBiltyFormBinding.commentsTxt.setText(mBilty.getComments());
 
-
-        int senderVal = getIndex(addBiltyFormBinding.senderSpiner, mBilty.getSenderId());
-        addBiltyFormBinding.senderSpiner.setSelection(senderVal);
-
-        int receiverVal = getIndex(addBiltyFormBinding.receiverSpinner, mBilty.getReceiverId());
-        addBiltyFormBinding.receiverSpinner.setSelection(receiverVal);
-
-        int agentVal = getIndex(addBiltyFormBinding.agentSpinner, mBilty.getAgentId());
-        addBiltyFormBinding.agentSpinner.setSelection(agentVal);
-
-        int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBilty.getKindId());
-        addBiltyFormBinding.kindSpinner.setSelection(itemVal);
-
         addBiltyFormBinding.fromSpinner.setText(mBilty.getFromCity());
 
         addBiltyFormBinding.toSpinner.setText(mBilty.getToCity());
 
+
+    }
+
+    private void loadSenderBiltyVal() {
+        int senderVal = getIndex(addBiltyFormBinding.senderSpiner, mBilty.getSenderId());
+        if (senderVal == -1) {
+            senderArrayAdapter.add(new Customers(mBilty.getSenderId()));
+            addBiltyFormBinding.senderSpiner.setSelection(senderArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.senderSpiner.setSelection(senderVal);
+        }
+    }
+
+    private void loadReceiverBiltyVal() {
+        int receiverVal = getIndex(addBiltyFormBinding.receiverSpinner, mBilty.getReceiverId());
+        if (receiverVal == -1) {
+            receiverArrayAdapter.add(new Customers(mBilty.getReceiverId()));
+            addBiltyFormBinding.receiverSpinner.setSelection(receiverArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.receiverSpinner.setSelection(receiverVal);
+        }
+    }
+
+    private void loadAgentBiltyVal() {
+        int agentVal = getIndex(addBiltyFormBinding.agentSpinner, mBilty.getAgentId());
+        if (agentVal == -1) {
+            agentsArrayAdapter.add(new Agents(mBilty.getAgentId()));
+            addBiltyFormBinding.agentSpinner.setSelection(agentsArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.agentSpinner.setSelection(agentVal);
+        }
+    }
+
+    private void loadTransporterBiltyVal() {
         int supplierVal = getIndex(addBiltyFormBinding.supplierSpinner, mBilty.getSupplierName());
-        addBiltyFormBinding.supplierSpinner.setSelection(supplierVal);
+        if (supplierVal == -1) {
+            supplierArrayAdapter.add(new Supplier(mBilty.getSupplierName()));
+            addBiltyFormBinding.supplierSpinner.setSelection(supplierArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.supplierSpinner.setSelection(supplierVal);
+        }
 
+    }
 
+    private void loadKindBiltyVal() {
+        int itemVal = getIndex(addBiltyFormBinding.kindSpinner, mBilty.getKindId());
+        if (itemVal == -1) {
+            itemArrayAdapter.add(new KindOfItem(mBilty.getKindId()));
+            addBiltyFormBinding.kindSpinner.setSelection(itemArrayAdapter.getCount() - 1);
+        } else {
+            addBiltyFormBinding.kindSpinner.setSelection(itemVal);
+        }
     }
 
     private boolean isFieldEmpty() {
@@ -515,6 +648,22 @@ public class AddBiltyForm extends AppCompatActivity {
         return false;
     }
 
+    private boolean isBailFieldEmpty() {
+        if (TextUtils.isEmpty(addBiltyFormBinding.fromSpinner.getText())
+                || TextUtils.isEmpty(addBiltyFormBinding.toSpinner.getText())
+                || addBiltyFormBinding.kindSpinner.getSelectedItem().toString().equals("Select a kind")
+                || addBiltyFormBinding.senderSpiner.getSelectedItem().toString().equals("Select a Sender")
+                || addBiltyFormBinding.receiverSpinner.getSelectedItem().toString().equals("Select a Receiver")
+                || addBiltyFormBinding.supplierSpinner.getSelectedItem().toString().equals("Select a supplier")
+                || addBiltyFormBinding.agentSpinner.getSelectedItem().toString().equals("Select a agent")
+                || TextUtils.isEmpty(addBiltyFormBinding.supplierPnoText.getText())
+                || TextUtils.isEmpty(addBiltyFormBinding.quanTxt.getText())) {
+            return true;
+        }
+        return false;
+    }
+
+
     private int getIndex(Spinner spinner, String myString) {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
@@ -522,7 +671,7 @@ public class AddBiltyForm extends AppCompatActivity {
             }
         }
 
-        return 0;
+        return -1;
     }
 
     private int getIntQuantity(String quan) {

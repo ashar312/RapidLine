@@ -44,7 +44,6 @@ public class SaeedSonsRepository {
     private final String BailTableName = "Bails";
     private final String KindTableName = "KindOfItem";
     private final String CounterTableName = "BailCounter";
-    private final String CitiesTableName = "Cities";
     private final String AdminRightsTableName="Admin Rights";
     private final String SupplierTableName="Supplier";
 
@@ -460,45 +459,6 @@ public class SaeedSonsRepository {
                 .document(itemId).delete();
     }
 
-    //Cities
-    public CollectionReference getAllCities() {
-        return saeedSonReference.collection(CitiesTableName);
-    }
-
-    public LiveData<String> addCity(Cities cities) {
-        MutableLiveData<String> response = new MutableLiveData<>();
-
-        saeedSonReference.collection(CitiesTableName)
-                .document(cities.getName())
-                .get(Source.DEFAULT)
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        response.postValue(Responses.CITY_EXISTS);
-                    } else {
-                        saeedSonReference.collection(CitiesTableName)
-                                .document(cities.getName()).set(cities);
-                        response.postValue(Responses.CITY_ADDED);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    saeedSonReference.collection(CitiesTableName)
-                            .document(cities.getName()).set(cities);
-                    response.postValue(Responses.CITY_ADDED);
-                });
-        return response;
-    }
-
-    public void updateCity(String key, String value) {
-
-        saeedSonReference.collection(CitiesTableName)
-                .document(key).update("name", value);
-
-    }
-
-    public void deleteCityById(String itemId) {
-        saeedSonReference.collection(CitiesTableName)
-                .document(itemId).delete();
-    }
 
     //Supplier
     public CollectionReference getAllSuppliers() {

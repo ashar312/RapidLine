@@ -61,8 +61,9 @@
             android:textColor="@color/Dark_gray"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/selectShipment"
             app:layout_constraintEnd_toStartOf="@+id/selectShipment"
-            app:layout_constraintTop_toTopOf="@+id/receiverCity" />
+            app:layout_constraintTop_toTopOf="@+id/selectShipment" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -100,27 +101,26 @@
             android:id="@+id/senderCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Karachi"
-            app:layout_constraintEnd_toStartOf="@+id/receiverCity"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/sender_name"
             app:layout_constraintStart_toEndOf="@+id/sender_name"
             app:layout_constraintTop_toTopOf="@+id/sender_name" />
 
         <TextView
             android:id="@+id/receiverCity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="LHR"
-            app:layout_constraintEnd_toStartOf="@+id/date_txt"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/senderCity"
-            app:layout_constraintTop_toTopOf="@+id/senderCity" />
+            android:layout_marginStart="16dp"
+            android:text="Lahore"
+            app:layout_constraintBottom_toBottomOf="@+id/receiver_name"
+            app:layout_constraintStart_toEndOf="@+id/receiver_name"
+            app:layout_constraintTop_toTopOf="@+id/receiver_name" />
 
         <CheckBox
             android:id="@+id/selectShipment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

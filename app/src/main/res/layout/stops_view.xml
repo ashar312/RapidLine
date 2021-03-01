@@ -9,7 +9,6 @@
         android:id="@+id/stop_city_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -24,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Delivery Date and time"
+        android:hint="Delivery Date"
         app:layout_constraintEnd_toStartOf="@+id/stop_remove_btn"
         app:layout_constraintTop_toTopOf="@+id/stop_city_name" />
 
@@ -33,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:tint="@color/rapidLine"
-        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/stops_date_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/stops_date_txt"

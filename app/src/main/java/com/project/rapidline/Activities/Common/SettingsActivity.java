@@ -110,9 +110,10 @@ public class SettingsActivity extends AppCompatActivity implements OnItemClickLi
 
         settingsBinding.addCommonBtn.setOnClickListener(view -> {
             if (selectedTab == SettingsTabs.Admins) {
-                Intent intent = new Intent(this, AdminForm.class);
-                intent.putExtra("action", "add");
-                startActivity(intent);
+//                Intent intent = new Intent(this, AdminForm.class);
+//                intent.putExtra("action", "add");
+//                startActivity(intent);
+                Toast.makeText(this,"Admins cannot be added currently",Toast.LENGTH_SHORT).show();
             } else {
                 //open popup
                 showAddPopup();

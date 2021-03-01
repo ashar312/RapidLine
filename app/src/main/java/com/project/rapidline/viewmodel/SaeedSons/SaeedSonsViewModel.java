@@ -404,15 +404,14 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                 doc.getString("receiverId"),
                                 doc.getString("transporterId"),
                                 doc.getString("agentId"),
-                                doc.getDouble("volume"),
-                                doc.getDouble("weight"),
                                 doc.getString("madeBy"),
                                 doc.getDate("madeDateTime"),
                                 doc.getString("transportCharge"),
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")));
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")));
                     }
                 }
             }
@@ -437,15 +436,14 @@ public class SaeedSonsViewModel extends AndroidViewModel {
                                 doc.getString("receiverId"),
                                 doc.getString("transporterId"),
                                 doc.getString("agentId"),
-                                doc.getDouble("volume"),
-                                doc.getDouble("weight"),
                                 doc.getString("madeBy"),
                                 doc.getDate("madeDateTime"),
                                 doc.getString("transportCharge"),
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")));
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")));
                 });
         return data;
     }
@@ -554,37 +552,8 @@ public class SaeedSonsViewModel extends AndroidViewModel {
         saeedSonsRepository.deleteItemById(key);
     }
 
-    public LiveData<List<Cities>> getListAllCities() {
-        saeedSonsRepository.getAllCities().addSnapshotListener((queryDocumentSnapshots, e) -> {
-            if (e != null) {
-//                        Log.w(TAG, "Listen failed.", e);
-                return;
-            }
-            List<Cities> citiesList = new ArrayList<>();
-            if (!queryDocumentSnapshots.isEmpty()) {
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Cities city = doc.toObject(Cities.class);
-                    city.setKey(doc.getId());
-                    citiesList.add(city);
-                }
 
-            }
-            listAllCities.postValue(citiesList);
-        });
-        return listAllCities;
-    }
 
-    public LiveData<String> addCity(Cities cities) {
-        return saeedSonsRepository.addCity(cities);
-    }
-
-    public void updateCity(String key, String value) {
-        saeedSonsRepository.updateCity(key, value);
-    }
-
-    public void deleteCity(String key) {
-        saeedSonsRepository.deleteCityById(key);
-    }
 
     //Supplier
     public LiveData<List<Supplier>> getListAllSuppliers() {

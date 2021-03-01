@@ -353,7 +353,8 @@ public class RapidLineViewModel extends AndroidViewModel {
                                 doc.getString("labourCharge"),
                                 doc.getString("electric_charge"),
                                 doc.getString("packingCharge"),
-                                doc.getString("comments")
+                                doc.getString("comments"),
+                                doc.getBoolean("shipped")
                         ));
 
 

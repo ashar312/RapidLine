@@ -65,21 +65,25 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/from_spinner"
-                    android:hint="From City"
                     style="@style/AutocompleteFields"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:hint="From City"
                     app:layout_constraintEnd_toStartOf="@+id/to_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <AutoCompleteTextView
                     android:id="@+id/to_spinner"
-                    android:hint="To City"
                     style="@style/AutocompleteFields"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="32dp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:hint="To City"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/from_spinner"
@@ -113,6 +117,9 @@
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
                         android:hint="Qty"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:textSize="14sp" />
 
                     <ImageView
@@ -136,24 +143,27 @@
                     app:layout_constraintStart_toStartOf="@+id/from_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/from_spinner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/sender_spiner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
                     app:layout_constraintStart_toStartOf="@+id/kind_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/kind_spinner" />
 
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/receiver_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/sender_spiner"
                     app:layout_constraintStart_toStartOf="@+id/sender_spiner"
                     app:layout_constraintTop_toBottomOf="@+id/sender_spiner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/supplier_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/receiver_spinner"
                     app:layout_constraintStart_toStartOf="@+id/receiver_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/receiver_spinner" />
@@ -164,13 +174,16 @@
                     style="@style/SpinnerField"
                     android:layout_marginTop="24dp"
                     android:hint="Supplier P.No"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="@+id/supplier_spinner"
                     app:layout_constraintStart_toStartOf="@+id/supplier_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/supplier_spinner" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/agent_spinner"
-                    style="@style/FormInputTextFields"
+                    style="@style/SpinnerField"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="@+id/supplier_pno_text"
                     app:layout_constraintStart_toStartOf="@+id/supplier_pno_text"
                     app:layout_constraintTop_toBottomOf="@+id/supplier_pno_text" />
@@ -207,7 +220,7 @@
                     style="@style/Checkbox"
                     android:layout_marginTop="24dp"
                     android:text="Transport Charges"
-                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
+                    app:layout_constraintStart_toStartOf="@+id/agent_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/volume_txt" />
 
                 <EditText
@@ -223,11 +236,10 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
                     android:text="/PKR"
                     android:textColor="@color/Dark_gray"
                     app:layout_constraintBaseline_toBaselineOf="@+id/transport_txt"
-                    app:layout_constraintEnd_toEndOf="@+id/weight_txt" />
+                    app:layout_constraintEnd_toEndOf="@+id/agent_spinner" />
 
                 <CheckBox
                     android:id="@+id/labour_chk"
@@ -317,8 +329,8 @@
                     android:hint="Comments ..."
                     android:inputType="textMultiLine"
                     android:scrollbars="vertical"
-                    app:layout_constraintEnd_toEndOf="@+id/weight_txt"
-                    app:layout_constraintStart_toStartOf="@+id/volume_txt"
+                    app:layout_constraintEnd_toEndOf="@+id/textView23"
+                    app:layout_constraintStart_toStartOf="@+id/packing_chk"
                     app:layout_constraintTop_toBottomOf="@+id/packing_chk" />
 
                 <Button

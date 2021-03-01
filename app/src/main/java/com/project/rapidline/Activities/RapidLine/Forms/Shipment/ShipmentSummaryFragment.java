@@ -89,6 +89,8 @@ public class ShipmentSummaryFragment extends Fragment {
 
         shipmentSummaryBinding.confirmShipmentBtn.setOnClickListener(view -> {
             shipmentViewModel.addShipment(shipment);
+            shipmentViewModel.updateShipmentBiltyAndBailsStatus(shipment.getBails(),shipment.getBiltys());
+            
             Toast.makeText(getContext(),"Added sucessfully",Toast.LENGTH_SHORT).show();
             getActivity().finish();
         });

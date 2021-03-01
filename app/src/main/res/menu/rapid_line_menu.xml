@@ -27,7 +27,7 @@
     <item
         android:id="@+id/adminSettingsRapid"
         android:icon="@drawable/icons8_settings_filled_100px"
-        android:title="Admin Settings" />
+        android:title="Settings" />
 
     <item android:title="Add">
         <menu>

@@ -95,6 +95,15 @@ public class DestinationStopsAdapter extends RecyclerView.Adapter<DestinationSto
         notifyItemChanged(pos);
     }
 
+    public String getPreviousDate(int pos){
+        if(pos==0){
+            return "";
+        }
+        else {
+            return arrivalDateArrayList.get(pos-1);
+        }
+    }
+
     public interface OnDeliveryDateClickListener{
         void onDateClick(int position);
     }

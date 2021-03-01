@@ -110,7 +110,12 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
+
+                Bilty bilty = biltyAdapter.getBiltyArrayList().get(viewHolder.getAdapterPosition());
+                if (bilty.getSupplierName().toLowerCase().contains("rapid line")) {
+                    return true;
+                } else
+                    return false;
             }
 
             @Override
@@ -120,8 +125,9 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
                 Bilty bilty = biltyAdapter.getBiltyArrayList().get(viewHolder.getAdapterPosition());
                 if (!bilty.getSupplierName().toLowerCase().contains("rapid line")) {
                     rapidLineViewModel.deleteBilty(bilty.getBiltyNo());
+                } else {
+                    Toast.makeText(ViewBiltyActivity.this, "Bails cannot be deleted from here", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }).attachToRecyclerView(activityViewBiltyBinding.biltyRv);
 

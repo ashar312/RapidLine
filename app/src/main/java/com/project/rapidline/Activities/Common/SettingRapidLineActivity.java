@@ -55,6 +55,9 @@ public class SettingRapidLineActivity extends AppCompatActivity implements OnIte
             showVechilePopup();
         });
 
+        binding.backBtn.setOnClickListener(view -> {
+            finish();
+        });
 
     }
 

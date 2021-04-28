@@ -163,7 +163,7 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setElectricity_charge(activityAddBailFormBinding.electricityTxt.getText().toString());
                 bailEditUpdate.setPacking_charge(activityAddBailFormBinding.packingTxt.getText().toString());
                 bailEditUpdate.setComments(activityAddBailFormBinding.commentsTxt.getText().toString());
-
+                bailEditUpdate.setShipped(false);
                 saeedSonsViewModel.addBail(bailEditUpdate);
 
                 Toast.makeText(this, "Bail added sucessfully", Toast.LENGTH_SHORT).show();

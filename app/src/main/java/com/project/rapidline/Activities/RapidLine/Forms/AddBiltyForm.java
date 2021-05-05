@@ -173,8 +173,8 @@ public class AddBiltyForm extends AppCompatActivity {
                     rapidLineViewModel.updateBilty(mBilty);
 
                 }
-                Toast.makeText(this, "Bilty updated sucessfully", Toast.LENGTH_SHORT).show();
-                finish();
+//                Toast.makeText(this, "Bilty updated sucessfully", Toast.LENGTH_SHORT).show();
+
             } else {
 
                 if (isFieldEmpty()) {
@@ -188,9 +188,14 @@ public class AddBiltyForm extends AppCompatActivity {
                 mBilty.setFromCity(addBiltyFormBinding.fromSpinner.getText().toString());
                 mBilty.setToCity(addBiltyFormBinding.toSpinner.getText().toString());
                 mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
-                mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
-                mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
 
+                if(addBiltyFormBinding.biltySwitch.isChecked()){
+                    mBilty.setSenderId(getPocName(senderList,addBiltyFormBinding.senderSpiner.getSelectedItemPosition()));
+                    mBilty.setReceiverId(getPocName(receiverList,addBiltyFormBinding.receiverSpinner.getSelectedItemPosition()));
+                }else{
+                    mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
+                    mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
+                }
                 mBilty.setSupplierName(addBiltyFormBinding.supplierSpinner.getSelectedItem().toString());
 
 
@@ -224,6 +229,10 @@ public class AddBiltyForm extends AppCompatActivity {
         addBiltyFormBinding.backBtn.setOnClickListener(view -> finish());
     }
 
+    private String getPocName(List<Customers> array,int index){
+        return array.get(index).pocName;
+    }
+
 
     public String loadJSONFromAsset() {
         String json = null;
@@ -240,7 +249,8 @@ public class AddBiltyForm extends AppCompatActivity {
         }
         return json;
     }
-
+    List<Customers> senderList;
+    List<Customers> receiverList;
     private void initialize() {
         //Load Cities
 //        saeedSonsViewModel.getListAllCities().observe(this, cities -> {
@@ -324,7 +334,7 @@ public class AddBiltyForm extends AppCompatActivity {
 
         saeedSonsViewModel.getListAllCustomers().observe(this, customers -> {
             //Sender List
-            List<Customers> senderList = new ArrayList<>(customers);
+            senderList = new ArrayList<>(customers);
             senderList.add(0, new Customers("Select a Sender"));
             senderArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, senderList);
@@ -332,7 +342,7 @@ public class AddBiltyForm extends AppCompatActivity {
 
 
             //Receiver List
-            List<Customers> receiverList = new ArrayList<>(customers);
+            receiverList = new ArrayList<>(customers);
             receiverList.add(0, new Customers("Select a Receiver"));
             receiverArrayAdapter = new ArrayAdapter<>(AddBiltyForm.this,
                     R.layout.spinner_item, receiverList);

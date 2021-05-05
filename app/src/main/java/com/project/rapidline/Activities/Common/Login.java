@@ -29,7 +29,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityLoginBinding= DataBindingUtil.setContentView(this, R.layout.activity_login);
         adminViewModel= ViewModelProviders.of(this).get(AdminViewModel.class);
-
+//        addCurrentStateToPref(true,"tester","tester");
+//        startActivity(new Intent(Login.this, RapidLineHomeActivity.class));
+//        finish();
         activityLoginBinding.loginBtn.setOnClickListener(view -> {
 
 

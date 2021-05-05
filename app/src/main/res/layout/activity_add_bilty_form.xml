@@ -160,14 +160,15 @@
                     app:layout_constraintStart_toStartOf="@+id/sender_spiner"
                     app:layout_constraintTop_toBottomOf="@+id/sender_spiner" />
 
+
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/supplier_spinner"
                     style="@style/SpinnerField"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/receiver_spinner"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/receiver_spinner"
-                    app:layout_constraintTop_toBottomOf="@+id/receiver_spinner" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/bilty_switch" />
 
                 <EditText
                     android:id="@+id/supplier_pno_text"
@@ -347,6 +348,15 @@
                     app:layout_constraintEnd_toEndOf="@+id/comments_txt"
                     app:layout_constraintStart_toStartOf="@+id/comments_txt"
                     app:layout_constraintTop_toBottomOf="@+id/comments_txt" />
+
+                <Switch
+                    android:id="@+id/bilty_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="POC"
+                    app:layout_constraintEnd_toEndOf="@+id/receiver_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/receiver_spinner" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

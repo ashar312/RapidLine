@@ -96,6 +96,8 @@ public class AddBailForm extends AppCompatActivity {
 
         activityAddBailFormBinding.saveBtn.setOnClickListener(view -> {
 
+            Toast.makeText(this, activityAddBailFormBinding.bailSwitch.isChecked() + "", Toast.LENGTH_SHORT).show();
+
             if (isFieldEmpty()) {
                 Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show();
                 return;
@@ -112,8 +114,14 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
                 bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
-                bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
-                bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
+                if(activityAddBailFormBinding.bailSwitch.isChecked()){
+                    bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
+                    bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
+                }else{
+                    bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
+                    bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
+                }
+
                 bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString());
                 bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItem().toString());
 
@@ -145,8 +153,14 @@ public class AddBailForm extends AppCompatActivity {
                 bailEditUpdate.setFromCity(activityAddBailFormBinding.fromSpinner.getText().toString());
                 bailEditUpdate.setToCity(activityAddBailFormBinding.toSpinner.getText().toString());
                 bailEditUpdate.setKindId(activityAddBailFormBinding.kindSpinner.getSelectedItem().toString());
-                bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
-                bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
+                if(activityAddBailFormBinding.bailSwitch.isChecked()) {
+                    bailEditUpdate.setSenderId(getPocName(senderList,activityAddBailFormBinding.senderSpiner.getSelectedItemPosition()));
+                    bailEditUpdate.setReceiverId(getPocName(receiverList,activityAddBailFormBinding.receiverSpinner.getSelectedItemPosition()));
+                }else{
+                    bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
+                    bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
+                }
+
                 bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString());
                 bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItem().toString());
 
@@ -191,6 +205,11 @@ public class AddBailForm extends AppCompatActivity {
         return json;
     }
 
+    private String getPocName(List<Customers> array,int index){
+        return array.get(index).pocName;
+    }
+    List<Customers> senderList;
+    List<Customers> receiverList;
     private void initialize() {
 
 //        //Load cities
@@ -215,7 +234,7 @@ public class AddBailForm extends AppCompatActivity {
         //Load observers
         saeedSonsViewModel.getListAllCustomers().observe(this, customers -> {
             //Sender List
-            List<Customers> senderList = new ArrayList<>(customers);
+            senderList = new ArrayList<>(customers);
             senderList.add(0, new Customers("Select a Sender"));
             senderAdap = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, senderList);
@@ -223,7 +242,7 @@ public class AddBailForm extends AppCompatActivity {
 
 
             //Receiver List
-            List<Customers> receiverList = new ArrayList<>(customers);
+            receiverList = new ArrayList<>(customers);
             receiverList.add(0, new Customers("Select a Receiver"));
             receiverArrayAdapter = new ArrayAdapter<>(AddBailForm.this,
                     R.layout.spinner_item, receiverList);

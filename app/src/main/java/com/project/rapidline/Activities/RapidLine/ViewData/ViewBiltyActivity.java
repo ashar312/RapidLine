@@ -141,10 +141,16 @@ public class ViewBiltyActivity extends AppCompatActivity implements BiltyAdapter
         Intent intent = new Intent(ViewBiltyActivity.this, AddBiltyForm.class);
         intent.putExtra("action", "edit");
         intent.putExtra("itemId", bilty.getBiltyNo());
+
         if (bilty.getSupplierName().toLowerCase().contains("rapid line")) {
             intent.putExtra("itemType", "Bail");
         } else
             intent.putExtra("itemType", "Bilty");
+
+//        if (bilty.getSupplierName().toLowerCase().contains("rapid line")) {
+//            intent.putExtra("itemType", "Bilty");
+//        } else
+//            intent.putExtra("itemType", "Bail");
         startActivity(intent);
     }
 

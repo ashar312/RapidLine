@@ -1,7 +1,10 @@
 package com.project.rapidline.repository;
 
 import android.app.Application;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,6 +23,7 @@ import com.project.rapidline.Models.RapidLine.SideKick;
 import com.project.rapidline.Models.RapidLine.Vechile;
 import com.project.rapidline.utils.Responses;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -246,7 +250,16 @@ public class RapidLineRepository {
 
     public void updateBilty(Bilty bilty) {
         rapidLineReference.collection(BiltyTableName).document(bilty.getBiltyNo())
-                .set(bilty);
+                .set(bilty).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(application, "Updated", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(application, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void deleteBilty(String key) {

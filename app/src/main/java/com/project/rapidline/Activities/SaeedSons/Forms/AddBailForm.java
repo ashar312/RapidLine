@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.project.rapidline.Models.Admins;
+import com.project.rapidline.Models.RapidLine.Bilty;
 import com.project.rapidline.Models.SaeedSons.Agents;
 import com.project.rapidline.Models.SaeedSons.Bails;
 import com.project.rapidline.Models.SaeedSons.Customers;
@@ -25,6 +26,7 @@ import com.project.rapidline.Models.SaeedSons.KindOfItem;
 import com.project.rapidline.Models.SaeedSons.Transporters;
 import com.project.rapidline.R;
 import com.project.rapidline.databinding.ActivityAddBailFormBinding;
+import com.project.rapidline.viewmodel.RapidLine.RapidLineViewModel;
 import com.project.rapidline.viewmodel.SaeedSons.AdminViewModel;
 import com.project.rapidline.viewmodel.SaeedSons.SaeedSonsViewModel;
 
@@ -37,6 +39,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddBailForm extends AppCompatActivity {
@@ -58,6 +61,47 @@ public class AddBailForm extends AppCompatActivity {
     private String username;
     private List<String> cityList;
 
+    private final String rapidLineConstant = "Rapid Line Cargo";
+
+
+    private void AddBilty(String toCity,String fromCity,String kind,int qty,String sender,String reciever,String SupplerNo,
+                            String comments,
+                            String transportCharge,
+                            String labourCharge,
+                            String electricCharge,
+                            String packingCharge){
+        //Add Bilty Here
+        try{
+            Bilty mBilty = new Bilty();
+
+            mBilty.setFromCity(fromCity);
+            mBilty.setToCity(toCity);
+            mBilty.setKindId(kind);
+            mBilty.setSupplierName("");
+            mBilty.setAgentId("");
+            mBilty.setVolume(0.0);
+            mBilty.setWeight(0.0);
+            mBilty.setQty(qty);
+            mBilty.setSenderId(sender);
+            mBilty.setReceiverId(reciever);
+            mBilty.setMadeDateTime(Calendar.getInstance().getTime());
+            mBilty.setTransport_charge(transportCharge);
+            mBilty.setLabour_charge(labourCharge);
+            mBilty.setElectricity_charge(electricCharge);
+            mBilty.setPacking_charge(packingCharge);
+            mBilty.setComments(comments);
+            mBilty.setSupplierPNo(SupplerNo);
+
+            mBilty.setBiltyNo(generateBiltyNo());
+            mBilty.setMadeBy(getAdminName());
+            RapidLineViewModel rapidLineViewModel;
+            rapidLineViewModel = ViewModelProviders.of(this).get(RapidLineViewModel.class);
+            rapidLineViewModel.addBilty(mBilty);
+        }catch (Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +204,23 @@ public class AddBailForm extends AppCompatActivity {
                     bailEditUpdate.setSenderId(activityAddBailFormBinding.senderSpiner.getSelectedItem().toString());
                     bailEditUpdate.setReceiverId(activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString());
                 }
-
+                if(rapidLineConstant.equals(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString())){
+                    //Add Bilty here
+                    AddBilty(
+                            activityAddBailFormBinding.toSpinner.getText().toString(),
+                            activityAddBailFormBinding.fromSpinner.getText().toString(),
+                            activityAddBailFormBinding.kindSpinner.getSelectedItem().toString(),
+                            getIntQuantity(activityAddBailFormBinding.quanTxt.getText().toString()),
+                            activityAddBailFormBinding.senderSpiner.getSelectedItem().toString(),
+                            activityAddBailFormBinding.receiverSpinner.getSelectedItem().toString(),
+                            "",
+                            activityAddBailFormBinding.commentsTxt.getText().toString(),
+                            activityAddBailFormBinding.transportTxt.getText().toString(),
+                            activityAddBailFormBinding.laboutTxt.getText().toString(),
+                            activityAddBailFormBinding.electricityTxt.getText().toString(),
+                            activityAddBailFormBinding.packingTxt.getText().toString()
+                    );
+                }
                 bailEditUpdate.setTransporterId(activityAddBailFormBinding.transporterSpinner.getSelectedItem().toString());
                 bailEditUpdate.setAgentId(activityAddBailFormBinding.agentSpinner.getSelectedItem().toString());
 
@@ -536,6 +596,17 @@ public class AddBailForm extends AppCompatActivity {
         adminViewModel.updateAdminBailInfo(newnumber, username);
 
         return currentBailNo;
+    }
+
+    private String generateBiltyNo() {
+        String currentBiltyNo = adminInfo.getBiltyCounter();
+
+        int updatedNo = Integer.parseInt(currentBiltyNo) + 1;
+
+        String number = String.format(Locale.ENGLISH, "%06d", updatedNo);
+        adminViewModel.updateBiltyCounter(number, username);
+
+        return currentBiltyNo;
     }
 
     private int getIntQuantity(String quan) {

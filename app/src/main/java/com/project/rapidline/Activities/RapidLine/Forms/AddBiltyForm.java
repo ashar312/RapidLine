@@ -190,12 +190,11 @@ public class AddBiltyForm extends AppCompatActivity {
                 mBilty.setKindId(addBiltyFormBinding.kindSpinner.getSelectedItem().toString());
 
                 if(addBiltyFormBinding.biltySwitch.isChecked()){
-                    mBilty.setSenderId(getPocName(senderList,addBiltyFormBinding.senderSpiner.getSelectedItemPosition()));
-                    mBilty.setReceiverId(getPocName(receiverList,addBiltyFormBinding.receiverSpinner.getSelectedItemPosition()));
-                }else{
-                    mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
-                    mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
+                    //show PocName boolean true
+                    mBilty.setShowPoc(true);
                 }
+                mBilty.setSenderId(addBiltyFormBinding.senderSpiner.getSelectedItem().toString());
+                mBilty.setReceiverId(addBiltyFormBinding.receiverSpinner.getSelectedItem().toString());
                 mBilty.setSupplierName(addBiltyFormBinding.supplierSpinner.getSelectedItem().toString());
 
 

@@ -38,6 +38,7 @@ public class Bilty {
     public String packing_charge;
     public String comments;
     public boolean shipped = false;
+    public boolean showPoc = false;
 
     @Ignore
     public Bilty() {
@@ -207,6 +208,13 @@ public class Bilty {
 
     public void setTransport_charge(String transport_charge) {
         this.transport_charge = transport_charge;
+    }
+
+    public boolean getShowPoc(){
+        return showPoc;
+    }
+    public void setShowPoc(boolean poc){
+        this.showPoc = poc;
     }
 
     public String getLabour_charge() {
